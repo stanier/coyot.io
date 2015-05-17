@@ -1,6 +1,29 @@
 {
-    "enableInstaller": true,
+    "web": {
+        "enabled": true
+    },
+    "worker": {
+        "enabled": true
+    },
     "debug": true,
-    "port": 9500,
-    "host": "0.0.0.0"
+    "db": {
+        "host": "localhost",
+        "port": "27017",
+        "name": "synapsedb"
+    },
+    "sessions": {
+        "host": "localhost",
+        "port": "27017",
+        "name": "synapseSessions"
+    },
+    "queue": {
+        "host": "localhost",
+        "port": "6379",
+        "db": 1
+    },
+    "redis": {
+        "host": "localhost",
+        "port": "6379",
+        "db": 2
+    }
 }
