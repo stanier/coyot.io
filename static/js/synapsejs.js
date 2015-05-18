@@ -4,11 +4,4 @@
  * @link http://github.com/stanier/synapse
  * @license MIT
  */
-console.log('hello uranus!');
-
-// This is a comment
-
-console.log('This is not');
-
-console.log(    1  +    1 / 2 + 9   );
-console.log('This is another thing');
+angular.module('synapse', []);

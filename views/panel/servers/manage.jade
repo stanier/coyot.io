@@ -1,0 +1,9 @@
+extends /templates/page
+
+block body
+    if (user.role == 4)
+        include /includes/admin/navbar
+    if (user.role == 2)
+        include /includes/reseller/navbar
+    if (user.role == 1)
+        include /includes/client/navbar

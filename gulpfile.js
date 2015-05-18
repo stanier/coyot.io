@@ -86,13 +86,6 @@ gulp.task('server', function() {
     });
 });
 
-gulp.task('redis', function() {
-    exec('redis-server', function (err, stdout, stderr) {
-        console.log(stdout);
-        console.log(stderr);
-    });
-});
-
 gulp.task('watch', function() {
     livereload.listen(9501, '0.0.0.0', function(err) {
         if (err) return console.log(err);
@@ -114,4 +107,4 @@ gulp.task('watch', function() {
     });
 });
 
-gulp.task('launch', ['redis', 'server', 'watch']);
+gulp.task('launch', ['server', 'watch']);

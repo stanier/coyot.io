@@ -19,8 +19,6 @@ var web = require('./lib/web'),
 
 var conf = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 
-var router = require('./lib/routes');
-
 //  NETWORK DEFAULTS
 
 var port = 9000,
@@ -103,7 +101,6 @@ function parseConfig(callback) {
         app.use('/', web.router);
         web.init();
     }
-
     callback();
 }
 
