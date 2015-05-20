@@ -1,6 +1,6 @@
 {
   "name": "synapsejs",
-  "version": "v0.0.1",
+  "version": "0.0.1",
   "author": "Keyton Stanier",
   "repository": "https://github.com/stanier/synapsejs",
   "description": "An open-source cluster-ready server management solution driven by node.js and MongoDB",

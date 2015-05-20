@@ -7,3 +7,14 @@ block body
         include /includes/reseller/navbar
     if (user.role == 1)
         include /includes/client/navbar
+    
+    include /includes/sidebar
+    
+    .col-sm-9(ng-controller='ServerManagementCtlr')
+        .panel.panel-default(ng-repeat='server in servers')
+            .panel-body
+                .col-sm-2: td: a(href='/servers/view/{{server.hostname}}'){{ server.hostname }}
+                .col-sm-4
+                .col-sm-2: td Type {{ server.type }}
+                .col-sm-2: td Online {{ server.online }}
+                .col-sm-2: td Free memory {{ server.freemem }}

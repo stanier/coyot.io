@@ -30,7 +30,7 @@ function announceFileEvent(event) {
 }
 
 gulp.task('styles', function() {
-    return gulp.src('src/styles/*.styl')
+    return gulp.src('src/styles/**/*.styl')
         .pipe(concat( pkg.name + '.styl' ))
         .pipe(stylus())
         .pipe(rename({ extname: '.css'}))
@@ -81,7 +81,7 @@ gulp.task('server', function() {
     nodemon({
         script: 'index.js',
         env: { 'NODE_ENV': 'development'},
-        ignore: ['static/*', 'views/*', 'node_modules/*'],
+        ignore: ['src/*', 'static/*', 'views/*', 'node_modules/*'],
         ext: 'js json'
     });
 });
@@ -91,11 +91,11 @@ gulp.task('watch', function() {
         if (err) return console.log(err);
     });
 
-    gulp.watch('src/styles/*.styl', ['styles'], function(event) {
+    gulp.watch('src/styles/**/*.styl', ['styles'], function(event) {
         announceFileEvent(event);
     });
 
-    gulp.watch('src/scripts/*.js', ['scripts'], function(event) {
+    gulp.watch('src/scripts/**/*.js', ['scripts'], function(event) {
         announceFileEvent(event);
     });
 

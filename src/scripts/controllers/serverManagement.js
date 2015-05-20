@@ -1,16 +1,24 @@
 angular.module('synapse').controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $http) {
     $http.get('/servers/list')
     .success(function(data, status, headers, config) {
-        var servers = [];
+        $scope.servers = [];
 
         for (var i = 0; i < data.length; i++) {
-            getStats(data[i]);
+            $scope.servers[i] = {
+                hostname: data[i].hostname,
+                host: data[i].host,
+                port: data[i].port,
+                type: data[i].type
+            };
+            getStats(i);
         }
 
-        function getStats(hostname) {
-            $http.get(hostname + '/worker/stats?simple')
+        function getStats(i) {
+            $http.get('http://' + $scope.servers[i].host + ':' +
+                $scope.servers[i].port + '/server/stats')
             .success(function(data, status, headers, config) {
-                servers[i] = data;
+                $scope.servers[i].online = data.online;
+                $scope.servers[i].freemem = data.freemem;
             })
             .error(function(data, status, headers, config) {
                 console.log(data);

@@ -14,15 +14,14 @@ var fs = require('fs'),
     mongoStore = require('connect-mongo')(session),
     flash = require('connect-flash');
 
-var web = require('./lib/web'),
-    worker = require('./lib/worker');
+var server = require('./lib/server');
 
 var conf = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 
 //  NETWORK DEFAULTS
 
-var port = 9000,
-    host = 'localhost';
+app.locals.port = 9000;
+app.locals.host = 'localhost';
 
 //  VIEW ENGINE INITIALIZATION
 
@@ -66,14 +65,16 @@ if (process.env.NODE_ENV == 'development') {
     app.use(require('connect-livereload')({port: 9501}));
 }
 function parseConfig(callback) {
+    var serverType = {};
+
     if (conf.debug) app.use(morgan('dev'));
 
     if (typeof conf.host != 'undefined') {
-        host = conf.host;
+        app.locals.host = conf.host;
         console.log('HOST defined in config, setting to ' + conf.host);
     }
     if (typeof conf.port != 'undefined') {
-        port = conf.port;
+        app.locals.port = conf.port;
         console.log('PORT defined in config, setting to ' + conf.port);
     }
     if (typeof conf.db.host != 'undefined') {
@@ -93,14 +94,13 @@ function parseConfig(callback) {
     }
     if (conf.worker.enabled === true) {
         console.log('WORKER.ENABLED true in config, starting worker operations');
-        app.use('/worker', worker.router);
-        worker.init();
+        serverType.worker = true;
     }
     if (conf.web.enabled === true) {
         console.log('WEB.ENABLED true in config, listening for portal requests');
-        app.use('/', web.router);
-        web.init();
+        serverType.web = true;
     }
+    server(serverType, app);
     callback();
 }
 
@@ -114,6 +114,7 @@ parseConfig(function() {
     });
 });
 
-var server = app.listen(port, host, function() {
-    console.log('Server started on address ' + host + ' at ' + port);
+app.listen(app.locals.port, app.locals.host, function() {
+    console.log('Server started on address ' + app.locals.host + ' at ' +
+        app.locals.port);
 });
