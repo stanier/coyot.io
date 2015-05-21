@@ -1,0 +1,11 @@
+mixin panel_server
+    .panel.panel-default
+        .panel-heading Server
+        .panel-body
+            ul
+                if (path == '/cluster/' + hostname + '/overview/')
+                    li.text-muted: span.fa.fa-server
+                        |  Overview
+                else
+                    li: a(href='/cluster/' + hostname + '/overview/'): span.fa.fa-server
+                        |  Overview

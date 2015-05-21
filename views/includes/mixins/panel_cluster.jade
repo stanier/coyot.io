@@ -1,0 +1,11 @@
+mixin panel_cluster
+    .panel.panel-default
+        .panel-heading Cluster
+        .panel-body
+            ul
+                if (path == '/cluster/manage')
+                    li.text-muted: span.fa.fa-sitemap
+                        |  Manage
+                else
+                    li: a(href='/cluster/manage'): i.fa.fa-sitemap
+                        |  Manage

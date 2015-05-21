@@ -1,32 +1,13 @@
 extends /templates/page
 
 block body
-    if (user.role == 4)
-        include /includes/admin/navbar
-    if (user.role == 2)
-        include /includes/reseller/navbar
-    if (user.role == 1)
-        include /includes/client/navbar
+    include /includes/mixins
+    +navbar
+    
     .container
-            //.panel.panel-default
-                .panel-heading
-                    | System
-                .panel-body
-            
-            //.panel.panel-default
-                .panel-heading
-                    | Services
-                .panel-body
-            
-            //.panel.panel-default
-                .panel-heading
-                    | Plugins
-                .panel-body
-            
-            //.panel.panel-default
-                .panel-heading
-                    | Users
-                .panel-body
+        .col-sm-3
+            +panel_cluster
+        
         .col-sm-9
             .panel.panel-default
                 .container

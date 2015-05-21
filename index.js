@@ -65,8 +65,6 @@ if (process.env.NODE_ENV == 'development') {
     app.use(require('connect-livereload')({port: 9501}));
 }
 function parseConfig(callback) {
-    var serverType = {};
-
     if (conf.debug) app.use(morgan('dev'));
 
     if (typeof conf.host != 'undefined') {
@@ -94,13 +92,13 @@ function parseConfig(callback) {
     }
     if (conf.worker.enabled === true) {
         console.log('WORKER.ENABLED true in config, starting worker operations');
-        serverType.worker = true;
+        app.locals.serverType = (app.locals.serverType == 'web' ? 'hybrid' : 'worker' );
     }
     if (conf.web.enabled === true) {
         console.log('WEB.ENABLED true in config, listening for portal requests');
-        serverType.web = true;
+        app.locals.serverType = (app.locals.serverType == 'worker' ? 'hybrid' : 'web' );
     }
-    server(serverType, app);
+    server(app);
     callback();
 }
 

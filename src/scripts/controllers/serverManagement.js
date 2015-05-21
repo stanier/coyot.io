@@ -1,31 +1,15 @@
-angular.module('synapse').controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $http) {
-    $http.get('/servers/list')
+app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $http) {
+    $http.get('http://' + host + ':' + port + '/server/stats?type=all')
     .success(function(data, status, headers, config) {
-        $scope.servers = [];
-
-        for (var i = 0; i < data.length; i++) {
-            $scope.servers[i] = {
-                hostname: data[i].hostname,
-                host: data[i].host,
-                port: data[i].port,
-                type: data[i].type
-            };
-            getStats(i);
-        }
-
-        function getStats(i) {
-            $http.get('http://' + $scope.servers[i].host + ':' +
-                $scope.servers[i].port + '/server/stats')
-            .success(function(data, status, headers, config) {
-                $scope.servers[i].online = data.online;
-                $scope.servers[i].freemem = data.freemem;
-            })
-            .error(function(data, status, headers, config) {
-                console.log(data);
-            });
-        }
+        $scope.server = data;
     })
     .error(function(data, status, headers, config) {
         console.log(data);
     });
+
+    $scope.getPlatformClass = function(platform) {
+        if (platform == 'linux') return 'fa fa-linux';
+        if (platform == 'windows') return 'fa fa-windows';
+        if (platform == 'apple') return 'fa fa-wheelchair';
+    };
 }]);

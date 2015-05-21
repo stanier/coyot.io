@@ -1,1 +1,1 @@
-angular.module('synapse', []);
+var app = angular.module('synapse', []);

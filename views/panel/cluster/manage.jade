@@ -1,0 +1,30 @@
+extends /templates/page
+
+block body
+    include /includes/mixins
+    +navbar
+    
+    .col-sm-3
+        +panel_cluster
+    
+    .col-sm-9.panel.panel-default(ng-controller='ClusterManagementCtlr')
+        table.table
+            thead
+                td: h5 Hostname
+                td: h5 Web
+                td: h5 Worker
+                td: h5 Online
+                td: h5 Free memory
+            tbody
+                tr(ng-repeat='server in servers')
+                    td: a(href='/cluster/{{server.hostname}}/overview/'){{ server.hostname }}
+                    td
+                        .glyphicon.glyphicon-ok-circle.text-success(ng-if='server.isWeb')
+                        .glyphicon.glyphicon-remove-circle.text-muted(ng-if='!server.isWeb')
+                    td
+                        .glyphicon.glyphicon-ok-circle.text-success(ng-if='server.isWorker')
+                        .glyphicon.glyphicon-remove-circle.text-muted(ng-if='!server.isWorker')
+                    td
+                        .glyphicon.glyphicon-ok.text-success(ng-if='server.online')
+                        .glyphicon.glyphicon-remove.text-danger(ng-if='!server.online')
+                    td {{ server.freemem | bytes }}
