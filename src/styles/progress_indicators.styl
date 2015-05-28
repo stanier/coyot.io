@@ -1,0 +1,39 @@
+.radial-progress
+    circle-size = 120px
+    circle-background = #d6dadc
+    circle-color = #97a71d
+    inset-size = 90px
+    inset-color = #fbfbfb
+
+    margin 10px
+    border-radius 50%
+    width circle-size
+    height circle-size
+    background-color circle-background
+
+    .circle
+        .mask
+            transition transform 2s
+            position absolute
+            width circle-size
+            height circle-size
+            clip rect(0px, circle-size, circle-size, circle-size/2)
+
+        .fill
+            transition transform 2s
+            backface-visibility hidden
+            border-radius 50%
+            position absolute
+            clip rect(0px, circle-size/2, circle-size, 0px)
+            width circle-size
+            height circle-size
+            background-color circle-color
+
+    .inset
+        width inset-size
+        height inset-size
+        position absolute
+        margin-left ( ( circle-size - inset-size ) / 2 )
+        margin-top ( ( circle-size - inset-size ) / 2 )
+        background-color inset-color
+        border-radius 50%

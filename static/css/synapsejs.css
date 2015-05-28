@@ -4,6 +4,42 @@
  * @link http://github.com/stanier/synapse
  * @license MIT
  */
+.radial-progress {
+  margin: 10px;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  background-color: #d6dadc;
+}
+.radial-progress .circle .mask {
+  -webkit-transition: -webkit-transform 2s;
+          transition: transform 2s;
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  clip: rect(0px, 120px, 120px, 60px);
+}
+.radial-progress .circle .fill {
+  -webkit-transition: -webkit-transform 2s;
+          transition: transform 2s;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  border-radius: 50%;
+  position: absolute;
+  clip: rect(0px, 60px, 120px, 0px);
+  width: 120px;
+  height: 120px;
+  background-color: #97a71d;
+}
+.radial-progress .inset {
+  width: 90px;
+  height: 90px;
+  position: absolute;
+  margin-left: 15px;
+  margin-top: 15px;
+  background-color: #fbfbfb;
+  border-radius: 50%;
+}
 body {
   margin: 60px;
 }

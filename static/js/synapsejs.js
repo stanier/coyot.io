@@ -6,18 +6,6 @@
  */
 var app = angular.module('synapse', []);
 
-app.filter('bytes', function() {
-    return function(bytes, precision) {
-        if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
-
-        if (typeof precision == 'undefined') precision = 1;
-        var units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'],
-            number = Math.floor(Math.log(bytes) / Math.log(1024));
-
-        return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) + ' ' + units[number];
-    };
-});
-
 app.controller('ClusterManagementCtlr', ['$scope', '$http', function($scope, $http) {
     $http.get('/cluster/list')
     .success(function(data, status, headers, config) {
@@ -36,7 +24,7 @@ app.controller('ClusterManagementCtlr', ['$scope', '$http', function($scope, $ht
 
         function getStats(i) {
             $http.get('http://' + $scope.servers[i].host + ':' +
-                $scope.servers[i].port + '/server/stats?type=simple')
+                $scope.servers[i].port + '/system/stats?type=simple')
             .success(function(data, status, headers, config) {
                 $scope.servers[i].online = data.online;
                 $scope.servers[i].freemem = data.freemem;
@@ -52,9 +40,13 @@ app.controller('ClusterManagementCtlr', ['$scope', '$http', function($scope, $ht
 }]);
 
 app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $http) {
-    $http.get('http://' + host + ':' + port + '/server/stats?type=all')
+    $http.get('http://' + host + ':' + port + '/system/stats?type=all')
     .success(function(data, status, headers, config) {
         $scope.server = data;
+
+        $scope.server.uptime = new Date(data.uptime * 1000);
+
+        $scope.loadAvg();
     })
     .error(function(data, status, headers, config) {
         console.log(data);
@@ -65,4 +57,30 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
         if (platform == 'windows') return 'fa fa-windows';
         if (platform == 'apple') return 'fa fa-wheelchair';
     };
+
+    $scope.loadAvg = function() {
+        var transform_styles = ['-webkit-transform',
+            '-ms-transform'];
+
+        for (var i in $scope.server.loadavg) {
+            var rotation = Math.floor($scope.server.loadavg[i] / $scope.server.cpu.length * 180);
+            var fix_rotation = rotation * 2;
+            for (var j in transform_styles) {
+                $('#circle-'+i+' .fill, #circle-'+i+' .mask.full').css(transform_styles[j], 'rotate(' + rotation + 'deg)');
+                $('#circle-'+i+' .fill.fix').css(transform_styles[j], 'rotate(' + fix_rotation + 'deg)');
+            }
+        }
+    };
 }]);
+
+app.filter('bytes', function() {
+    return function(bytes, precision) {
+        if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
+
+        if (typeof precision == 'undefined') precision = 1;
+        var units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'],
+            number = Math.floor(Math.log(bytes) / Math.log(1024));
+
+        return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) + ' ' + units[number];
+    };
+});

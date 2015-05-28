@@ -17,7 +17,7 @@ block body
                 td: h5 Free memory
             tbody
                 tr(ng-repeat='server in servers')
-                    td: a(href='/cluster/{{server.hostname}}/overview/'){{ server.hostname }}
+                    td: a(href='/server/{{server.hostname}}/overview/'){{ server.hostname }}
                     td
                         .glyphicon.glyphicon-ok-circle.text-success(ng-if='server.isWeb')
                         .glyphicon.glyphicon-remove-circle.text-muted(ng-if='!server.isWeb')

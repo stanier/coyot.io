@@ -16,7 +16,7 @@ app.controller('ClusterManagementCtlr', ['$scope', '$http', function($scope, $ht
 
         function getStats(i) {
             $http.get('http://' + $scope.servers[i].host + ':' +
-                $scope.servers[i].port + '/server/stats?type=simple')
+                $scope.servers[i].port + '/system/stats?type=simple')
             .success(function(data, status, headers, config) {
                 $scope.servers[i].online = data.online;
                 $scope.servers[i].freemem = data.freemem;
