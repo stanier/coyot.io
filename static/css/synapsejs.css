@@ -46,3 +46,6 @@ body {
 ul {
   list-style: none;
 }
+ul ul {
+  padding-left: 20px;
+}

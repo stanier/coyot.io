@@ -34,8 +34,6 @@ if (process.env.NODE_ENV == 'development') {
 }
 
 var conf = require('./lib/config')(app, function(err) {
-    system(app);
-
     var uristring = 'mongodb://' + app.locals.db.host + ':' +
         app.locals.db.port + '/' + app.locals.db.name;
 
@@ -76,4 +74,6 @@ var conf = require('./lib/config')(app, function(err) {
     app.use(flash());
     app.use(passport.initialize());
     app.use(passport.session());
+
+    system(app);
 });

@@ -1,0 +1,34 @@
+extends /templates/page
+
+block body
+    script.
+        var hostname = '#{hostname}';
+        var host = '#{host}';
+        var port = '#{port}';
+    include /includes/mixins
+    +navbar
+    
+    .col-sm-3
+        +panel_server
+        +panel_cluster
+    .col-sm-9
+        .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getPackages()')
+            .panel-heading Packages
+            .panel-body
+                form.form-inline: .form-group
+                    button.btn(type='button' ng-click='currentPage = currentPage*1 - 1'
+                        ng-disabled="currentPage*1 <= 0 ? 'disabled' : ''") Previous
+                    
+                    button.btn(type='button' ng-click='currentPage = currentPage*1 + 1'
+                        ng-disabled="currentPage*1 >= (packages.length / pageSize) - 1 ? 'disabled' : ''") Next
+                
+                    input.form-control(ng-model='currentPage')
+                    
+                table.table
+                    thead
+                        td: h5 Package
+                    tbody
+                        tr(ng-repeat='package in packages | ' +
+                                     'offsetBy: pageSize * currentPage | ' +
+                                     'limitTo: pageSize')
+                            td: a(href='{{ package }}'){{ package }}

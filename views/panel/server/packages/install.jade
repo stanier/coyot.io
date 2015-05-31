@@ -1,0 +1,25 @@
+extends /templates/page
+
+block body
+    script.
+        var hostname = '#{hostname}';
+        var host = '#{host}';
+        var port = '#{port}';
+        
+    include /includes/mixins
+    
+    +navbar
+    
+    .col-sm-3
+        +panel_server
+        
+        +panel_cluster
+    .col-sm-9
+        .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getPackageManagers()')
+            .panel-heading Install package
+            .panel-body
+                .col-sm-2: select(ng-model='pkgMngr').form-control
+                    option(ng-repeat='manager in managers') {{ manager }}
+                .col-sm-10: .input-group
+                    span.input-group-btn: button.btn.btn-default(ng-click='postPkgInstl()') Install
+                    input.form-control(placeholder='Package(s)' ng-model='pkgInslQuery')

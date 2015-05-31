@@ -1,15 +1,20 @@
 app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $http) {
-    $http.get('http://' + host + ':' + port + '/system/stats?type=all')
-    .success(function(data, status, headers, config) {
-        $scope.server = data;
+    $scope.pageSize = 20;
+    $scope.currentPage = 0;
 
-        $scope.server.uptime = new Date(data.uptime * 1000);
+    $scope.getStats = function() {
+        $http.get('http://' + host + ':' + port + '/system/stats?type=all')
+            .success(function(data, status, headers, config) {
+                $scope.server = data;
 
-        $scope.loadAvg();
-    })
-    .error(function(data, status, headers, config) {
-        console.log(data);
-    });
+                $scope.server.uptime = new Date(data.uptime * 1000);
+
+                $scope.loadAvg();
+            })
+            .error(function(data, status, headers, config) {
+                console.log(data);
+            });
+    };
 
     $scope.getPlatformClass = function(platform) {
         if (platform == 'linux') return 'fa fa-linux';
@@ -29,5 +34,38 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
                 $('#circle-'+i+' .fill.fix').css(transform_styles[j], 'rotate(' + fix_rotation + 'deg)');
             }
         }
+    };
+
+    $scope.getPackages = function() {
+        $http.get('http://' + host + ':' + port + '/system/packages/list')
+            .success(function(data, status, headers, config) {
+                $scope.packages = data;
+            })
+            .error(function(data, status, headers, config) {
+                $scope.packages = data;
+            });
+    };
+
+    $scope.getPackageManagers = function() {
+        $http.get('http://' + host + ':' + 9000 + '/system/packages/listManagers')
+            .success(function(data, status, headers, config) {
+                $scope.managers = data;
+            })
+            .error(function(data, status, headers, config) {
+                $scope.managers = data;
+            });
+    };
+
+    $scope.postPkgInstl = function() {
+        $http.post('http://' + host + ':' + port + '/system/packages/install', {
+            'manager': $scope.pkgMngr,
+            'query': $scope.pkgInslQuery
+        })
+            .success(function(data, status, headers, config) {
+
+            })
+            .error(function(data, status, headers, config) {
+
+            });
     };
 }]);

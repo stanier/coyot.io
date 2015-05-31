@@ -12,7 +12,7 @@ block body
         +panel_server
         +panel_cluster
     .col-sm-9
-        .panel.panel-default(ng-controller='ServerManagementCtlr')
+        .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getStats()')
             .panel-heading Overview
             .panel-body
                 .col-sm-12
