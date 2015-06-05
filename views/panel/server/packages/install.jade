@@ -20,6 +20,10 @@ block body
             .panel-body
                 .col-sm-2: select(ng-model='pkgMngr').form-control
                     option(ng-repeat='manager in managers') {{ manager }}
-                .col-sm-10: .input-group
+                .col-sm-6: .input-group
                     span.input-group-btn: button.btn.btn-default(ng-click='postPkgInstl()') Install
                     input.form-control(placeholder='Package(s)' ng-model='pkgInslQuery')
+                .col-sm-4: input.form-control(placeholder='Password' ng-model='password')
+                        
+                p {{ installerResponse }}
+                

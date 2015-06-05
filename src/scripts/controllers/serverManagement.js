@@ -1,9 +1,9 @@
 app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $http) {
-    $scope.pageSize = 20;
+    $scope.pageSize    = 20;
     $scope.currentPage = 0;
 
     $scope.getStats = function() {
-        $http.get('http://' + host + ':' + port + '/system/stats?type=all')
+        $http.get('//' + host + ':' + port + '/system/stats?type=all')
             .success(function(data, status, headers, config) {
                 $scope.server = data;
 
@@ -17,9 +17,9 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
     };
 
     $scope.getPlatformClass = function(platform) {
-        if (platform == 'linux') return 'fa fa-linux';
+        if (platform == 'linux')   return 'fa fa-linux';
         if (platform == 'windows') return 'fa fa-windows';
-        if (platform == 'apple') return 'fa fa-wheelchair';
+        if (platform == 'apple')   return 'fa fa-wheelchair';
     };
 
     $scope.loadAvg = function() {
@@ -37,7 +37,7 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
     };
 
     $scope.getPackages = function() {
-        $http.get('http://' + host + ':' + port + '/system/packages/list')
+        $http.get('//' + host + ':' + port + '/worker/packages/list')
             .success(function(data, status, headers, config) {
                 $scope.packages = data;
             })
@@ -47,7 +47,7 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
     };
 
     $scope.getPackageManagers = function() {
-        $http.get('http://' + host + ':' + 9000 + '/system/packages/listManagers')
+        $http.get('//' + host + ':' + 9000 + '/worker/packages/listManagers')
             .success(function(data, status, headers, config) {
                 $scope.managers = data;
             })
@@ -57,15 +57,15 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
     };
 
     $scope.postPkgInstl = function() {
-        $http.post('http://' + host + ':' + port + '/system/packages/install', {
+        $http.post('//' + host + ':' + port + '/worker/packages/install', {
             'manager': $scope.pkgMngr,
             'query': $scope.pkgInslQuery
         })
             .success(function(data, status, headers, config) {
-
+                $scope.installerResponse = $scope.installerResponse + data;
             })
             .error(function(data, status, headers, config) {
-
+                $scope.installerResponse = $scope.installerResponse + data;
             });
     };
 }]);

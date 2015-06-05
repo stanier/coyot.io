@@ -3,26 +3,27 @@ mixin panel_server
         .panel-heading Server
         .panel-body
             ul
-                if (path == '/server/' + hostname + '/overview')
+                if (path == '/server/' + hostname + '/overview/')
                     li.text-muted: span.fa.fa-server
                         |  Overview
                 else
                     li: a(href='/server/' + hostname + '/overview/'): span.fa.fa-server
                         |  Overview
 
-                if (path == '/server/' + hostname + '/packages/')
-                    li.text-muted: span.fa.fa-cogs
-                        |  Packages
-                        ul
-                            li: a(href='/server/' + hostname + '/packages/install/')
-                                span.fa.fa-cloud-download Install
-                else if  (path == '/server/' + hostname + '/packages/install/')
-                    li: a(href='/server/' + hostname + '/packages/'): span.fa.fa-cogs
-                        |  Packages
-                        ul
-                            li.text-muted
-                                span.fa.fa-cloud-download Install
-                else
-                    li: a(href='/server/' + hostname + '/packages/'): span.fa.fa-cogs
-                        |  Packages
+                if (type != 'web')
+                    if (path == '/server/' + hostname + '/packages/')
+                        li.text-muted: span.fa.fa-cogs
+                            |  Packages
+                            ul
+                                li: a(href='/server/' + hostname + '/packages/install/')
+                                    span.fa.fa-cloud-download Install
+                    else if (path == '/server/' + hostname + '/packages/install/')
+                        li: a(href='/server/' + hostname + '/packages/'): span.fa.fa-cogs
+                            |  Packages
+                            ul
+                                li.text-muted
+                                    span.fa.fa-cloud-download Install
+                    else
+                        li: a(href='/server/' + hostname + '/packages/'): span.fa.fa-cogs
+                            |  Packages
                             
