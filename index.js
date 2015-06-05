@@ -50,6 +50,7 @@ var conf = require('./lib/config')(app, function(err) {
     app.set('views', path.join(__dirname, 'views'));
     app.set('view engine', 'jade');
     app.locals.basedir = app.get('views');
+    app.locals.server = server;
     app.locals.sessionStore = new mongoStore({
         db  : app.locals.sessions.name,
         host: app.locals.sessions.host,

@@ -43,6 +43,8 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
     $scope.pageSize    = 20;
     $scope.currentPage = 0;
 
+    var socket = io('http://' + host + ':' + port);
+
     $scope.getStats = function() {
         $http.get('//' + host + ':' + port + '/system/stats?type=all')
             .success(function(data, status, headers, config) {
