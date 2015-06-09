@@ -29,6 +29,6 @@ block body
                         td: h5 Package
                     tbody
                         tr(ng-repeat='package in packages | ' +
-                                     'offsetBy: pageSize * currentPage | ' +
-                                     'limitTo: pageSize')
-                            td: a(href='{{ package }}'){{ package }}
+                                'offsetBy: pageSize * currentPage | ' +
+                                'limitTo: pageSize')
+                            td: a(href='{{ package }}') {{ package }}

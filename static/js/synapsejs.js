@@ -42,6 +42,7 @@ app.controller('ClusterManagementCtlr', ['$scope', '$http', function($scope, $ht
 app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $http) {
     $scope.pageSize    = 20;
     $scope.currentPage = 0;
+    $scope.installerResponse = '';
 
     var socket = io('http://' + host + ':' + port);
 
@@ -99,17 +100,33 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
             });
     };
 
-    $scope.postPkgInstl = function() {
-        $http.post('//' + host + ':' + port + '/worker/packages/install', {
-            'manager': $scope.pkgMngr,
-            'query': $scope.pkgInslQuery
-        })
-            .success(function(data, status, headers, config) {
-                $scope.installerResponse = $scope.installerResponse + data;
-            })
-            .error(function(data, status, headers, config) {
-                $scope.installerResponse = $scope.installerResponse + data;
-            });
+    $scope.installPackage = function() {
+        socket.emit('install package', {
+            manager: $scope.pkgMngr,
+            package: $scope.pkgInslQuery
+        });
+    };
+
+    socket.on('stdout', function(data) {
+        $scope.installerResponse += data;
+        console.log('STDOUT:  ' + data);
+        $scope.$apply();
+    });
+    socket.on('stderr', function(data) {
+        $scope.installerResponse += data;
+        console.log('STDERR:  ' + data);
+        $scope.$apply();
+    });
+    socket.on('error', function(data) {
+        $scope.installerResponse += data;
+        console.log('ERROR:  ' + data);
+        $scope.$apply();
+    });
+
+    $scope.sendInput = function() {
+        $scope.installerResponse += '\n';
+        socket.emit('input', { input: $scope.installerInput });
+        $scope.installerInput = '';
     };
 }]);
 
