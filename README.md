@@ -1,4 +1,4 @@
-# synapsejs
+# coyot.io
 
 Scalable, cluster-based server control
 
