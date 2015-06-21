@@ -1,5 +1,5 @@
 {
-  "name": "synapsejs",
+  "name": "coyot.io",
   "version": "0.0.1",
   "author": "Keyton Stanier",
   "repository": "https://github.com/stanier/synapsejs",
@@ -11,9 +11,13 @@
     "cluster",
     "cpanel",
     "ispconfig",
-    "ajenti"
+    "ajenti",
+    "coyote",
+    "coyot",
+    "coyot.io",
+    "io"
   ],
-  "homepage": "http://github.com/stanier/synapse",
+  "homepage": "https://github.com/stanier/coyot.io",
   "license": "MIT",
   "main": "app.js",
   "scripts": {
