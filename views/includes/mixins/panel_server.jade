@@ -3,27 +3,11 @@ mixin panel_server
         .panel-heading Server
         .panel-body
             ul
-                if (path == '/server/' + hostname + '/overview/')
-                    li.text-muted: span.fa.fa-server
-                        |  Overview
-                else
-                    li: a(href='/server/' + hostname + '/overview/'): span.fa.fa-server
-                        |  Overview
+                +list('/server/' + hostname + '/overview', 'fa-server', 'Overview')
 
                 if (type != 'web')
-                    if (path == '/server/' + hostname + '/packages/')
-                        li.text-muted: span.fa.fa-cogs
-                            |  Packages
-                            ul
-                                li: a(href='/server/' + hostname + '/packages/install/')
-                                    span.fa.fa-cloud-download Install
-                    else if (path == '/server/' + hostname + '/packages/install/')
-                        li: a(href='/server/' + hostname + '/packages/'): span.fa.fa-cogs
-                            |  Packages
-                            ul
-                                li.text-muted
-                                    span.fa.fa-cloud-download Install
-                    else
-                        li: a(href='/server/' + hostname + '/packages/'): span.fa.fa-cogs
-                            |  Packages
-                            
+                    +list('/server/' + hostname + '/packages/', 'fa-cogs', 'Packages', [
+                        { target_path: 'install/', icon: 'fa-cloud-download', name: 'Install' },
+                        { target_path: 'update/' , icon: 'fa-wrench', name: 'Update'  }
+                    ])
+                    +list('/server/' + hostname + '/services', 'fa-tasks', 'Services')

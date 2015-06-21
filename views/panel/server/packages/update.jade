@@ -17,15 +17,15 @@ block body
     
     .col-sm-9
         .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getPackageManagers()')
-            .panel-heading Install package
+            .panel-heading Upgrade package
             .panel-body
                 .col-sm-2: select(ng-model='pkgMngr').form-control
                     option(ng-repeat='manager in managers') {{ manager }}
                 .col-sm-10: .input-group
-                    span.input-group-btn: button.btn.btn-default(ng-click='installPackage()') Install
-                    input.form-control(placeholder='Package(s)' ng-model='pkgInslQuery')
+                    span.input-group-btn: button.btn.btn-default(ng-click='upgradePackage()') Install
+                    input.form-control(placeholder='Package(s)' ng-model='pkgUpgradeQuery')
                 .col-sm-12
-                    pre {{ installerResponse }}
+                    pre {{ upgradeResponse }}
                 .col-sm-12: .input-group
                     span.input-group-btn: button.btn.btn-default(ng-click='sendInput()') Send
-                    input.form-control(type='password' placeholder='Command-line input' ng-model='installerInput')
+                    input.form-control(type='password' placeholder='Command-line input' ng-model='upgradeInput')
