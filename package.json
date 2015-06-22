@@ -2,7 +2,7 @@
   "name": "coyot.io",
   "version": "0.0.1",
   "author": "Keyton Stanier",
-  "repository": "https://github.com/stanier/synapsejs",
+  "repository": "https://github.com/stanier/coyot.io",
   "description": "An open-source cluster-ready server management solution driven by node.js and MongoDB",
   "keywords": [
     "server",

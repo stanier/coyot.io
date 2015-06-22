@@ -1,33 +1,29 @@
 extends /templates/page
 
-block body
-    nav.navbar.navbar-default.navbar-fixed-top: .container
-        .navbar-header
-            a.navbar-brand(href='#') Synapse.js
-    .container
-        .col-sm-4.col-sm-offset-4
-            if (message != '')
-                .alert.alert-info #{message}
-            if (error != '')
-                .alert.alert-danger #{error}
-            
-            h2 Login
+block container
+    .col-sm-4.col-sm-offset-4
+        if (message != '')
+            .alert.alert-info #{message}
+        if (error != '')
+            .alert.alert-danger #{error}
         
-            .well
-                form(action='/auth/login', method='post')
-                    div
-                        h3 Username:
-                        input.form-control(type='text', name='username')
-                    
-                    div
-                        h3 Password:
-                        input.form-control(type='password', name='password')
+        h2 Login
+    
+        .well
+            form(action='/auth/login', method='post')
+                div
+                    h3 Username:
+                    input.form-control(type='text', name='username')
                 
-                    div
-                        .checkbox
-                            label
-                                input#rememberme(type='checkbox' name='rememberme')
-                                p Remember me
-                
-                    div
-                        button.form-control(type='submit', value='Submit') Submit
+                div
+                    h3 Password:
+                    input.form-control(type='password', name='password')
+            
+                div
+                    .checkbox
+                        label
+                            input#rememberme(type='checkbox' name='rememberme')
+                            p Remember me
+            
+                div
+                    button.form-control(type='submit', value='Submit') Submit

@@ -1,7 +1,12 @@
+include /includes/mixins
+
 doctype html
-html(ng-app='synapse')
+html(ng-app='coyot.io')
     head
         include /includes/links
         include /includes/scripts
     body
-        block body 
+        +navbar
+        
+        .container
+            block container

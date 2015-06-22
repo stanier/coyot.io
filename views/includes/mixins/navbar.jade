@@ -1,9 +1,10 @@
 mixin navbar
-
-    if (user.role >= 1)
-        nav.navbar.navbar-default.navbar-fixed-top: .container
-            .navbar-header
-                a.navbar-brand(href='#') Synapse.js
+    
+    nav.navbar.navbar-default.navbar-fixed-top: .container
+        .navbar-header
+            a.navbar-brand(href='#') Coyot.io
+            
+        if (user.role >= 1)
             .pull-right.container-fluid
                 ul.nav.nav-pills
                     if (path == '/')
