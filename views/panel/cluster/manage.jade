@@ -1,6 +1,6 @@
 extends /templates/page
 
-block body
+block container
     .col-sm-3
         +panel_cluster
     
@@ -16,12 +16,12 @@ block body
                 tr(ng-repeat='server in servers')
                     td: a(href='/server/{{server.hostname}}/overview/'){{ server.hostname }}
                     td
-                        .glyphicon.glyphicon-ok-circle.text-success(ng-if='server.isWeb')
-                        .glyphicon.glyphicon-remove-circle.text-muted(ng-if='!server.isWeb')
+                        .fa.fa-check-circle.text-success(ng-if='server.isWeb')
+                        .fa.fa-times-circle.text-muted(ng-if='!server.isWeb')
                     td
-                        .glyphicon.glyphicon-ok-circle.text-success(ng-if='server.isWorker')
-                        .glyphicon.glyphicon-remove-circle.text-muted(ng-if='!server.isWorker')
+                        .fa.fa-check-circle.text-success(ng-if='server.isWorker')
+                        .fa.fa-times-circle.text-muted(ng-if='!server.isWorker')
                     td
-                        .glyphicon.glyphicon-ok.text-success(ng-if='server.online')
-                        .glyphicon.glyphicon-remove.text-danger(ng-if='!server.online')
+                        .fa.fa-check-circle.text-success(ng-if='server.online')
+                        .fa.fa-times-circle.text-danger(ng-if='!server.online')
                     td {{ server.freemem | bytes }}

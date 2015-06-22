@@ -1,6 +1,6 @@
 extends /templates/page
 
-block body
+block container
     script.
         var hostname = '#{hostname}';
         var host = '#{host}';
@@ -19,9 +19,9 @@ block body
                     option(ng-repeat='manager in managers') {{ manager }}
                 .col-sm-10: .input-group
                     span.input-group-btn: button.btn.btn-default(ng-click='installPackage()') Install
-                    input.form-control(placeholder='Package(s)' ng-model='pkgInslQuery')
+                    input.form-control(placeholder='Package(s)' ng-model='pkgInstallQuery')
                 .col-sm-12
-                    pre {{ installerResponse }}
+                    pre {{ terminalResponse }}
                 .col-sm-12: .input-group
                     span.input-group-btn: button.btn.btn-default(ng-click='sendInput()') Send
-                    input.form-control(type='password' placeholder='Command-line input' ng-model='installerInput')
+                    input.form-control(type='password' placeholder='Command-line input' ng-model='terminalInput')

@@ -1,7 +1,8 @@
 mixin list(target_path, icon, name, children)
     if (path.indexOf(target_path) > -1)
         if (path == target_path)
-            li.text-muted: span.fa(class=icon): = name
+            li.text-muted: span.fa(class=icon) 
+                = name
                 if children
                     ul: each child in children
                         +list(
@@ -10,7 +11,8 @@ mixin list(target_path, icon, name, children)
                             child.name
                         )
         else
-            li: a(href=target_path): span.fa(class=icon): = name
+            li: a(href=target_path): span.fa(class=icon) 
+                = name
                 if children
                     ul: each child in children
                         +list(

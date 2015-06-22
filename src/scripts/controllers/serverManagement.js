@@ -1,7 +1,7 @@
 app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $http) {
     $scope.pageSize    = 20;
     $scope.currentPage = 0;
-    $scope.installerResponse = '';
+    $scope.terminalResponse = '';
 
     var socket = io('http://' + host + ':' + port);
 
@@ -16,7 +16,8 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
             })
             .error(function(data, status, headers, config) {
                 console.log(data);
-            });
+            })
+        ;
     };
 
     $scope.getPlatformClass = function(platform) {
@@ -46,7 +47,8 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
             })
             .error(function(data, status, headers, config) {
                 $scope.packages = data;
-            });
+            })
+        ;
     };
 
     $scope.getPackageManagers = function() {
@@ -56,35 +58,43 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
             })
             .error(function(data, status, headers, config) {
                 $scope.managers = data;
-            });
+            })
+        ;
     };
 
     $scope.installPackage = function() {
         socket.emit('install package', {
             manager: $scope.pkgMngr,
-            package: $scope.pkgInslQuery
+            package: $scope.pkgInstallQuery
+        });
+    };
+
+    $scope.updatePackage = function() {
+        socket.emit('update package', {
+            manager: $scope.pkgMngr,
+            package: $scope.pkgUpdateQuery
         });
     };
 
     socket.on('stdout', function(data) {
-        $scope.installerResponse += data;
+        $scope.terminalResponse += data;
         console.log('STDOUT:  ' + data);
         $scope.$apply();
     });
     socket.on('stderr', function(data) {
-        $scope.installerResponse += data;
+        $scope.terminalResponse += data;
         console.log('STDERR:  ' + data);
         $scope.$apply();
     });
     socket.on('error', function(data) {
-        $scope.installerResponse += data;
+        $scope.terminalResponse += data;
         console.log('ERROR:  ' + data);
         $scope.$apply();
     });
 
     $scope.sendInput = function() {
-        $scope.installerResponse += '\n';
-        socket.emit('input', { input: $scope.installerInput });
-        $scope.installerInput = '';
+        $scope.terminalResponse += '\n';
+        socket.emit('input', { input: $scope.terminalInput });
+        $scope.terminalInput = '';
     };
 }]);

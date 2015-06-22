@@ -1,6 +1,6 @@
 extends /templates/page
 
-block body
+block container
     script.
         var hostname = '#{hostname}';
         var host = '#{host}';
@@ -13,15 +13,15 @@ block body
     
     .col-sm-9
         .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getPackageManagers()')
-            .panel-heading Upgrade package
+            .panel-heading Update package
             .panel-body
                 .col-sm-2: select(ng-model='pkgMngr').form-control
                     option(ng-repeat='manager in managers') {{ manager }}
                 .col-sm-10: .input-group
-                    span.input-group-btn: button.btn.btn-default(ng-click='upgradePackage()') Install
-                    input.form-control(placeholder='Package(s)' ng-model='pkgUpgradeQuery')
+                    span.input-group-btn: button.btn.btn-default(ng-click='updatePackage()') Install
+                    input.form-control(placeholder='Package(s)' ng-model='pkgUpdateQuery')
                 .col-sm-12
-                    pre {{ upgradeResponse }}
+                    pre {{ terminalResponse }}
                 .col-sm-12: .input-group
                     span.input-group-btn: button.btn.btn-default(ng-click='sendInput()') Send
-                    input.form-control(type='password' placeholder='Command-line input' ng-model='upgradeInput')
+                    input.form-control(type='password' placeholder='Command-line input' ng-model='terminalInput')
