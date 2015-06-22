@@ -1,10 +1,10 @@
 /**
- * synapsejs - An open-source cluster-ready server management solution driven by node.js and MongoDB
+ * coyot.io - An open-source cluster-ready server management solution driven by node.js and MongoDB
  * @version v0.0.1
- * @link http://github.com/stanier/synapse
+ * @link https://github.com/stanier/coyot.io
  * @license MIT
  */
-var app = angular.module('synapse', []);
+var app = angular.module('coyot.io', []);
 
 app.controller('ClusterManagementCtlr', ['$scope', '$http', function($scope, $http) {
     $http.get('/cluster/list')

@@ -5,12 +5,12 @@ block body
         var hostname = '#{hostname}';
         var host = '#{host}';
         var port = '#{port}';
-    include /includes/mixins
-    +navbar
     
     .col-sm-3
         +panel_server
+        
         +panel_cluster
+        
     .col-sm-9
         .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getStats()')
             .panel-heading Overview

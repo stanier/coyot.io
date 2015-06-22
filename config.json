@@ -9,12 +9,12 @@
     "db": {
         "host": "localhost",
         "port": "27017",
-        "name": "synapsedb"
+        "name": "coyotioDB"
     },
     "sessions": {
         "host": "localhost",
         "port": "27017",
-        "name": "synapseSessions"
+        "name": "cyotioSessions"
     },
     "queue": {
         "host": "localhost",
