@@ -12,7 +12,7 @@ block container
         +panel_cluster
     
     .col-sm-9
-        .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getPackages()')
+        .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getPkgs()')
             .panel-heading Packages
             .panel-body
                 form.form-inline: .form-group
@@ -20,7 +20,7 @@ block container
                         ng-disabled="currentPage*1 <= 0 ? 'disabled' : ''") Previous
                     
                     button.btn(type='button' ng-click='currentPage = currentPage*1 + 1'
-                        ng-disabled="currentPage*1 >= (packages.length / pageSize) - 1 ? 'disabled' : ''") Next
+                        ng-disabled="currentPage*1 >= (pkgs.length / pageSize) - 1 ? 'disabled' : ''") Next
                 
                     input.form-control(ng-model='currentPage')
                     
@@ -28,7 +28,7 @@ block container
                     thead
                         td: h5 Package
                     tbody
-                        tr(ng-repeat='package in packages | ' +
+                        tr(ng-repeat='pkg in pkgs | ' +
                                 'offsetBy: pageSize * currentPage | ' +
                                 'limitTo: pageSize')
-                            td: a(href='../package/{{ package }}') {{ package }}
+                            td: a(href='../package/{{ pkg }}') {{ pkg }}

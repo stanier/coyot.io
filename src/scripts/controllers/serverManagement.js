@@ -40,18 +40,18 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
         }
     };
 
-    $scope.getPackages = function() {
+    $scope.getPkgs = function() {
         $http.get('//' + host + ':' + port + '/worker/packages/list')
             .success(function(data, status, headers, config) {
-                $scope.packages = data;
+                $scope.pkgs = data;
             })
             .error(function(data, status, headers, config) {
-                $scope.packages = data;
+                $scope.pkgs = data;
             })
         ;
     };
 
-    $scope.getPackageManagers = function() {
+    $scope.getPkgManagers = function() {
         $http.get('//' + host + ':' + port + '/worker/packages/listManagers')
             .success(function(data, status, headers, config) {
                 $scope.managers = data;
@@ -62,27 +62,27 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
         ;
     };
 
-    $scope.getPackageInfo = function(package) {
-        $http.get('//' + host + ':' + port + '/worker/packages/getInfo/' + package)
+    $scope.getPkgInfo = function(pkg) {
+        $http.get('//' + host + ':' + port + '/worker/packages/getInfo/' + pkg)
             .success(function(data, status, headers, config) {
-                $scope.package = data;
+                $scope.pkg = data;
             })
             .error(function(data, status, headers, config) {
-                $scope.package = data;
+                $scope.pkg = data;
             });
     };
 
-    $scope.installPackage = function() {
+    $scope.installPkg = function() {
         socket.emit('install package', {
             manager: $scope.pkgMngr,
-            package: $scope.pkgInstallQuery
+            pkg: $scope.pkgInstallQuery
         });
     };
 
-    $scope.updatePackage = function() {
+    $scope.updatePkg = function() {
         socket.emit('update package', {
             manager: $scope.pkgMngr,
-            package: $scope.pkgUpdateQuery
+            pkg: $scope.pkgUpdateQuery
         });
     };
 
