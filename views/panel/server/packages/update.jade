@@ -12,13 +12,13 @@ block container
         +panel_cluster
     
     .col-sm-9
-        .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getPackageManagers()')
+        .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getPkgManagers()')
             .panel-heading Update package
             .panel-body
                 .col-sm-2: select(ng-model='pkgMngr').form-control
                     option(ng-repeat='manager in managers') {{ manager }}
                 .col-sm-10: .input-group
-                    span.input-group-btn: button.btn.btn-default(ng-click='updatePackage()') Install
+                    span.input-group-btn: button.btn.btn-default(ng-click='updatePkg()') Install
                     input.form-control(placeholder='Package(s)' ng-model='pkgUpdateQuery')
                 .col-sm-12
                     pre {{ terminalResponse }}

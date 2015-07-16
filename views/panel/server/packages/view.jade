@@ -12,12 +12,12 @@ block container
         +panel_cluster
         
     .col-sm-9
-        .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getPackageInfo("#{package}")')
+        .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getPkgInfo("#{pkg}")')
             .panel-heading Overview
             .panel-body
                 .col-sm-12
                     i.fa-5x.pull-left(class='{{ getPlatformClass(server.platform) }}')
-                    h3 {{ package.name }}
+                    h3 {{ pkg.name }}
                     h5 {{ server.platform }} {{ server.release }} {{ server.arch }}
                 .col-sm-12
                     h5 Status:  
@@ -28,4 +28,4 @@ block container
                     h5 Port:  {{ server.port }}
                     h5 Type:  {{ server.type }}
                     h5 Uptime:  {{ server.uptime | date : "h 'hours' m 'minutes and' s 'seconds'" }}
-                    h5 {{ package }}
+                    h5 {{ pkg }}

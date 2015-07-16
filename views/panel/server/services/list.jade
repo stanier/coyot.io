@@ -20,7 +20,7 @@ block container
                         ng-disabled="currentPage*1 <= 0 ? 'disabled' : ''") Previous
                     
                     button.btn(type='button' ng-click='currentPage = currentPage*1 + 1'
-                        ng-disabled="currentPage*1 >= (packages.length / pageSize) - 1 ? 'disabled' : ''") Next
+                        ng-disabled="currentPage*1 >= (pkgs.length / pageSize) - 1 ? 'disabled' : ''") Next
                 
                     input.form-control(ng-model='currentPage')
                     
