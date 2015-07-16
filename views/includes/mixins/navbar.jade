@@ -4,7 +4,7 @@ mixin navbar
         .navbar-header
             a.navbar-brand(href='/') Coyot.io
             
-        if (user.role >= 1)
+        if (user && user.role >= 1)
             .pull-right.container-fluid
                 ul.nav.nav-pills
                     if (path == '/')
