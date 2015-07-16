@@ -8,12 +8,12 @@ block container
     
     .col-sm-3
         +panel_server
-        
+    
         +panel_cluster
     
     .col-sm-9
-        .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getPackages()')
-            .panel-heading Packages
+        .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getServices()')
+            .panel-heading Services
             .panel-body
                 form.form-inline: .form-group
                     button.btn(type='button' ng-click='currentPage = currentPage*1 - 1'
@@ -26,9 +26,9 @@ block container
                     
                 table.table
                     thead
-                        td: h5 Package
+                        td: h5 Service
                     tbody
-                        tr(ng-repeat='package in packages | ' +
+                        tr(ng-repeat='service in services | ' +
                                 'offsetBy: pageSize * currentPage | ' +
                                 'limitTo: pageSize')
-                            td: a(href='../package/{{ package }}') {{ package }}
+                            td: a(href='{{ service }}') {{ service }}

@@ -52,7 +52,7 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
     };
 
     $scope.getPackageManagers = function() {
-        $http.get('//' + host + ':' + 9000 + '/worker/packages/listManagers')
+        $http.get('//' + host + ':' + port + '/worker/packages/listManagers')
             .success(function(data, status, headers, config) {
                 $scope.managers = data;
             })
@@ -60,6 +60,16 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
                 $scope.managers = data;
             })
         ;
+    };
+
+    $scope.getPackageInfo = function(package) {
+        $http.get('//' + host + ':' + port + '/worker/packages/getInfo/' + package)
+            .success(function(data, status, headers, config) {
+                $scope.package = data;
+            })
+            .error(function(data, status, headers, config) {
+                $scope.package = data;
+            });
     };
 
     $scope.installPackage = function() {

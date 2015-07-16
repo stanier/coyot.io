@@ -1,0 +1,31 @@
+extends /templates/page
+
+block container
+    script.
+        var hostname = '#{hostname}';
+        var host = '#{host}';
+        var port = '#{port}';
+    
+    .col-sm-3
+        +panel_server
+        
+        +panel_cluster
+        
+    .col-sm-9
+        .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getPackageInfo("#{package}")')
+            .panel-heading Overview
+            .panel-body
+                .col-sm-12
+                    i.fa-5x.pull-left(class='{{ getPlatformClass(server.platform) }}')
+                    h3 {{ package.name }}
+                    h5 {{ server.platform }} {{ server.release }} {{ server.arch }}
+                .col-sm-12
+                    h5 Status:  
+                        i.fa.fa-circle.text-success(ng-if='server.online')
+                        i.fa.fa-circle.text-danger(ng-if='!server.online')
+                    
+                    h5 Host:  {{ server.host }}
+                    h5 Port:  {{ server.port }}
+                    h5 Type:  {{ server.type }}
+                    h5 Uptime:  {{ server.uptime | date : "h 'hours' m 'minutes and' s 'seconds'" }}
+                    h5 {{ package }}

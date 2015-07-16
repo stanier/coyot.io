@@ -21,6 +21,7 @@
   "license": "MIT",
   "main": "app.js",
   "scripts": {
+    "start": "node index.js",  
     "devel": "gulp launch"
   },
   "devDependencies": {
