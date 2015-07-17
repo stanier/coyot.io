@@ -13,19 +13,22 @@ block container
         
     .col-sm-9
         .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getPkgInfo("#{pkg}")')
-            .panel-heading Overview
+            .panel-heading Package Overview
             .panel-body
                 .col-sm-12
-                    i.fa-5x.pull-left(class='{{ getPlatformClass(server.platform) }}')
-                    h3 {{ pkg.name }}
-                    h5 {{ server.platform }} {{ server.release }} {{ server.arch }}
-                .col-sm-12
-                    h5 Status:  
-                        i.fa.fa-circle.text-success(ng-if='server.online')
-                        i.fa.fa-circle.text-danger(ng-if='!server.online')
-                    
-                    h5 Host:  {{ server.host }}
-                    h5 Port:  {{ server.port }}
-                    h5 Type:  {{ server.type }}
-                    h5 Uptime:  {{ server.uptime | date : "h 'hours' m 'minutes and' s 'seconds'" }}
-                    h5 {{ pkg }}
+                    h3                      {{ pkg.package }}
+                    h5 Priority:            {{ pkg.priority }}
+                    h5 Section:             {{ pkg.section }}
+                    h5 Size:                {{ pkg.installedsize }}
+                    h5 Maintainer:          {{ pkg.maintainer }}
+                    h5 Original Maintainer: {{ pkg.originalmaintainer }}
+                    h5 Architecture:        {{ pkg.architecture }}
+                    h5 Version:             {{ pkg.version }}
+                    h5 Filename:            {{ pkg.filename }}
+                    h5 Size:                {{ pkg.size }}
+                    h5 MD5sum:              {{ pkg.md5sum }}
+                    h5 SHA1:                {{ pkg.sha1 }}
+                    h5 SHA256:              {{ pkg.sha256 }}
+                    h5 Description:         {{ pkg.descriptionen }}
+                    h5 Homepage:  
+                        a(href='{{pkg.homepage}}') {{ pkg.homepage }}

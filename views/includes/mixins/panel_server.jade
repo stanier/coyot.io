@@ -10,4 +10,6 @@ mixin panel_server
                         { target_path: 'install/', icon: 'fa-cloud-download', name: 'Install' },
                         { target_path: 'update/' , icon: 'fa-wrench', name: 'Update'  }
                     ])
-                    +list('/server/' + hostname + '/services', 'fa-tasks', 'Services')
+                    +list('/server/' + hostname + '/services/', 'fa-tasks', 'Services', [
+                        { target_path: 'running/', icon: 'fa-dashboard', name: 'Running' }
+                    ])
