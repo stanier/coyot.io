@@ -111,7 +111,8 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
             })
             .error(function(data, status, headers, config) {
                 $scope.pkg = data;
-            });
+            })
+        ;
     };
 
     $scope.installPkg = function() {
@@ -146,11 +147,24 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
             })
             .error(function(data, status, headers, config) {
                 $scope.service = data;
-            });
+            })
+        ;
     };
 
     $scope.getRunningServices = function() {
-        socket.emit('status all');
+        socket.emit('get status all');
+    };
+
+    $scope.startService = function(target) {
+        socket.emit('start service', target);
+    };
+
+    $scope.stopService = function(target) {
+        socket.emit('stop service', target);
+    };
+
+    $scope.restartService = function(target) {
+        socket.emit('restart service', target);
     };
 
     socket.on('stdout', function(data) {

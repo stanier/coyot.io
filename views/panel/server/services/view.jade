@@ -16,19 +16,28 @@ block container
             .panel-heading Service Overview
             .panel-body
                 .col-sm-12
+                    .pull-right
+                        .btn-group
+                            button.btn(ng-click='startService(service.name)') Start
+                            button.btn(ng-click='stopService(service.name)') Stop
+                            button.btn(ng-click='restartService(service.name)') Restart
+                    
                     h3 {{ service.name }}
                     h5 {{ service.description }}
                     h5 {{ service.loaded }}
                     h5 {{ service.active }}
-                    table.table.table-striped(style='font-family: "Courier New"')
+                    
+                    table.table.table-striped(style='font-family: "Courier New"' ng-if='service.log')
                         thead
-                            td Timestamp
-                            td FQDN
-                            td Process
-                            td Content
+                            td: b Timestamp
+                            td: b FQDN
+                            td: b Process
+                            td: b Content
                         tbody
                             tr(ng-repeat='entry in service.log')
                                 td {{ entry.timestamp }}
                                 td {{ entry.FQDN }}
                                 td {{ entry.process }}
                                 td {{ entry.content }}
+
+                    h5 {{ service }}
