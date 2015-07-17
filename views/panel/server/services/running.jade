@@ -12,8 +12,8 @@ block container
         +panel_cluster
     
     .col-sm-9
-        .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getServices()')
-            .panel-heading Services
+        .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getRunningServices()')
+            .panel-heading Running services
             .panel-body
                 form.form-inline: .form-group
                     button.btn(type='button' ng-click='currentPage = currentPage*1 - 1'
@@ -27,8 +27,12 @@ block container
                 table.table
                     thead
                         td: h5 Service
+                        td: h5 Running
                     tbody
-                        tr(ng-repeat='service in services | ' +
+                        tr(ng-repeat='entry in serviceStatus | ' +
                                 'offsetBy: pageSize * currentPage | ' +
                                 'limitTo: pageSize')
-                            td: a(href='../service/{{ service }}/') {{ service }}
+                            td: a(href='../../service/{{ entry.service }}/') {{ entry.service }}
+                            td
+                                .fa.fa-check.text-success(ng-if='entry.isRunning')
+                                .fa.fa-minus.text-danger(ng-if='!entry.isRunning')

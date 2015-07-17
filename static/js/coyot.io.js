@@ -43,6 +43,7 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
     $scope.pageSize    = 20;
     $scope.currentPage = 0;
     $scope.terminalResponse = '';
+    $scope.serviceStatus = [];
 
     var socket = io('http://' + host + ':' + port);
 
@@ -127,6 +128,31 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
         });
     };
 
+    $scope.getServices = function() {
+        $http.get('//' + host + ':' + port + '/worker/services/list')
+            .success(function(data, status, headers, config) {
+                $scope.services = data;
+            })
+            .error(function(data, status, headers, config) {
+                $scope.services = data;
+            })
+        ;
+    };
+
+    $scope.getServiceInfo = function(service) {
+        $http.get('//' + host + ':' + port + '/worker/services/getInfo/' + service)
+            .success(function(data, status, headers, config) {
+                $scope.service = data;
+            })
+            .error(function(data, status, headers, config) {
+                $scope.service = data;
+            });
+    };
+
+    $scope.getRunningServices = function() {
+        socket.emit('status all');
+    };
+
     socket.on('stdout', function(data) {
         $scope.terminalResponse += data;
         console.log('STDOUT:  ' + data);
@@ -138,8 +164,14 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
         $scope.$apply();
     });
     socket.on('error', function(data) {
-        $scope.terminalResponse += data;
         console.log('ERROR:  ' + data);
+        $scope.$apply();
+    });
+    socket.on('service status', function(service, status) {
+        $scope.serviceStatus.push({
+            service: service,
+            isRunning: status
+        });
         $scope.$apply();
     });
 

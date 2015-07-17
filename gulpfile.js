@@ -1,4 +1,4 @@
-var pkg = require('.package.json');
+var pkg = require('./package.json');
 
 var gulp = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),

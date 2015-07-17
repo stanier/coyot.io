@@ -1,0 +1,34 @@
+extends /templates/page
+
+block container
+    script.
+        var hostname = '#{hostname}';
+        var host = '#{host}';
+        var port = '#{port}';
+    
+    .col-sm-3
+        +panel_server
+        
+        +panel_cluster
+        
+    .col-sm-9
+        .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getServiceInfo("#{service}")')
+            .panel-heading Service Overview
+            .panel-body
+                .col-sm-12
+                    h3 {{ service.name }}
+                    h5 {{ service.description }}
+                    h5 {{ service.loaded }}
+                    h5 {{ service.active }}
+                    table.table.table-striped(style='font-family: "Courier New"')
+                        thead
+                            td Timestamp
+                            td FQDN
+                            td Process
+                            td Content
+                        tbody
+                            tr(ng-repeat='entry in service.log')
+                                td {{ entry.timestamp }}
+                                td {{ entry.FQDN }}
+                                td {{ entry.process }}
+                                td {{ entry.content }}
