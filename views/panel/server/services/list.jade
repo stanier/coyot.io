@@ -6,29 +6,23 @@ block container
         var host = '#{host}';
         var port = '#{port}';
     
-    .col-sm-3
-        +panel_server
-    
-        +panel_cluster
-    
-    .col-sm-9
-        .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getServices()')
-            .panel-heading Services
-            .panel-body
-                form.form-inline: .form-group
-                    button.btn(type='button' ng-click='currentPage = currentPage*1 - 1'
-                        ng-disabled="currentPage*1 <= 0 ? 'disabled' : ''") Previous
-                    
-                    button.btn(type='button' ng-click='currentPage = currentPage*1 + 1'
-                        ng-disabled="currentPage*1 >= (pkgs.length / pageSize) - 1 ? 'disabled' : ''") Next
+    .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getServices()')
+        .panel-heading Services
+        .panel-body
+            form.form-inline: .form-group
+                button.btn(type='button' ng-click='currentPage = currentPage*1 - 1'
+                    ng-disabled="currentPage*1 <= 0 ? 'disabled' : ''") Previous
                 
-                    input.form-control(ng-model='currentPage')
-                    
-                table.table
-                    thead
-                        td: h5 Service
-                    tbody
-                        tr(ng-repeat='service in services | ' +
-                                'offsetBy: pageSize * currentPage | ' +
-                                'limitTo: pageSize')
-                            td: a(href='../service/{{ service }}/') {{ service }}
+                button.btn(type='button' ng-click='currentPage = currentPage*1 + 1'
+                    ng-disabled="currentPage*1 >= (pkgs.length / pageSize) - 1 ? 'disabled' : ''") Next
+            
+                input.form-control(ng-model='currentPage')
+                
+            table.table
+                thead
+                    td: h5 Service
+                tbody
+                    tr(ng-repeat='service in services | ' +
+                            'offsetBy: pageSize * currentPage | ' +
+                            'limitTo: pageSize')
+                        td: a(href='../service/{{ service }}/') {{ service }}

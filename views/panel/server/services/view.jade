@@ -6,38 +6,32 @@ block container
         var host = '#{host}';
         var port = '#{port}';
     
-    .col-sm-3
-        +panel_server
-        
-        +panel_cluster
-        
-    .col-sm-9
-        .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getServiceInfo("#{service}")')
-            .panel-heading Service Overview
-            .panel-body
-                .col-sm-12
-                    .pull-right
-                        .btn-group
-                            button.btn(ng-click='startService(service.name)') Start
-                            button.btn(ng-click='stopService(service.name)') Stop
-                            button.btn(ng-click='restartService(service.name)') Restart
-                    
-                    h3 {{ service.name }}
-                    h5 {{ service.description }}
-                    h5 {{ service.loaded }}
-                    h5 {{ service.active }}
-                    
-                    table.table.table-striped(style='font-family: "Courier New"' ng-if='service.log')
-                        thead
-                            td: b Timestamp
-                            td: b FQDN
-                            td: b Process
-                            td: b Content
-                        tbody
-                            tr(ng-repeat='entry in service.log')
-                                td {{ entry.timestamp }}
-                                td {{ entry.FQDN }}
-                                td {{ entry.process }}
-                                td {{ entry.content }}
+    .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getServiceInfo("#{service}")')
+        .panel-heading Service Overview
+        .panel-body
+            .col-sm-12
+                .pull-right
+                    .btn-group
+                        button.btn(ng-click='startService(service.name)') Start
+                        button.btn(ng-click='stopService(service.name)') Stop
+                        button.btn(ng-click='restartService(service.name)') Restart
+                
+                h3 {{ service.name }}
+                h5 {{ service.description }}
+                h5 {{ service.loaded }}
+                h5 {{ service.active }}
+                
+                table.table.table-striped(style='font-family: "Courier New"' ng-if='service.log')
+                    thead
+                        td: b Timestamp
+                        td: b FQDN
+                        td: b Process
+                        td: b Content
+                    tbody
+                        tr(ng-repeat='entry in service.log')
+                            td {{ entry.timestamp }}
+                            td {{ entry.FQDN }}
+                            td {{ entry.process }}
+                            td {{ entry.content }}
 
-                    h5 {{ service }}
+                h5 {{ service }}

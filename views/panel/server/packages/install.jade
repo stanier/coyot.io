@@ -6,22 +6,16 @@ block container
         var host = '#{host}';
         var port = '#{port}';
     
-    .col-sm-3
-        +panel_server
-        
-        +panel_cluster
-    
-    .col-sm-9
-        .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getPkgManagers()')
-            .panel-heading Install package
-            .panel-body
-                .col-sm-2: select(ng-model='pkgMngr').form-control
-                    option(ng-repeat='manager in managers') {{ manager }}
-                .col-sm-10: .input-group
-                    span.input-group-btn: button.btn.btn-default(ng-click='installPkg()') Install
-                    input.form-control(placeholder='Package(s)' ng-model='pkgInstallQuery')
-                .col-sm-12
-                    pre {{ terminalResponse }}
-                .col-sm-12: .input-group
-                    span.input-group-btn: button.btn.btn-default(ng-click='sendInput()') Send
-                    input.form-control(type='password' placeholder='Command-line input' ng-model='terminalInput')
+    .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getPkgManagers()')
+        .panel-heading Install package
+        .panel-body
+            .col-sm-2: select(ng-model='pkgMngr').form-control
+                option(ng-repeat='manager in managers') {{ manager }}
+            .col-sm-10: .input-group
+                span.input-group-btn: button.btn.btn-default(ng-click='installPkg()') Install
+                input.form-control(placeholder='Package(s)' ng-model='pkgInstallQuery')
+            .col-sm-12
+                pre {{ terminalResponse }}
+            .col-sm-12: .input-group
+                span.input-group-btn: button.btn.btn-default(ng-click='sendInput()') Send
+                input.form-control(type='password' placeholder='Command-line input' ng-model='terminalInput')

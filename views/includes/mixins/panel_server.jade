@@ -1,15 +1,13 @@
 mixin panel_server
-    .panel.panel-default
-        .panel-heading Server
-        .panel-body
-            ul
-                +list('/server/' + hostname + '/overview', 'fa-server', 'Overview')
+    
+    if (hostname) 
+        +list('/server/' + hostname + '/overview', 'fa-server', 'Overview')
 
-                if (type != 'web')
-                    +list('/server/' + hostname + '/packages/', 'fa-cogs', 'Packages', [
-                        { target_path: 'install/', icon: 'fa-cloud-download', name: 'Install' },
-                        { target_path: 'update/' , icon: 'fa-wrench', name: 'Update'  }
-                    ])
-                    +list('/server/' + hostname + '/services/', 'fa-tasks', 'Services', [
-                        { target_path: 'running/', icon: 'fa-dashboard', name: 'Running' }
-                    ])
+        if (type != 'web')
+            +list('/server/' + hostname + '/packages/', 'fa-cogs', 'Packages', [
+                { target_path: 'install/', icon: 'fa-cloud-download', name: 'Install' },
+                { target_path: 'update/' , icon: 'fa-wrench', name: 'Update'  }
+            ])
+            +list('/server/' + hostname + '/services/', 'fa-tasks', 'Services', [
+                { target_path: 'running/', icon: 'fa-dashboard', name: 'Running' }
+            ])
