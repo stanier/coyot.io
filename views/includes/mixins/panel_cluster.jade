@@ -1,6 +1,7 @@
 mixin panel_cluster
-    .panel.panel-default
-        .panel-heading Cluster
-        .panel-body
+
+    li.bold
+        a.collapsible-header.waves-effect Cluster
+        .collapsible-body
             ul
                 +list('/cluster/manage', 'fa-sitemap', 'Manage')

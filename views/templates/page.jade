@@ -6,7 +6,24 @@ html(ng-app='coyot.io')
         include /includes/links
         include /includes/scripts
     body
-        +navbar
-        
-        .container
+        header
+            nav.navbar(role='navigation')
+                .navbar-header
+                    a.navbar-brand(href='/') Coyot.io
+                    
+                if (user && user.role >= 1)
+                    .pull-right.container-fluid
+                        ul.nav.nav-pills
+                            if (path == '/')
+                                li.active(role="presentation"): a(href='/') Home
+                            else
+                                li(role="presentation"): a(href='/') Home
+            
+            ul.side-nav.fixed(style='left:0; padding-top:64px')
+                li.no-padding
+                    ul.collapsible.collapsible-accordion
+                        +panel_server(hostname)
+            
+                        +panel_cluster()
+        .container(style='padding-left:240px;padding-top:64px')
             block container

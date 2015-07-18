@@ -40,9 +40,6 @@
   background-color: #fbfbfb;
   border-radius: 50%;
 }
-body {
-  margin: 60px;
-}
 ul {
   list-style: none;
 }
@@ -51,4 +48,15 @@ ul ul {
 }
 pre {
   margin: 10px 0px 10px;
+}
+.navbar {
+  position: relative;
+  z-index: 1000;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+ul.side-nav.fixed li a {
+  font-size: 13px;
+  line-height: 44px;
+  height: 44px;
 }

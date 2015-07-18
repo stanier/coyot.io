@@ -5,31 +5,26 @@ block container
         var hostname = '#{hostname}';
         var host = '#{host}';
         var port = '#{port}';
-    
-    .col-sm-3
-        +panel_server
-        
-        +panel_cluster
-        
-    .col-sm-9
-        .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getStats()')
-            .panel-heading Overview
-            .panel-body
-                .col-sm-12
-                    i.fa-5x.pull-left(class='{{ getPlatformClass(server.platform) }}')
-                    h3 {{ server.hostname }}
-                    h5 {{ server.platform }} {{ server.release }} {{ server.arch }}
-                .col-sm-12
-                    h5 Status:  
-                        i.fa.fa-circle.text-success(ng-if='server.online')
-                        i.fa.fa-circle.text-danger(ng-if='!server.online')
-                    
-                    h5 Host:  {{ server.host }}
-                    h5 Port:  {{ server.port }}
-                    h5 Type:  {{ server.type }}
-                    h5 Uptime:  {{ server.uptime | date : "h 'hours' m 'minutes and' s 'seconds'" }}
-                .col-sm-10.col-sm-offset-1(ng-show='server.platform == "linux"')
-                    .col-sm-4
+            
+    .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getStats()')
+        .panel-heading Overview
+        .panel-body
+            .row
+                i.fa-5x.pull-left(class='{{ getPlatformClass(server.platform) }}')
+                h3 {{ server.hostname }}
+                h5 {{ server.platform }} {{ server.release }} {{ server.arch }}
+            .row
+                h5 Status:  
+                    i.fa.fa-circle.text-success(ng-if='server.online')
+                    i.fa.fa-circle.text-danger(ng-if='!server.online')
+                
+                h5 Host:  {{ server.host }}
+                h5 Port:  {{ server.port }}
+                h5 Type:  {{ server.type }}
+                h5 Uptime:  {{ server.uptime | date : "h 'hours' m 'minutes and' s 'seconds'" }}
+            .row:.col.s10.offset-s1(ng-show='server.platform == "linux"')
+                .row
+                    .col.s4
                         .radial-progress
                             .circle#circle-0
                                 .mask.full: .fill
@@ -38,7 +33,7 @@ block container
                                     .fill.fix
                             .inset
                         h5 1 minute
-                    .col-sm-4
+                    .col.s4
                         .radial-progress
                             .circle#circle-1
                                 .mask.full: .fill
@@ -47,7 +42,7 @@ block container
                                     .fill.fix
                             .inset
                         h5 5 minutes
-                    .col-sm-4
+                    .col.s4
                         .radial-progress
                             .circle#circle-2
                                 .mask.full: .fill
@@ -56,7 +51,7 @@ block container
                                     .fill.fix
                             .inset
                         h5 15 minutes
-                .col-sm-12
-                    h5 Available RAM:  {{ server.freemem | bytes }} / {{ server.totalmem | bytes }}
-                    h5 CPU Count:  {{ server.cpu.length }}
-                    h5(ng-if='server.distro') Distro:  {{ server.distro }}
+            .row
+                h5 Available RAM:  {{ server.freemem | bytes }} / {{ server.totalmem | bytes }}
+                h5 CPU Count:  {{ server.cpu.length }}
+                h5(ng-if='server.distro') Distro:  {{ server.distro }}
