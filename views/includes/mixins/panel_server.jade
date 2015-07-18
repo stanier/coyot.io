@@ -1,6 +1,6 @@
 mixin panel_server(hostname)
     if(hostname)
-        li.bold
+        li
             a.collapsible-header.waves-effect Server
             .collapsible-body
                 ul
@@ -10,5 +10,5 @@ mixin panel_server(hostname)
                         +list('/server/' + hostname + '/packages/', 'fa-cogs', 'Packages', [
                             { target_path: 'install/', icon: 'fa-cloud-download', name: 'Install' },
                             { target_path: 'update/' , icon: 'fa-wrench', name: 'Update'  }
-                        ])
+                        ], true)
                         +list('/server/' + hostname + '/services/', 'fa-tasks', 'Services')

@@ -59,4 +59,14 @@ ul.side-nav.fixed li a {
   font-size: 13px;
   line-height: 44px;
   height: 44px;
+  padding: 0px 30px;
+}
+.side-nav li:hover {
+  background-color: initial;
+}
+.side-nav li.active:hover {
+  background-color: #ddd;
+}
+.no-margins {
+  margin: 0px !important;
 }

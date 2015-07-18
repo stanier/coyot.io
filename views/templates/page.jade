@@ -20,10 +20,9 @@ html(ng-app='coyot.io')
                                 li(role="presentation"): a(href='/') Home
             
             ul.side-nav.fixed(style='left:0; padding-top:64px')
-                li.no-padding
-                    ul.collapsible.collapsible-accordion
-                        +panel_server(hostname)
-            
-                        +panel_cluster()
+                ul.collapsible.no-padding(data-collapsible='accordion')
+                    +panel_server(hostname)
+                    
+                    +panel_cluster()
         .container(style='padding-left:240px;padding-top:64px')
             block container

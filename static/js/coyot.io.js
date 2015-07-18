@@ -4,6 +4,12 @@
  * @link https://github.com/stanier/coyot.io
  * @license MIT
  */
+$(document).ready(function(){
+    $('.collapsible').collapsible({
+        accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+    });
+});
+
 var app = angular.module('coyot.io', []);
 
 app.controller('ClusterManagementCtlr', ['$scope', '$http', function($scope, $http) {

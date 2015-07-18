@@ -1,28 +1,41 @@
-mixin list(target_path, icon, name, children)
+mixin list(target_path, icon, name, children, collapsible)
     if (path.indexOf(target_path) > -1)
         if (path == target_path)
-            li.bold.active: a(href='')
-                span.fa(class=icon style='padding-right:7px') 
-                = name
-                if children
-                    ul: each child in children
-                        +list(
-                            target_path + child.target_path,
-                            child.icon,
-                            child.name
-                        )
+            li.bold: a(href='')
+                if collapsible
+                    a.collapsible-header.waves-effect.waves-teal.no-margins
+                        span.fa(class=icon style='padding-right:7px')
+                        = name
+                    .collapsible-body
+                            ul.no-padding: each child in children
+                                +list(
+                                    target_path + child.target_path,
+                                    child.icon,
+                                    child.name
+                                )
+                else
+                    
+                    if children
+                        ul.no-padding: each child in children
+                            +list(
+                                target_path + child.target_path,
+                                child.icon,
+                                child.name
+                            )
         else
+            
             li.bold: a(href=target_path)
                 span.fa(class=icon style='padding-right:7px') 
                 = name
                 if children
-                    ul: each child in children
+                    ul.no-padding: each child in children
                         +list(
                             target_path + child.target_path,
                             child.icon,
                             child.name
                         )
     else
+        
         li.bold: a(href=target_path)
             span.fa(class=icon style='padding-right:7px') 
             = name
