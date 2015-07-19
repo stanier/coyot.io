@@ -12,7 +12,7 @@ block container
                     td: h5 Free memory
                 tbody
                     tr(ng-repeat='server in servers')
-                        td: a(href='/server/{{server.hostname}}/overview/'){{ server.hostname }}
+                        td: a(href='/server/{{server.hostname}}/overview'){{ server.hostname }}
                         td
                             .fa.fa-check-circle.text-success(ng-if='server.isWeb')
                             .fa.fa-times-circle.text-muted(ng-if='!server.isWeb')
