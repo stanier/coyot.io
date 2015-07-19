@@ -1,6 +1,8 @@
 mixin panel_server
     
     if (hostname) 
+        p.text-muted server
+        
         +list('/server/' + hostname + '/overview', 'fa-server', 'Overview')
 
         if (type != 'web')
