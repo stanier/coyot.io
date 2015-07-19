@@ -4,6 +4,10 @@
  * @link https://github.com/stanier/coyot.io
  * @license MIT
  */
+toastr.options.newestOnTop = false;
+toastr.options.progressBar = false;
+toastr.options.positionClass = 'toast-bottom-right';
+
 var app = angular.module('coyot.io', []);
 
 app.controller('ClusterManagementCtlr', ['$scope', '$http', function($scope, $http) {
@@ -156,31 +160,51 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
     };
 
     $scope.startService = function(target) {
+        toastr.info('Starting service ' + target + '...');
         socket.emit('start service', target);
     };
 
     $scope.stopService = function(target) {
+        toastr.info('Stopping service ' + target + '...');
         socket.emit('stop service', target);
     };
 
     $scope.restartService = function(target) {
+        toastr.info('Restarting service ' + target + '...');
         socket.emit('restart service', target);
     };
+
+    socket.on('start service result', function(service, result) {
+        if (result == 'success') toastr.success(service + ' started successfully');
+        if (result == 'failure') toarts.error(service + ' could not be started');
+    });
+
+    socket.on('stop service result', function(service, result) {
+        if (result == 'success') toastr.success(service + ' stopped successfully');
+        if (result == 'failure') toastr.error(service + ' could not be stopped');
+    });
+
+    socket.on('restart service result', function(service, result) {
+        if (result == 'success') toastr.success(service + ' restarted successfully');
+        if (result == 'failure') toastr.error(service + ' could not be restarted');
+    });
 
     socket.on('stdout', function(data) {
         $scope.terminalResponse += data;
         console.log('STDOUT:  ' + data);
         $scope.$apply();
     });
+
     socket.on('stderr', function(data) {
         $scope.terminalResponse += data;
         console.log('STDERR:  ' + data);
         $scope.$apply();
     });
+
     socket.on('error', function(data) {
-        console.log('ERROR:  ' + data);
-        $scope.$apply();
+        toastr.error('data');
     });
+
     socket.on('service status', function(service, status) {
         $scope.serviceStatus.push({
             service: service,
