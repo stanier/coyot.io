@@ -174,6 +174,12 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
         socket.emit('restart service', target);
     };
 
+    $scope.sendInput = function() {
+        $scope.terminalResponse += '\n';
+        socket.emit('input', { input: $scope.terminalInput });
+        $scope.terminalInput = '';
+    };
+
     socket.on('start service result', function(service, result) {
         if (result == 'success') toastr.success(service + ' started successfully');
         if (result == 'failure') toarts.error(service + ' could not be started');
@@ -187,6 +193,31 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
     socket.on('restart service result', function(service, result) {
         if (result == 'success') toastr.success(service + ' restarted successfully');
         if (result == 'failure') toastr.error(service + ' could not be restarted');
+    });
+
+    socket.on('password required', function(operation, user) {
+        toastr.warning('Password required to ' + operation + ' with user ' + user);
+
+        swal({
+            title: 'Password required',
+            text: 'A password is required to complete this operation',
+            type: 'input',
+            inputType: 'password',
+            showCancelButton: true,
+            closeOnConfirm: true,
+            animation: 'slide-from-top',
+            inputPlaceholder: 'Password'
+        }, function(password){
+            if (password === false) return false;
+            else if (password === '') {
+                swal.showInputError('Password is required');
+                return false;
+            }
+            else {
+                socket.emit('password supplied', password);
+                console.log('password was sent');
+            }
+        });
     });
 
     socket.on('stdout', function(data) {
@@ -212,12 +243,6 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
         });
         $scope.$apply();
     });
-
-    $scope.sendInput = function() {
-        $scope.terminalResponse += '\n';
-        socket.emit('input', { input: $scope.terminalInput });
-        $scope.terminalInput = '';
-    };
 }]);
 
 app.filter('bytes', function() {
