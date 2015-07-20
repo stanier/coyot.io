@@ -6,8 +6,5 @@ mixin navbar
             
         if (user && user.role >= 1)
             .pull-right.container-fluid
-                ul.nav.nav-pills
-                    if (path == '/')
-                        li.active(role="presentation"): a(href='/') Home
-                    else
-                        li(role="presentation"): a(href='/') Home
+                ul.nav.navbar-nav.navbar-right
+                    +list('/auth/logout', 'Logout')

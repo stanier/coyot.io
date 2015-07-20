@@ -6,7 +6,7 @@ block container
         var host = '#{host}';
         var port = '#{port}';
     
-    .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getPkgManagers()')
+    .panel.panel-default(ng-controller='ServerCtlr' ng-init='getPkgManagers()')
         .panel-heading Update package
         .panel-body
             .col-sm-2: select(ng-model='pkgMngr').form-control

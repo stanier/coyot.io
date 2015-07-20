@@ -8,42 +8,58 @@ toastr.options.newestOnTop = false;
 toastr.options.progressBar = false;
 toastr.options.positionClass = 'toast-bottom-right';
 
+$.material.init();
+$.material.ripples();
+$.material.input();
+$.material.checkbox();
+$.material.radio();
+
 var app = angular.module('coyot.io', []);
 
-app.controller('ClusterManagementCtlr', ['$scope', '$http', function($scope, $http) {
-    $http.get('/cluster/list')
-    .success(function(data, status, headers, config) {
-        $scope.servers = [];
+app.controller('ClusterCtlr', ['$scope', '$http', function($scope, $http) {
+    $scope.getServers = function() {
+        $http.get('/api/cluster/servers')
+        .success(function(data, status, headers, config) {
+            $scope.servers = [];
 
-        for (var i = 0; i < data.length; i++) {
-            $scope.servers[i] = {
-                hostname: data[i].hostname,
-                host    : data[i].host,
-                port    : data[i].port,
-                isWorker: data[i].type === 'hybrid' || data[i].type === 'worker',
-                isWeb   : data[i].type === 'hybrid' || data[i].type === 'web'
-            };
-            getStats(i);
-        }
+            for (var i = 0; i < data.length; i++) {
+                $scope.servers[i] = {
+                    hostname: data[i].hostname,
+                    host    : data[i].host,
+                    port    : data[i].port,
+                    isWorker: data[i].type === 'hybrid' || data[i].type === 'worker',
+                    isWeb   : data[i].type === 'hybrid' || data[i].type === 'web'
+                };
+                $scope.getStats(i);
+            }
 
-        function getStats(i) {
-            $http.get('//' + $scope.servers[i].host + ':' +
-                $scope.servers[i].port + '/system/stats?type=simple')
-            .success(function(data, status, headers, config) {
-                $scope.servers[i].online  = data.online;
-                $scope.servers[i].freemem = data.freemem;
-            })
-            .error(function(data, status, headers, config) {
-                console.log(data);
-            });
-        }
-    })
-    .error(function(data, status, headers, config) {
-        console.log(data);
-    });
+            $scope.$apply();
+        })
+        .error(function(data, status, headers, config) {
+            console.log(data);
+        });
+    };
+
+    $scope.getStats = function(index) {
+        $http.get('//' + $scope.servers[index].host + ':' +
+            $scope.servers[index].port + '/api/system/stats?type=simple')
+        .success(function(data, status, headers, config) {
+            $scope.servers[index].online  = data.online;
+            $scope.servers[index].freemem = data.freemem;
+        })
+        .error(function(data, status, headers, config) {
+            console.log(data);
+        });
+    };
 }]);
 
-app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $http) {
+app.controller('ManagementCtlr', ['$scope', '$http', function($scope, $http) {
+    $scope.getUsers = function() {
+        
+    };
+}]);
+
+app.controller('ServerCtlr', ['$scope', '$http', function($scope, $http) {
     $scope.pageSize    = 20;
     $scope.currentPage = 0;
     $scope.terminalResponse = '';
@@ -52,7 +68,7 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
     var socket = io('http://' + host + ':' + port);
 
     $scope.getStats = function() {
-        $http.get('//' + host + ':' + port + '/system/stats?type=all')
+        $http.get('//' + host + ':' + port + '/api/system/stats?type=all')
             .success(function(data, status, headers, config) {
                 $scope.server = data;
 
@@ -87,7 +103,7 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
     };
 
     $scope.getPkgs = function() {
-        $http.get('//' + host + ':' + port + '/worker/packages/list')
+        $http.get('//' + host + ':' + port + '/api/worker/packages/list')
             .success(function(data, status, headers, config) {
                 $scope.pkgs = data;
             })
@@ -98,7 +114,7 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
     };
 
     $scope.getPkgManagers = function() {
-        $http.get('//' + host + ':' + port + '/worker/packages/listManagers')
+        $http.get('//' + host + ':' + port + '/api/worker/packages/listManagers')
             .success(function(data, status, headers, config) {
                 $scope.managers = data;
             })
@@ -109,7 +125,7 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
     };
 
     $scope.getPkgInfo = function(pkg) {
-        $http.get('//' + host + ':' + port + '/worker/packages/getInfo/' + pkg)
+        $http.get('//' + host + ':' + port + '/api/worker/packages/getInfo/' + pkg)
             .success(function(data, status, headers, config) {
                 $scope.pkg = data;
             })
@@ -138,7 +154,7 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
     };
 
     $scope.getServiceInfo = function(service) {
-        $http.get('//' + host + ':' + port + '/worker/services/getInfo/' + service)
+        $http.get('//' + host + ':' + port + '/api/worker/services/getInfo/' + service)
             .success(function(data, status, headers, config) {
                 $scope.service = data;
                 $scope.$apply();

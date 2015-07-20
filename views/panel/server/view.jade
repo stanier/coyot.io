@@ -6,7 +6,7 @@ block container
         var host = '#{host}';
         var port = '#{port}';
         
-    .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getStats()')
+    .panel.panel-default(ng-controller='ServerCtlr' ng-init='getStats()')
         .panel-heading Overview
         .panel-body
             .col-sm-12
@@ -17,7 +17,7 @@ block container
                 h5 Status:  
                     i.fa.fa-circle.text-success(ng-if='server.online')
                     i.fa.fa-circle.text-danger(ng-if='!server.online')
-                
+                    
                 h5 Host:  {{ server.host }}
                 h5 Port:  {{ server.port }}
                 h5 Type:  {{ server.type }}
