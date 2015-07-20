@@ -1,13 +1,8 @@
 extends /templates/page
 
 block container
-    script.
-        var hostname = '#{hostname}';
-        var host = '#{host}';
-        var port = '#{port}';
-
-    .panel.panel-default(ng-controller='ServerCtlr' ng-init='getPkgs()')
-        .panel-heading Packages
+    .panel.panel-default(ng-controller='ManagementCtlr')
+        .panel-heading Users
         .panel-body
             form.form-inline: .form-group
                 button.btn(type='button' ng-click='currentPage = currentPage*1 - 1'
@@ -18,11 +13,17 @@ block container
             
                 input.form-control(ng-model='currentPage')
                 
-            table.table
+            table.table.table-striped.table-hover
                 thead
-                    td: h5 Package
+                    td: h5 Index
+                    td: h5 User
+                    td: h5 Role
+                    td: h5 Controls
                 tbody
-                    tr(ng-repeat='pkg in pkgs | ' +
+                    tr(ng-repeat='user in Users | ' +
                             'offsetBy: pageSize * currentPage | ' +
                             'limitTo: pageSize')
-                        td: a(href='../package/{{ pkg }}') {{ pkg }}
+                        td: {{ user.index }}
+                        td: {{ user.username }}
+                        td: {{ user.role }}
+                        td Controls will go here

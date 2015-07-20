@@ -1,4 +1,4 @@
-app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $http) {
+app.controller('ServerCtlr', ['$scope', '$http', function($scope, $http) {
     $scope.pageSize    = 20;
     $scope.currentPage = 0;
     $scope.terminalResponse = '';
@@ -7,7 +7,7 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
     var socket = io('http://' + host + ':' + port);
 
     $scope.getStats = function() {
-        $http.get('//' + host + ':' + port + '/system/stats?type=all')
+        $http.get('//' + host + ':' + port + '/api/system/stats?type=all')
             .success(function(data, status, headers, config) {
                 $scope.server = data;
 
@@ -42,7 +42,7 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
     };
 
     $scope.getPkgs = function() {
-        $http.get('//' + host + ':' + port + '/worker/packages/list')
+        $http.get('//' + host + ':' + port + '/api/worker/packages/list')
             .success(function(data, status, headers, config) {
                 $scope.pkgs = data;
             })
@@ -53,7 +53,7 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
     };
 
     $scope.getPkgManagers = function() {
-        $http.get('//' + host + ':' + port + '/worker/packages/listManagers')
+        $http.get('//' + host + ':' + port + '/api/worker/packages/listManagers')
             .success(function(data, status, headers, config) {
                 $scope.managers = data;
             })
@@ -64,7 +64,7 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
     };
 
     $scope.getPkgInfo = function(pkg) {
-        $http.get('//' + host + ':' + port + '/worker/packages/getInfo/' + pkg)
+        $http.get('//' + host + ':' + port + '/api/worker/packages/getInfo/' + pkg)
             .success(function(data, status, headers, config) {
                 $scope.pkg = data;
             })
@@ -93,7 +93,7 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
     };
 
     $scope.getServiceInfo = function(service) {
-        $http.get('//' + host + ':' + port + '/worker/services/getInfo/' + service)
+        $http.get('//' + host + ':' + port + '/api/worker/services/getInfo/' + service)
             .success(function(data, status, headers, config) {
                 $scope.service = data;
                 $scope.$apply();

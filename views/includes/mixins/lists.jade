@@ -1,27 +1,41 @@
-mixin list(target_path, icon, name, children)
+mixin list(target_path, name, icon, children)
     if (path.indexOf(target_path) > -1)
         if (path == target_path)
             li.active
-                a: span.fa(class=icon) 
-                    = name
+                a
+                    if (icon)
+                        span.fa(class=icon) 
+                            = name
+                    else
+                        = name
                 if children
                     ul: each child in children
                         +list(
                             target_path + child.target_path,
+                            child.name,
                             child.icon,
-                            child.name
+                            child.children
                         )
         else
             li
-                a(href=target_path): span.fa(class=icon) 
-                    = name
+                a(href=target_path)
+                    if (icon)
+                        span.fa(class=icon) 
+                            = name
+                    else
+                        = name
                 if children
                     ul: each child in children
                         +list(
                             target_path + child.target_path,
+                            child.name,
                             child.icon,
-                            child.name
+                            child.children
                         )
     else
-        li: a(href=target_path): span.fa(class=icon) 
-            = name
+        li: a(href=target_path)
+            if (icon)
+                span.fa(class=icon) 
+                    = name
+            else
+                = name

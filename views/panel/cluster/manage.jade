@@ -1,7 +1,7 @@
 extends /templates/page
 
 block container
-    .panel.panel-default(ng-controller='ClusterManagementCtlr')
+    .panel.panel-default(ng-controller='ClusterCtlr' ng-init='getServers()')
         .panel-body
             table.table
                 thead

@@ -1,0 +1,6 @@
+mixin panel_management
+
+    p.text-muted management    
+        +list('/management/dashboard', 'Dashboard', 'fa-dashboard')
+        +list('/management/plugins', 'Plugins', 'fa-plug')
+        +list('/management/users', 'Users', 'fa-users')

@@ -3,11 +3,11 @@ mixin panel_server
     if (hostname) 
         p.text-muted server
         
-        +list('/server/' + hostname + '/overview', 'fa-server', 'Overview')
+        +list('/server/' + hostname + '/overview', 'Overview', 'fa-server')
 
         if (type != 'web')
-            +list('/server/' + hostname + '/packages/', 'fa-cogs', 'Packages', [
+            +list('/server/' + hostname + '/packages/', 'Packages', 'fa-cogs', [
                 { target_path: 'install/', icon: 'fa-cloud-download', name: 'Install' },
                 { target_path: 'update/' , icon: 'fa-wrench', name: 'Update'  }
             ])
-            +list('/server/' + hostname + '/services/', 'fa-tasks', 'Services')
+            +list('/server/' + hostname + '/services/', 'Services', 'fa-tasks')
