@@ -9,13 +9,16 @@ html(ng-app='coyot.io')
         +navbar
         
         .container(style='padding-top: 20px'): .row
-            .col-sm-3.col-md-2.sidebar
-                ul.nav.nav-sidebar
-                    +panel_server
+            if (user)
+                .col-sm-3.col-md-2.sidebar
+                    ul.nav.nav-sidebar
+                        +panel_server
                     
-                    li(role='separator').divider
-                    
-                    +panel_cluster
+                        +panel_cluster
 
-            .col-sm-9.col-sm-offset-3.col-md-offset-2.col-md-10
-                block container
+                .col-sm-9.col-sm-offset-3.col-md-offset-2.col-md-10
+                    block container
+            else
+                
+                .col-sm-12.col-md-12
+                    block container
