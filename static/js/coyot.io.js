@@ -133,24 +133,19 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
         });
     };
 
-    $scope.getServices = function() {
-        $http.get('//' + host + ':' + port + '/worker/services/list')
-            .success(function(data, status, headers, config) {
-                $scope.services = data;
-            })
-            .error(function(data, status, headers, config) {
-                $scope.services = data;
-            })
-        ;
+    $scope.getServiceStatus = function(service) {
+        socket.emit('get service status', service);
     };
 
     $scope.getServiceInfo = function(service) {
         $http.get('//' + host + ':' + port + '/worker/services/getInfo/' + service)
             .success(function(data, status, headers, config) {
                 $scope.service = data;
+                $scope.$apply();
             })
             .error(function(data, status, headers, config) {
                 $scope.service = data;
+                $scope.$apply();
             })
         ;
     };
@@ -180,19 +175,28 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
         $scope.terminalInput = '';
     };
 
-    socket.on('start service result', function(service, result) {
+    socket.on('start service response', function(service, result) {
         if (result == 'success') toastr.success(service + ' started successfully');
         if (result == 'failure') toarts.error(service + ' could not be started');
+
+        if (!!$scope.service) $scope.getServiceInfo(service);
+        if (!!$scope.serviceStatus) $scope.getServiceStatus(service);
     });
 
-    socket.on('stop service result', function(service, result) {
+    socket.on('stop service response', function(service, result) {
         if (result == 'success') toastr.success(service + ' stopped successfully');
         if (result == 'failure') toastr.error(service + ' could not be stopped');
+
+        if (!!$scope.service) $scope.getServiceInfo(service);
+        if (!!$scope.serviceStatus) $scope.getServiceStatus(service);
     });
 
-    socket.on('restart service result', function(service, result) {
+    socket.on('restart service response', function(service, result) {
         if (result == 'success') toastr.success(service + ' restarted successfully');
         if (result == 'failure') toastr.error(service + ' could not be restarted');
+
+        if (!!$scope.service) $scope.getServiceInfo(service);
+        if (!!$scope.serviceStatus) $scope.getServiceStatus(service);
     });
 
     socket.on('password required', function(operation, user) {
@@ -215,7 +219,6 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
             }
             else {
                 socket.emit('password supplied', password);
-                console.log('password was sent');
             }
         });
     });
@@ -236,7 +239,14 @@ app.controller('ServerManagementCtlr', ['$scope', '$http', function($scope, $htt
         toastr.error('data');
     });
 
-    socket.on('service status', function(service, status) {
+    socket.on('service status response', function(service, status) {
+        for (var i = 0; i < $scope.serviceStatus.length; i++) {
+            if ($scope.serviceStatus[i].service == service) $scope.serviceStatus[i].isRunning = status;
+        }
+        $scope.$apply();
+    });
+
+    socket.on('service status all response', function(service, status) {
         $scope.serviceStatus.push({
             service: service,
             isRunning: status

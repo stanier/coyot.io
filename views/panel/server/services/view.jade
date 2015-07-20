@@ -12,9 +12,9 @@ block container
             .col-sm-12
                 .pull-right
                     .btn-group
-                        button.btn(ng-click='startService(service.name)') Start
-                        button.btn(ng-click='stopService(service.name)') Stop
-                        button.btn(ng-click='restartService(service.name)') Restart
+                        button.btn.btn-primary(ng-class='{ disabled: service.isOnline }' ng-click='startService(service.name)'): .fa.fa-play
+                        button.btn.btn-primary(ng-class='{ disabled: !service.isOnline }' ng-click='stopService(service.name)'): .fa.fa-stop
+                        button.btn.btn-primary(ng-class='{ disabled: !service.isOnline }' ng-click='restartService(service.name)'): .fa.fa-refresh
                 
                 h3 {{ service.name }}
                 h5 {{ service.description }}
