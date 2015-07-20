@@ -18,10 +18,11 @@ block container
             
                 input.form-control(ng-model='currentPage')
                 
-            table.table
+            table.table.table-hover
                 thead
                     td: h5 Service
-                    td: h5 Running
+                    td: h5 Status
+                    td: h5 Controls
                 tbody
                     tr(ng-repeat='entry in serviceStatus | ' +
                             'offsetBy: pageSize * currentPage | ' +
@@ -30,3 +31,8 @@ block container
                         td
                             .fa.fa-check.text-success(ng-if='entry.isRunning')
                             .fa.fa-minus.text-danger(ng-if='!entry.isRunning')
+                        td.col-sm-4.col-md-3
+                            .btn-group
+                                button.btn.btn-primary.btn-sm(ng-class='{ disabled: entry.isRunning }' ng-click='startService(entry.service)'): .fa.fa-play
+                                button.btn.btn-primary.btn-sm(ng-class='{ disabled: !entry.isRunning }' ng-click='stopService(entry.service)'): .fa.fa-stop
+                                button.btn.btn-primary.btn-sm(ng-class='{ disabled: !entry.isRunning }' ng-click='restartService(entry.service)'): .fa.fa-refresh
