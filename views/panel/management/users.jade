@@ -1,7 +1,7 @@
 extends /templates/page
 
 block container
-    .panel.panel-default(ng-controller='ManagementCtlr')
+    .panel.panel-default(ng-controller='ManagementCtlr' ng-init='getUsers()')
         .panel-heading Users
         .panel-body
             form.form-inline: .form-group
@@ -15,15 +15,18 @@ block container
                 
             table.table.table-striped.table-hover
                 thead
-                    td: h5 Index
-                    td: h5 User
+                    td: h5 Username
+                    td: h5 Email
                     td: h5 Role
                     td: h5 Controls
                 tbody
-                    tr(ng-repeat='user in Users | ' +
+                    tr(ng-repeat='user in users | ' +
                             'offsetBy: pageSize * currentPage | ' +
                             'limitTo: pageSize')
-                        td: {{ user.index }}
                         td: {{ user.username }}
+                        td: {{ user.email }}
                         td: {{ user.role }}
-                        td Controls will go here
+                        td.col-sm-4.col-md-3: .btn-group
+                            button.btn.btn-primary.btn-sm(ng-click='modifyUser(user._id)'): span.fa.fa-wrench
+                            button.btn.btn-primary.btn-sm(ng-click='viewUser(user._id)'): span.fa.fa-info
+                            button.btn.btn-primary.btn-sm(ng-click='removeUser(user._id)'): span.fa.fa-trash-o
