@@ -14,7 +14,71 @@ $.material.input();
 $.material.checkbox();
 $.material.radio();
 
-var app = angular.module('coyot.io', []);
+var app = angular.module('coyot.io', ['ngRoute']);
+
+app.config(function($routeProvider, $locationProvider) {
+    $routeProvider
+        .when('/cluster/manage', {
+            templateUrl: 'pages/cluster/manage',
+            controller: 'ClusterCtlr'
+        })
+        .when('/management/dashboard', {
+            templateUrl: 'pages/management/dashboard',
+            controller: 'ManagementCtlr'
+        })
+        .when('/management/users', {
+            templateUrl: 'pages/management/users',
+            controller: 'ManagementCtlr'
+        })
+        .when('/server/:hostname/overview', {
+            templateUrl: 'pages/server/overview',
+            controller: 'ServerCtlr',
+            reloadOnSearch: false
+        })
+        .when('/server/:hostname/packages/install', {
+            templateUrl: 'pages/server/packages/install',
+            controller: 'ServerCtlr',
+            reloadOnSearch: false
+        })
+        .when('/server/:hostname/packages/update', {
+            templateUrl: 'pages/server/packages/update',
+            controller: 'ServerCtlr',
+            reloadOnSearch: false
+        })
+        .when('/server/:hostname/packages', {
+            templateUrl: 'pages/server/packages',
+            controller: 'ServerCtlr',
+            reloadOnSearch: false
+        })
+        .when('/server/:hostname/package/:pkg/', {
+            templateUrl: 'pages/server/packages/view',
+            controller: 'ServerCtlr',
+            reloadOnSearch: false
+        })
+        .when('/server/:hostname/services', {
+            templateUrl: 'pages/server/services',
+            controller: 'ServerCtlr',
+            reloadOnSearch: false
+        })
+        .when('/server/:hostname/service/:service/', {
+            templateUrl: 'pages/server/services/view',
+            controller: 'ServerCtlr',
+            reloadOnSearch: false
+        })
+        .when('/server/:hostname/processes', {
+            templateUrl: 'pages/server/processes',
+            controller: 'ServerCtlr',
+            reloadOnSearch: false
+        })
+        .when('/server/:hostname/process/:process', {
+            templateUrl: 'pages/server/processes/view',
+            controller: 'ServerCtlr',
+            reloadOnSearch: false
+        })
+    ;
+
+    $locationProvider.html5Mode(true);
+});
 
 app.controller('ClusterCtlr', ['$scope', '$http', function($scope, $http) {
     $scope.getServers = function() {
@@ -32,8 +96,6 @@ app.controller('ClusterCtlr', ['$scope', '$http', function($scope, $http) {
                 };
                 $scope.getStats(i);
             }
-
-            $scope.$apply();
         })
         .error(function(data, status, headers, config) {
             console.log(data);
@@ -50,6 +112,23 @@ app.controller('ClusterCtlr', ['$scope', '$http', function($scope, $http) {
         .error(function(data, status, headers, config) {
             console.log(data);
         });
+    };
+}]);
+
+app.controller('GeneralCtlr', ['$scope', '$location', function($scope, $location) {
+    $scope.global = {};
+    
+    $scope.$on('serverConnection', function(event, data) {
+        $scope.global.server = data;
+    });
+
+    $scope.path = {
+        equals: function(path) {
+            return path == $location.path();
+        },
+        startsWith: function(path) {
+            return $location.path().startsWith(path);
+        }
     };
 }]);
 
@@ -71,27 +150,43 @@ app.controller('ManagementCtlr', ['$scope', '$http', function($scope, $http) {
     };
 }]);
 
-app.controller('ServerCtlr', ['$scope', '$http', function($scope, $http) {
+app.controller('ServerCtlr', ['$scope', '$http', '$routeParams', '$location', function($scope, $http, $routeParams, $location) {
     $scope.pageSize    = 20;
     $scope.currentPage = 0;
     $scope.terminalResponse = '';
     $scope.serviceStatus = [];
 
-    var socket = io('http://' + host + ':' + port);
+    function getConnectionDetails(callback) {
+        if (!$scope.global.server)
+            $http.get('/api/server/' + $routeParams.hostname + '/')
+                .success(function(data, status, headers, config) {
+                    $scope.$emit('serverConnection', data);
+                    callback(data);
+                })
+                .error(function(data, status, headers, config) {
+                    console.log(data);
+                })
+            ;
+        else callback($scope.global.server);
+    }
+
+    //var socket = io('http://' + host + ':' + port);
 
     $scope.getStats = function() {
-        $http.get('//' + host + ':' + port + '/api/system/stats?type=all')
-            .success(function(data, status, headers, config) {
-                $scope.server = data;
+        getConnectionDetails(function(data) {
+            $http.get('//' + data.host + ':' + data.port + '/api/system/stats?type=all')
+                .success(function(data, status, headers, config) {
+                    $scope.server = data;
 
-                $scope.server.uptime = new Date(data.uptime * 1000);
+                    $scope.server.uptime = new Date(data.uptime * 1000);
 
-                $scope.loadAvg();
-            })
-            .error(function(data, status, headers, config) {
-                console.log(data);
-            })
-        ;
+                    $scope.loadAvg();
+                })
+                .error(function(data, status, headers, config) {
+                    console.log(data);
+                })
+            ;
+        });
     };
 
     $scope.getPlatformClass = function(platform) {
@@ -104,8 +199,8 @@ app.controller('ServerCtlr', ['$scope', '$http', function($scope, $http) {
         var transform_styles = ['-webkit-transform',
             '-ms-transform'];
 
-        for (var i in $scope.server.loadavg) {
-            var rotation = Math.floor($scope.server.loadavg[i] / $scope.server.cpu.length * 180);
+        for (var i in $scope.global.server.loadavg) {
+            var rotation = Math.floor($scope.global.server.loadavg[i] / $scope.global.server.cpu.length * 180);
             var fix_rotation = rotation * 2;
             for (var j in transform_styles) {
                 $('#circle-'+i+' .fill, #circle-'+i+' .mask.full').css(transform_styles[j], 'rotate(' + rotation + 'deg)');
@@ -115,7 +210,7 @@ app.controller('ServerCtlr', ['$scope', '$http', function($scope, $http) {
     };
 
     $scope.getPkgs = function() {
-        $http.get('//' + host + ':' + port + '/api/worker/packages/list')
+        $http.get('//' + $scope.global.server.host + ':' + $scope.global.server.port + '/api/worker/packages/list')
             .success(function(data, status, headers, config) {
                 $scope.pkgs = data;
             })
@@ -126,18 +221,18 @@ app.controller('ServerCtlr', ['$scope', '$http', function($scope, $http) {
     };
 
     $scope.getPkgManagers = function() {
-        $http.get('//' + host + ':' + port + '/api/worker/packages/listManagers')
+        /*$http.get('//' + $scope.global.server.host + ':' + $scope.global.server.port + '/api/worker/packages/listManagers')
             .success(function(data, status, headers, config) {
                 $scope.managers = data;
             })
             .error(function(data, status, headers, config) {
                 $scope.managers = data;
             })
-        ;
+        ;*/
     };
 
     $scope.getPkgInfo = function(pkg) {
-        $http.get('//' + host + ':' + port + '/api/worker/packages/getInfo/' + pkg)
+        $http.get('//' + $scope.global.server.host + ':' + $scope.global.server.port + '/api/worker/packages/getInfo/' + pkg)
             .success(function(data, status, headers, config) {
                 $scope.pkg = data;
             })
@@ -166,7 +261,7 @@ app.controller('ServerCtlr', ['$scope', '$http', function($scope, $http) {
     };
 
     $scope.getServiceInfo = function(service) {
-        $http.get('//' + host + ':' + port + '/api/worker/services/getInfo/' + service)
+        $http.get('//' + $scope.global.server.host + ':' + $scope.global.server.port + '/api/worker/services/getInfo/' + service)
             .success(function(data, status, headers, config) {
                 $scope.service = data;
                 $scope.$apply();
@@ -203,7 +298,7 @@ app.controller('ServerCtlr', ['$scope', '$http', function($scope, $http) {
         $scope.terminalInput = '';
     };
 
-    socket.on('start service response', function(service, result) {
+    /*socket.on('start service response', function(service, result) {
         if (result == 'success') toastr.success(service + ' started successfully');
         if (result == 'failure') toarts.error(service + ' could not be started');
 
@@ -280,7 +375,7 @@ app.controller('ServerCtlr', ['$scope', '$http', function($scope, $http) {
             isRunning: status
         });
         $scope.$apply();
-    });
+    });*/
 }]);
 
 app.filter('bytes', function() {

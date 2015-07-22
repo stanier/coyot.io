@@ -1,13 +1,11 @@
-mixin panel_server
-    
-    if (hostname) 
+mixin panel_server()
+    div(ng-show="path.startsWith('/server')")
         p.text-muted server
         
-        +list('/server/' + hostname + '/overview', 'Overview', 'fa-server')
+        +list('/server/{{ global.server.hostname }}/overview', 'Overview', 'fa-server')
 
         if (type != 'web')
-            +list('/server/' + hostname + '/packages/', 'Packages', 'fa-cogs', [
-                { target_path: 'install/', icon: 'fa-cloud-download', name: 'Install' },
-                { target_path: 'update/' , icon: 'fa-wrench', name: 'Update'  }
-            ])
-            +list('/server/' + hostname + '/services/', 'Services', 'fa-tasks')
+            +list('/server/{{ global.server.hostname }}/packages', 'Packages', 'fa-cogs')
+                +list('/server/{{ global.server.hostname }}/packages/install', 'Install', 'fa-cloud-download')
+                +list('/server/{{ global.server.hostname }}/packages/update', 'Update', 'fa-wrench')
+            +list('/server/{{ global.server.hostname }}/services', 'Services', 'fa-tasks')

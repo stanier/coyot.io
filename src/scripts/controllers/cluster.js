@@ -14,8 +14,6 @@ app.controller('ClusterCtlr', ['$scope', '$http', function($scope, $http) {
                 };
                 $scope.getStats(i);
             }
-
-            $scope.$apply();
         })
         .error(function(data, status, headers, config) {
             console.log(data);

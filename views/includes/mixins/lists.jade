@@ -1,41 +1,13 @@
-mixin list(target_path, name, icon, children)
-    if (path.indexOf(target_path) > -1)
-        if (path == target_path)
-            li.active
-                a
-                    if (icon)
-                        span.fa(class=icon) 
-                            = name
-                    else
-                        = name
-                if children
-                    ul: each child in children
-                        +list(
-                            target_path + child.target_path,
-                            child.name,
-                            child.icon,
-                            child.children
-                        )
-        else
-            li
-                a(href=target_path)
-                    if (icon)
-                        span.fa(class=icon) 
-                            = name
-                    else
-                        = name
-                if children
-                    ul: each child in children
-                        +list(
-                            target_path + child.target_path,
-                            child.name,
-                            child.icon,
-                            child.children
-                        )
-    else
-        li: a(href=target_path)
+mixin list(target_path, name, icon)
+    - var ng_path = target_path.replace(/(.+){{ +(.+) +}}(.+)/g, "$1' + $2 + '$3")
+    
+    li(ng-class="{ active: path.equals('#{ng_path}') }")
+        a(ng-href=target_path)
             if (icon)
                 span.fa(class=icon) 
                     = name
             else
                 = name
+        if block
+            ul
+                block
