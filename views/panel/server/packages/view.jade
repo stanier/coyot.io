@@ -1,29 +1,20 @@
-extends /templates/page
-
-block container
-    script.
-        var hostname = '#{hostname}';
-        var host = '#{host}';
-        var port = '#{port}';
-    
-
-    .panel.panel-default(ng-controller='ServerCtlr' ng-init='getPkgInfo("#{pkg}")')
-        .panel-heading Package Overview
-        .panel-body
-            .col-sm-12
-                h3                      {{ pkg.package }}
-                h5 Priority:            {{ pkg.priority }}
-                h5 Section:             {{ pkg.section }}
-                h5 Size:                {{ pkg.installedsize }}
-                h5 Maintainer:          {{ pkg.maintainer }}
-                h5 Original Maintainer: {{ pkg.originalmaintainer }}
-                h5 Architecture:        {{ pkg.architecture }}
-                h5 Version:             {{ pkg.version }}
-                h5 Filename:            {{ pkg.filename }}
-                h5 Size:                {{ pkg.size }}
-                h5 MD5sum:              {{ pkg.md5sum }}
-                h5 SHA1:                {{ pkg.sha1 }}
-                h5 SHA256:              {{ pkg.sha256 }}
-                h5 Description:         {{ pkg.descriptionen }}
-                h5 Homepage:  
-                    a(href='{{pkg.homepage}}') {{ pkg.homepage }}
+.panel.panel-default(ng-controller='ServerCtlr' ng-init='getPkgInfo("#{pkg}")')
+    .panel-heading Package Overview
+    .panel-body
+        .col-sm-12
+            h3                      {{ pkg.package }}
+            h5 Priority:            {{ pkg.priority }}
+            h5 Section:             {{ pkg.section }}
+            h5 Size:                {{ pkg.installedsize }}
+            h5 Maintainer:          {{ pkg.maintainer }}
+            h5 Original Maintainer: {{ pkg.originalmaintainer }}
+            h5 Architecture:        {{ pkg.architecture }}
+            h5 Version:             {{ pkg.version }}
+            h5 Filename:            {{ pkg.filename }}
+            h5 Size:                {{ pkg.size }}
+            h5 MD5sum:              {{ pkg.md5sum }}
+            h5 SHA1:                {{ pkg.sha1 }}
+            h5 SHA256:              {{ pkg.sha256 }}
+            h5 Description:         {{ pkg.descriptionen }}
+            h5 Homepage:  
+                a(href='{{pkg.homepage}}') {{ pkg.homepage }}

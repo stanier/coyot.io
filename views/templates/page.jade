@@ -4,7 +4,9 @@ doctype html
 html(ng-app='coyot.io')
     head
         include /includes/links
-    body
+        
+        base(href='/')
+    body(ng-controller='GeneralCtlr')
         +navbar
         
         .container(style='padding-top: 20px'): .row

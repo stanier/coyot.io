@@ -1,35 +1,27 @@
-extends /templates/page
-
-block container
-    script.
-        var hostname = '#{hostname}';
-        var host = '#{host}';
-        var port = '#{port}';
-    
-    .panel.panel-default(ng-controller='ServerCtlr' ng-init='getServiceInfo("#{service}")')
-        .panel-heading Service Overview
-        .panel-body
-            .col-sm-12
-                .pull-right
-                    .btn-group
-                        button.btn.btn-primary(ng-class='{ disabled: service.isOnline }' ng-click='startService(service.name)'): .fa.fa-play
-                        button.btn.btn-primary(ng-class='{ disabled: !service.isOnline }' ng-click='stopService(service.name)'): .fa.fa-stop
-                        button.btn.btn-primary(ng-class='{ disabled: !service.isOnline }' ng-click='restartService(service.name)'): .fa.fa-refresh
-                
-                h3 {{ service.name }}
-                h5 {{ service.description }}
-                h5 {{ service.loaded }}
-                h5 {{ service.active }}
-                
-                table.table.table-striped(style='font-family: "Courier New"' ng-if='service.log')
-                    thead
-                        td: b Timestamp
-                        td: b FQDN
-                        td: b Process
-                        td: b Content
-                    tbody
-                        tr(ng-repeat='entry in service.log')
-                            td {{ entry.timestamp }}
-                            td {{ entry.FQDN }}
-                            td {{ entry.process }}
-                            td {{ entry.content }}
+.panel.panel-default(ng-controller='ServerCtlr' ng-init='getServiceInfo("#{service}")')
+    .panel-heading Service Overview
+    .panel-body
+        .col-sm-12
+            .pull-right
+                .btn-group
+                    button.btn.btn-primary(ng-class='{ disabled: service.isOnline }' ng-click='startService(service.name)'): .fa.fa-play
+                    button.btn.btn-primary(ng-class='{ disabled: !service.isOnline }' ng-click='stopService(service.name)'): .fa.fa-stop
+                    button.btn.btn-primary(ng-class='{ disabled: !service.isOnline }' ng-click='restartService(service.name)'): .fa.fa-refresh
+            
+            h3 {{ service.name }}
+            h5 {{ service.description }}
+            h5 {{ service.loaded }}
+            h5 {{ service.active }}
+            
+            table.table.table-striped(style='font-family: "Courier New"' ng-if='service.log')
+                thead
+                    td: b Timestamp
+                    td: b FQDN
+                    td: b Process
+                    td: b Content
+                tbody
+                    tr(ng-repeat='entry in service.log')
+                        td {{ entry.timestamp }}
+                        td {{ entry.FQDN }}
+                        td {{ entry.process }}
+                        td {{ entry.content }}
