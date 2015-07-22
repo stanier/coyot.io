@@ -1,32 +1,29 @@
-extends /templates/page
-
-block container
-    .panel.panel-default(ng-controller='ManagementCtlr' ng-init='getUsers()')
-        .panel-heading Users
-        .panel-body
-            form.form-inline: .form-group
-                button.btn(type='button' ng-click='currentPage = currentPage*1 - 1'
-                    ng-disabled="currentPage*1 <= 0 ? 'disabled' : ''") Previous
-                
-                button.btn(type='button' ng-click='currentPage = currentPage*1 + 1'
-                    ng-disabled="currentPage*1 >= (pkgs.length / pageSize) - 1 ? 'disabled' : ''") Next
+.panel.panel-default(ng-controller='ManagementCtlr' ng-init='getUsers()')
+    .panel-heading Users
+    .panel-body
+        form.form-inline: .form-group
+            button.btn(type='button' ng-click='currentPage = currentPage*1 - 1'
+                ng-disabled="currentPage*1 <= 0 ? 'disabled' : ''") Previous
             
-                input.form-control(ng-model='currentPage')
-                
-            table.table.table-striped.table-hover
-                thead
-                    td: h5 Username
-                    td: h5 Email
-                    td: h5 Role
-                    td: h5 Controls
-                tbody
-                    tr(ng-repeat='user in users | ' +
-                            'offsetBy: pageSize * currentPage | ' +
-                            'limitTo: pageSize')
-                        td: {{ user.username }}
-                        td: {{ user.email }}
-                        td: {{ user.role }}
-                        td.col-sm-4.col-md-3: .btn-group
-                            button.btn.btn-primary.btn-sm(ng-click='modifyUser(user._id)'): span.fa.fa-wrench
-                            button.btn.btn-primary.btn-sm(ng-click='viewUser(user._id)'): span.fa.fa-info
-                            button.btn.btn-primary.btn-sm(ng-click='removeUser(user._id)'): span.fa.fa-trash-o
+            button.btn(type='button' ng-click='currentPage = currentPage*1 + 1'
+                ng-disabled="currentPage*1 >= (pkgs.length / pageSize) - 1 ? 'disabled' : ''") Next
+        
+            input.form-control(ng-model='currentPage')
+            
+        table.table.table-striped.table-hover
+            thead
+                td: h5 Username
+                td: h5 Email
+                td: h5 Role
+                td: h5 Controls
+            tbody
+                tr(ng-repeat='user in users | ' +
+                        'offsetBy: pageSize * currentPage | ' +
+                        'limitTo: pageSize')
+                    td: {{ user.username }}
+                    td: {{ user.email }}
+                    td: {{ user.role }}
+                    td.col-sm-4.col-md-3: .btn-group
+                        button.btn.btn-primary.btn-sm(ng-click='modifyUser(user._id)'): span.fa.fa-wrench
+                        button.btn.btn-primary.btn-sm(ng-click='viewUser(user._id)'): span.fa.fa-info
+                        button.btn.btn-primary.btn-sm(ng-click='removeUser(user._id)'): span.fa.fa-trash-o
