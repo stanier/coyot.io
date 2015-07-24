@@ -1,6 +1,7 @@
 include /includes/mixins
 
 doctype html
+
 html(ng-app='coyot.io')
     head
         include /includes/links
@@ -11,7 +12,7 @@ html(ng-app='coyot.io')
         
         .container(style='padding-top: 20px'): .row
             if (user)
-                .col-sm-3.col-md-2.sidebar
+                .col-sm-3.col-md-2.sidebar(style='z-index:1000')
                     ul.nav.nav-sidebar
                         +panel_server
                     

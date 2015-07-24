@@ -14,7 +14,7 @@ $.material.input();
 $.material.checkbox();
 $.material.radio();
 
-var app = angular.module('coyot.io', ['ngRoute']);
+var app = angular.module('coyot.io', ['ngRoute', 'ngAnimate']);
 
 app.config(function($routeProvider, $locationProvider) {
     $routeProvider
