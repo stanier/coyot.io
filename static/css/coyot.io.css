@@ -4,6 +4,23 @@
  * @link https://github.com/stanier/coyot.io
  * @license MIT
  */
+body {
+  overflow-x: hidden;
+}
+.animated {
+  -webkit-transition: all 0.5s ease;
+          transition: all 0.5s ease;
+}
+.animated.ng-enter {
+  -webkit-animation: fadeInRight 0.5s;
+          animation: fadeInRight 0.5s;
+  display: inline-block !important;
+}
+.animated.ng-leave {
+  -webkit-animation: fadeOutLeft 0.5s;
+          animation: fadeOutLeft 0.5s;
+  display: inline-block !important;
+}
 .radial-progress {
   margin: 10px;
   border-radius: 50%;
@@ -39,6 +56,10 @@
   margin-top: 15px;
   background-color: #fbfbfb;
   border-radius: 50%;
+}
+.nav-sidebar > div {
+  -webkit-transition: all 1s ease;
+  transition: all 1s ease;
 }
 body {
   margin: 60px;
