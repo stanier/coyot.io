@@ -15,6 +15,7 @@ var gulp = require('gulp'),
     header = require('gulp-header'),
     runsequence = require('run-sequence'),
     nodemon = require('gulp-nodemon'),
+    map = require('gulp-sourcemaps'),
     exec = require('child_process').exec;
 
 var banner = ['/**',
@@ -47,11 +48,13 @@ gulp.task('scripts', function() {
     return gulp.src('src/scripts/**/*.js')
         .pipe(jshint())
         .pipe(jshint.reporter('default'))
+        .pipe(map.init())
         .pipe(concat( pkg.name + '.js'))
         .pipe(header(banner, { pkg: pkg}))
         .pipe(gulp.dest('static/js'))
         .pipe(rename({ suffix: '.min' }))
         .pipe(uglify())
+        .pipe(map.write())
         .pipe(livereload())
         .pipe(gulp.dest('static/js'));
 });
