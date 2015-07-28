@@ -1,6 +1,7 @@
 var pkg = require('./package.json');
 
 var gulp = require('gulp'),
+    map = require('gulp-sourcemaps'),
     autoprefixer = require('gulp-autoprefixer'),
     minifycss = require('gulp-minify-css'),
     stylus = require('gulp-stylus'),
@@ -15,7 +16,6 @@ var gulp = require('gulp'),
     header = require('gulp-header'),
     runsequence = require('run-sequence'),
     nodemon = require('gulp-nodemon'),
-    map = require('gulp-sourcemaps'),
     exec = require('child_process').exec;
 
 var banner = ['/**',

@@ -4,24 +4,22 @@ app.controller('ServerCtlr', ['$scope', '$http', '$routeParams', '$location', fu
     $scope.terminalResponse = '';
     $scope.serviceStatus = [];
 
-    function getConnectionDetails(callback) {
-        if (!$scope.global.server)
+    function getConnectionDetails() {
+        if (!$scope.global.server) {
             $http.get('/api/server/' + $routeParams.hostname + '/')
                 .success(function(data, status, headers, config) {
                     $scope.$emit('serverConnection', data);
-                    callback(data);
                 })
                 .error(function(data, status, headers, config) {
                     console.log(data);
                 })
             ;
-        else callback($scope.global.server);
+        }
     }
-
-    //var socket = io('http://' + host + ':' + port);
+    var socket = io('http://' + host + ':' + port);
 
     $scope.getStats = function() {
-        getConnectionDetails(function(data) {
+        getConnectionDetails(function() {
             $http.get('//' + data.host + ':' + data.port + '/api/system/stats?type=all')
                 .success(function(data, status, headers, config) {
                     $scope.server = data;
@@ -42,7 +40,6 @@ app.controller('ServerCtlr', ['$scope', '$http', '$routeParams', '$location', fu
         if (platform == 'windows') return 'fa fa-windows';
         if (platform == 'apple')   return 'fa fa-wheelchair';
     };
-
     $scope.loadAvg = function() {
         var transform_styles = ['-webkit-transform',
             '-ms-transform'];

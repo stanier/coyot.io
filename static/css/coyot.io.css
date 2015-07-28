@@ -7,19 +7,33 @@
 body {
   overflow-x: hidden;
 }
-.animated {
+.animated[ng-view] {
+  -webkit-transition: all 0.5s ease;
+          transition: all 0.5s ease;
+  width: 100%;
+  height: 0px !important;
+}
+.animated[ng-view].ng-enter {
+  -webkit-animation: fadeInRight 0.75s;
+          animation: fadeInRight 0.75s;
+}
+.animated[ng-view].ng-leave {
+  position: absolute;
+  -webkit-animation: fadeOutLeft 0.75s;
+          animation: fadeOutLeft 0.75s;
+  height: 0px !important;
+}
+.animated[ng-show] {
   -webkit-transition: all 0.5s ease;
           transition: all 0.5s ease;
 }
-.animated.ng-enter {
-  -webkit-animation: fadeInRight 0.5s;
-          animation: fadeInRight 0.5s;
-  display: inline-block !important;
+.animated[ng-show].ng-hide-remove {
+  -webkit-animation: fadeInLeft 0.75s;
+          animation: fadeInLeft 0.75s;
 }
-.animated.ng-leave {
-  -webkit-animation: fadeOutLeft 0.5s;
-          animation: fadeOutLeft 0.5s;
-  display: inline-block !important;
+.animated[ng-show].ng-hide-add {
+  -webkit-animation: fadeOutLeft 0.75s;
+          animation: fadeOutLeft 0.75s;
 }
 .radial-progress {
   margin: 10px;
@@ -58,8 +72,8 @@ body {
   border-radius: 50%;
 }
 .nav-sidebar > div {
-  -webkit-transition: all 1s ease;
-  transition: all 1s ease;
+  -webkit-transition: height 1s ease-in;
+          transition: height 1s ease-in;
 }
 body {
   margin: 60px;

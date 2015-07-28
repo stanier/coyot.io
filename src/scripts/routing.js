@@ -1,4 +1,4 @@
-app.config(function($routeProvider, $locationProvider) {
+app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider
         .when('/cluster/manage', {
             templateUrl: 'pages/cluster/manage',
@@ -60,4 +60,4 @@ app.config(function($routeProvider, $locationProvider) {
     ;
 
     $locationProvider.html5Mode(true);
-});
+}]);
