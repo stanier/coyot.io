@@ -1,6 +1,7 @@
 var pkg = require('./package.json');
 
 var gulp = require('gulp'),
+    map = require('gulp-sourcemaps'),
     autoprefixer = require('gulp-autoprefixer'),
     minifycss = require('gulp-minify-css'),
     stylus = require('gulp-stylus'),
@@ -47,11 +48,13 @@ gulp.task('scripts', function() {
     return gulp.src('src/scripts/**/*.js')
         .pipe(jshint())
         .pipe(jshint.reporter('default'))
+        .pipe(map.init())
         .pipe(concat( pkg.name + '.js'))
         .pipe(header(banner, { pkg: pkg}))
         .pipe(gulp.dest('static/js'))
         .pipe(rename({ suffix: '.min' }))
         .pipe(uglify())
+        .pipe(map.write())
         .pipe(livereload())
         .pipe(gulp.dest('static/js'));
 });
