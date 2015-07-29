@@ -83,12 +83,19 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
     $locationProvider.html5Mode(true);
 }]);
 
-var socket;
+app.run(['$rootScope', '$location', function($rootScope, $location) {
+    $rootScope.path = {
+        equals: function(path) {
+            return path == $location.path();
+        },
+        startsWith: function(path) {
+            return $location.path().startsWith(path);
+        }
+    };
+}]);
 
 function createSocket(host, port, callback) {
-    socket = io('http://' + host + ':' + port);
-
-    callback();
+    callback(io('http://' + host + ':' + port));
 }
 
 app.controller('ClusterCtlr', ['$scope', '$http', function($scope, $http) {
@@ -126,23 +133,6 @@ app.controller('ClusterCtlr', ['$scope', '$http', function($scope, $http) {
     };
 }]);
 
-app.controller('GeneralCtlr', ['$scope', '$location', function($scope, $location) {
-    $scope.global = {};
-    
-    $scope.$on('serverConnection', function(event, data) {
-        $scope.global.server = data;
-    });
-
-    $scope.path = {
-        equals: function(path) {
-            return path == $location.path();
-        },
-        startsWith: function(path) {
-            return $location.path().startsWith(path);
-        }
-    };
-}]);
-
 app.controller('ManagementCtlr', ['$scope', '$http', function($scope, $http) {
     $scope.pageSize    = 20;
     $scope.currentPage = 0;
@@ -161,17 +151,23 @@ app.controller('ManagementCtlr', ['$scope', '$http', function($scope, $http) {
     };
 }]);
 
-app.controller('ServerCtlr', ['$scope', '$http', '$routeParams', '$location', function($scope, $http, $routeParams, $location) {
+app.controller('ServerCtlr', [
+        '$scope',
+        '$rootScope',
+        '$http',
+        '$routeParams',
+        '$location',
+        function($scope, $rootScope, $http, $routeParams, $location) {
     $scope.pageSize    = 20;
     $scope.currentPage = 0;
     $scope.terminalResponse = '';
     $scope.serviceStatus = [];
 
     function getConnectionDetails(callback) {
-        if (!$scope.global.server) {
+        if (!$rootScope.server) {
             $http.get('/api/server/' + $routeParams.hostname + '/')
                 .success(function(data, status, headers, config) {
-                    $scope.$emit('serverConnection', data);
+                    $rootScope.server = data;
                     callback();
                 })
                 .error(function(data, status, headers, config) {
@@ -185,8 +181,11 @@ app.controller('ServerCtlr', ['$scope', '$http', '$routeParams', '$location', fu
 
     $scope.init = function(callback) {
         getConnectionDetails(function() {
-            createSocket($scope.global.server.host, $scope.global.server.port, function() {
-                socket.on('start service response', function(service, result) {
+            createSocket($rootScope.server.host, $rootScope.server.port, function(socket) {
+                // $scope.socket is stored in scope for garbage collection purposes
+                $scope.socket = socket;
+
+                $scope.socket.on('start service response', function(service, result) {
                     if (result == 'success') toastr.success(service + ' started successfully');
                     if (result == 'failure') toarts.error(service + ' could not be started');
 
@@ -194,7 +193,7 @@ app.controller('ServerCtlr', ['$scope', '$http', '$routeParams', '$location', fu
                     if (!!$scope.serviceStatus) $scope.getServiceStatus(service);
                 });
 
-                socket.on('stop service response', function(service, result) {
+                $scope.socket.on('stop service response', function(service, result) {
                     if (result == 'success') toastr.success(service + ' stopped successfully');
                     if (result == 'failure') toastr.error(service + ' could not be stopped');
 
@@ -202,7 +201,7 @@ app.controller('ServerCtlr', ['$scope', '$http', '$routeParams', '$location', fu
                     if (!!$scope.serviceStatus) $scope.getServiceStatus(service);
                 });
 
-                socket.on('restart service response', function(service, result) {
+                $scope.socket.on('restart service response', function(service, result) {
                     if (result == 'success') toastr.success(service + ' restarted successfully');
                     if (result == 'failure') toastr.error(service + ' could not be restarted');
 
@@ -210,7 +209,7 @@ app.controller('ServerCtlr', ['$scope', '$http', '$routeParams', '$location', fu
                     if (!!$scope.serviceStatus) $scope.getServiceStatus(service);
                 });
 
-                socket.on('password required', function(operation, user) {
+                $scope.socket.on('password required', function(operation, user) {
                     toastr.warning('Password required to ' + operation + ' with user ' + user);
 
                     swal({
@@ -229,35 +228,35 @@ app.controller('ServerCtlr', ['$scope', '$http', '$routeParams', '$location', fu
                             return false;
                         }
                         else {
-                            socket.emit('password supplied', password);
+                            $scope.socket.emit('password supplied', password);
                         }
                     });
                 });
 
-                socket.on('stdout', function(data) {
+                $scope.socket.on('stdout', function(data) {
                     $scope.terminalResponse += data;
                     console.log('STDOUT:  ' + data);
                     $scope.$apply();
                 });
 
-                socket.on('stderr', function(data) {
+                $scope.socket.on('stderr', function(data) {
                     $scope.terminalResponse += data;
                     console.log('STDERR:  ' + data);
                     $scope.$apply();
                 });
 
-                socket.on('error', function(data) {
+                $scope.socket.on('error', function(data) {
                     toastr.error('data');
                 });
 
-                socket.on('service status response', function(service, status) {
+                $scope.socket.on('service status response', function(service, status) {
                     for (var i = 0; i < $scope.serviceStatus.length; i++) {
                         if ($scope.serviceStatus[i].service == service) $scope.serviceStatus[i].isRunning = status;
                     }
                     $scope.$apply();
                 });
 
-                socket.on('service status all response', function(service, status) {
+                $scope.socket.on('service status all response', function(service, status) {
                     $scope.serviceStatus.push({
                         service: service,
                         isRunning: status
@@ -271,7 +270,7 @@ app.controller('ServerCtlr', ['$scope', '$http', '$routeParams', '$location', fu
     };
 
     $scope.getStats = function() {
-        $http.get('//' + $scope.global.server.host + ':' + $scope.global.server.port + '/api/system/stats?type=all')
+        $http.get('//' + $rootScope.server.host + ':' + $rootScope.server.port + '/api/system/stats?type=all')
             .success(function(data, status, headers, config) {
                 $scope.server = data;
 
@@ -294,8 +293,8 @@ app.controller('ServerCtlr', ['$scope', '$http', '$routeParams', '$location', fu
         var transform_styles = ['-webkit-transform',
             '-ms-transform'];
 
-        for (var i in $scope.global.server.loadavg) {
-            var rotation = Math.floor($scope.global.server.loadavg[i] / $scope.global.server.cpu.length * 180);
+        for (var i in $rootScope.server.loadavg) {
+            var rotation = Math.floor($rootScope.server.loadavg[i] / $rootScope.server.cpu.length * 180);
             var fix_rotation = rotation * 2;
             for (var j in transform_styles) {
                 $('#circle-'+i+' .fill, #circle-'+i+' .mask.full').css(transform_styles[j], 'rotate(' + rotation + 'deg)');
@@ -305,7 +304,7 @@ app.controller('ServerCtlr', ['$scope', '$http', '$routeParams', '$location', fu
     };
 
     $scope.getPkgs = function() {
-        $http.get('//' + $scope.global.server.host + ':' + $scope.global.server.port + '/api/worker/packages/list')
+        $http.get('//' + $rootScope.server.host + ':' + $rootScope.server.port + '/api/worker/packages/list')
             .success(function(data, status, headers, config) {
                 $scope.pkgs = data;
             })
@@ -316,7 +315,7 @@ app.controller('ServerCtlr', ['$scope', '$http', '$routeParams', '$location', fu
     };
 
     $scope.getPkgManagers = function() {
-        $http.get('//' + $scope.global.server.host + ':' + $scope.global.server.port + '/api/worker/packages/listManagers')
+        $http.get('//' + $rootScope.server.host + ':' + $rootScope.server.port + '/api/worker/packages/listManagers')
             .success(function(data, status, headers, config) {
                 $scope.managers = data;
             })
@@ -327,7 +326,7 @@ app.controller('ServerCtlr', ['$scope', '$http', '$routeParams', '$location', fu
     };
 
     $scope.getPkgInfo = function(pkg) {
-        $http.get('//' + $scope.global.server.host + ':' + $scope.global.server.port + '/api/worker/packages/getInfo/' + pkg)
+        $http.get('//' + $rootScope.server.host + ':' + $rootScope.server.port + '/api/worker/packages/getInfo/' + pkg)
             .success(function(data, status, headers, config) {
                 $scope.pkg = data;
             })
@@ -338,25 +337,25 @@ app.controller('ServerCtlr', ['$scope', '$http', '$routeParams', '$location', fu
     };
 
     $scope.installPkg = function() {
-        socket.emit('install package', {
+        $scope.socket.emit('install package', {
             manager: $scope.pkgMngr,
             pkg: $scope.pkgInstallQuery
         });
     };
 
     $scope.updatePkg = function() {
-        socket.emit('update package', {
+        $scope.socket.emit('update package', {
             manager: $scope.pkgMngr,
             pkg: $scope.pkgUpdateQuery
         });
     };
 
     $scope.getServiceStatus = function(service) {
-        socket.emit('get service status', service);
+        $scope.socket.emit('get service status', service);
     };
 
     $scope.getServiceInfo = function(service) {
-        $http.get('//' + $scope.global.server.host + ':' + $scope.global.server.port + '/api/worker/services/getInfo/' + service)
+        $http.get('//' + $rootScope.server.host + ':' + $rootScope.server.port + '/api/worker/services/getInfo/' + service)
             .success(function(data, status, headers, config) {
                 $scope.service = data;
                 $scope.$apply();
@@ -369,27 +368,27 @@ app.controller('ServerCtlr', ['$scope', '$http', '$routeParams', '$location', fu
     };
 
     $scope.getRunningServices = function() {
-        socket.emit('get status all');
+        $scope.socket.emit('get status all');
     };
 
     $scope.startService = function(target) {
         toastr.info('Starting service ' + target + '...');
-        socket.emit('start service', target);
+        $scope.socket.emit('start service', target);
     };
 
     $scope.stopService = function(target) {
         toastr.info('Stopping service ' + target + '...');
-        socket.emit('stop service', target);
+        $scope.socket.emit('stop service', target);
     };
 
     $scope.restartService = function(target) {
         toastr.info('Restarting service ' + target + '...');
-        socket.emit('restart service', target);
+        $scope.socket.emit('restart service', target);
     };
 
     $scope.sendInput = function() {
         $scope.terminalResponse += '\n';
-        socket.emit('input', { input: $scope.terminalInput });
+        $scope.socket.emit('input', { input: $scope.terminalInput });
         $scope.terminalInput = '';
     };
 }]);
