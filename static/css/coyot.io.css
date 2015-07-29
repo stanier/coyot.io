@@ -14,13 +14,13 @@ body {
   height: 0px !important;
 }
 .animated[ng-view].ng-enter {
-  -webkit-animation: fadeInRight 0.75s;
-          animation: fadeInRight 0.75s;
+  -webkit-animation: fadeInRight 0.5s;
+          animation: fadeInRight 0.5s;
 }
 .animated[ng-view].ng-leave {
   position: absolute;
-  -webkit-animation: fadeOutLeft 0.75s;
-          animation: fadeOutLeft 0.75s;
+  -webkit-animation: fadeOutLeft 0.5s;
+          animation: fadeOutLeft 0.5s;
   height: 0px !important;
 }
 .animated[ng-show] {
@@ -28,12 +28,12 @@ body {
           transition: all 0.5s ease;
 }
 .animated[ng-show].ng-hide-remove {
-  -webkit-animation: fadeInLeft 0.75s;
-          animation: fadeInLeft 0.75s;
+  -webkit-animation: fadeInLeft 0.5s;
+          animation: fadeInLeft 0.5s;
 }
 .animated[ng-show].ng-hide-add {
-  -webkit-animation: fadeOutLeft 0.75s;
-          animation: fadeOutLeft 0.75s;
+  -webkit-animation: fadeOutLeft 0.5s;
+          animation: fadeOutLeft 0.5s;
 }
 .radial-progress {
   margin: 10px;
