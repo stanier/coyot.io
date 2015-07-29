@@ -57,18 +57,9 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             controller: 'ServerCtlr',
             reloadOnSearch: false
         })
-<<<<<<< HEAD
         .otherwise({
             redirectTo: 'management/dashboard'
         })
-=======
-<<<<<<< HEAD
-        .otherwise({
-            redirectTo: 'management/dashboard'
-        })
-=======
->>>>>>> 170371a39f33798769600c509850e8e0d9d4eb52
->>>>>>> 2cdf0ab203388c87ff6559b6ee5ace83da2d861f
     ;
 
     $locationProvider.html5Mode(true);

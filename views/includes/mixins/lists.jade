@@ -1,15 +1,7 @@
 mixin list(target_path, name, icon)
     - var ng_path = target_path.replace(/(.+){{ +(.+) +}}(.+)/g, "$1' + $2 + '$3")
     
-<<<<<<< HEAD
     li(ng-class="{ active: $root.path.equals('#{ng_path}') }")
-=======
-<<<<<<< HEAD
-    li(ng-class="{ active: $root.path.equals('#{ng_path}') }")
-=======
-    li(ng-class="{ active: path.equals('#{ng_path}') }")
->>>>>>> 170371a39f33798769600c509850e8e0d9d4eb52
->>>>>>> 2cdf0ab203388c87ff6559b6ee5ace83da2d861f
         a(ng-href=target_path)
             if (icon)
                 span.fa(class=icon) 

@@ -2,15 +2,7 @@ mixin navbar
     
     nav.navbar.navbar-default.navbar-fixed-top: .container
         .navbar-header
-<<<<<<< HEAD
             a.navbar-brand(href='/') Coyot.io
             
         if (user && user.role >= 1)
-=======
             a.navbar-brand(href='#') Coyot.io
-            
-        if (user.role >= 1)
->>>>>>> 9b57247... Finished renaming, standardized navbar inclusion
-            .pull-right.container-fluid
-                ul.nav.navbar-nav.navbar-right
-                    +list('/auth/logout', 'Logout')
