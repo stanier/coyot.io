@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .panel.panel-default(ng-controller='ServerCtlr' ng-init='getPkgManagers()')
     .panel-heading Update package
     .panel-body
@@ -11,3 +12,32 @@
         .col-sm-12: .input-group
             span.input-group-btn: button.btn.btn-default(ng-click='sendInput()') Send
             input.form-control(type='password' placeholder='Command-line input' ng-model='terminalInput')
+=======
+extends /templates/page
+
+block body
+    script.
+        var hostname = '#{hostname}';
+        var host = '#{host}';
+        var port = '#{port}';
+    
+    .col-sm-3
+        +panel_server
+        
+        +panel_cluster
+    
+    .col-sm-9
+        .panel.panel-default(ng-controller='ServerManagementCtlr' ng-init='getPackageManagers()')
+            .panel-heading Upgrade package
+            .panel-body
+                .col-sm-2: select(ng-model='pkgMngr').form-control
+                    option(ng-repeat='manager in managers') {{ manager }}
+                .col-sm-10: .input-group
+                    span.input-group-btn: button.btn.btn-default(ng-click='upgradePackage()') Install
+                    input.form-control(placeholder='Package(s)' ng-model='pkgUpgradeQuery')
+                .col-sm-12
+                    pre {{ upgradeResponse }}
+                .col-sm-12: .input-group
+                    span.input-group-btn: button.btn.btn-default(ng-click='sendInput()') Send
+                    input.form-control(type='password' placeholder='Command-line input' ng-model='upgradeInput')
+>>>>>>> 9b57247... Finished renaming, standardized navbar inclusion

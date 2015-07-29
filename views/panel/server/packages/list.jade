@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .panel.panel-default(ng-controller='ServerCtlr' ng-init='getPkgs()')
     .panel-heading Packages
     .panel-body
@@ -7,6 +8,18 @@
             
             button.btn(type='button' ng-click='currentPage = currentPage*1 + 1'
                 ng-disabled="currentPage*1 >= (pkgs.length / pageSize) - 1 ? 'disabled' : ''") Next
+=======
+extends /templates/page
+
+block body
+    script.
+        var hostname = '#{hostname}';
+        var host = '#{host}';
+        var port = '#{port}';
+    
+    .col-sm-3
+        +panel_server
+>>>>>>> 9b57247... Finished renaming, standardized navbar inclusion
         
             input.form-control(ng-model='currentPage')
             

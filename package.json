@@ -2,10 +2,14 @@
   "name": "coyot.io",
   "version": "0.0.1",
   "author": "Keyton Stanier",
+<<<<<<< HEAD
   "repository": {
     "type": "git",
     "url": "git+https://github.com/stanier/coyot.io.git"
   },
+=======
+  "repository": "https://github.com/stanier/coyot.io",
+>>>>>>> 9b57247... Finished renaming, standardized navbar inclusion
   "description": "An open-source cluster-ready server management solution driven by node.js and MongoDB",
   "keywords": [
     "server",

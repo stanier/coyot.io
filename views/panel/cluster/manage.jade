@@ -1,5 +1,15 @@
+<<<<<<< HEAD
 .panel.panel-default(ng-controller='ClusterCtlr' ng-init='getServers()')
     .panel-body
+=======
+extends /templates/page
+
+block body
+    .col-sm-3
+        +panel_cluster
+    
+    .col-sm-9.panel.panel-default(ng-controller='ClusterManagementCtlr')
+>>>>>>> 9b57247... Finished renaming, standardized navbar inclusion
         table.table
             thead
                 td: h5 Hostname

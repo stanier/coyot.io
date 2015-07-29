@@ -1,7 +1,10 @@
 include /includes/mixins
 
 doctype html
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9b57247... Finished renaming, standardized navbar inclusion
 html(ng-app='coyot.io')
     head
         include /includes/links
@@ -10,6 +13,7 @@ html(ng-app='coyot.io')
     body
         +navbar
         
+<<<<<<< HEAD
         .container(style='padding-top: 20px'): .row
             if (user)
                 .col-sm-3.col-md-2.sidebar(style='z-index:1000')
@@ -27,3 +31,7 @@ html(ng-app='coyot.io')
                 .col-sm-12.col-md-12
                     block container
         include /includes/scripts
+=======
+        .container
+            block container
+>>>>>>> 9b57247... Finished renaming, standardized navbar inclusion

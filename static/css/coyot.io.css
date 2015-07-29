@@ -4,37 +4,6 @@
  * @link https://github.com/stanier/coyot.io
  * @license MIT
  */
-body {
-  overflow-x: hidden;
-}
-.animated[ng-view] {
-  -webkit-transition: all 0.5s ease;
-          transition: all 0.5s ease;
-  width: 100%;
-  height: 0px !important;
-}
-.animated[ng-view].ng-enter {
-  -webkit-animation: fadeInRight 0.5s;
-          animation: fadeInRight 0.5s;
-}
-.animated[ng-view].ng-leave {
-  position: absolute;
-  -webkit-animation: fadeOutLeft 0.5s;
-          animation: fadeOutLeft 0.5s;
-  height: 0px !important;
-}
-.animated[ng-show] {
-  -webkit-transition: all 0.5s ease;
-          transition: all 0.5s ease;
-}
-.animated[ng-show].ng-hide-remove {
-  -webkit-animation: fadeInLeft 0.5s;
-          animation: fadeInLeft 0.5s;
-}
-.animated[ng-show].ng-hide-add {
-  -webkit-animation: fadeOutLeft 0.5s;
-          animation: fadeOutLeft 0.5s;
-}
 .radial-progress {
   margin: 10px;
   border-radius: 50%;
@@ -71,10 +40,6 @@ body {
   background-color: #fbfbfb;
   border-radius: 50%;
 }
-.nav-sidebar > div {
-  -webkit-transition: height 1s ease-in;
-          transition: height 1s ease-in;
-}
 body {
   margin: 60px;
 }
@@ -86,52 +51,4 @@ ul ul {
 }
 pre {
   margin: 10px 0px 10px;
-}
-.sidebar {
-  display: none;
-}
-@media (min-width: 768px) {
-  .sidebar {
-    position: fixed;
-    top: 51px;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
-    display: block;
-    padding: 20px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    background-color: #f5f5f5;
-    border-right: 1px solid #eee;
-  }
-}
-.nav-sidebar {
-  margin-right: -21px;
-  margin-bottom: 20px;
-  margin-left: -20px;
-}
-.nav-sidebar p {
-  font-size: 13px;
-  padding: 0px 20px;
-  margin: 0px;
-  text-transform: uppercase;
-}
-.nav-sidebar li a {
-  position: relative;
-  display: block;
-  padding: 10px 20px;
-  padding-left: 200px;
-  margin-left: -180px;
-}
-.nav-sidebar li ul {
-  margin-left: 0px;
-}
-.nav-sidebar .active > a,
-.nav-sidebar .active > a:hover,
-.nav-sidebar .active > a:focus {
-  color: #fff;
-  background-color: #428bca;
-}
-td .btn-group {
-  margin: 0px;
 }
