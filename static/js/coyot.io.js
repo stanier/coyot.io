@@ -80,6 +80,13 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
     $locationProvider.html5Mode(true);
 }]);
 
+var socket;
+
+function createSocket(host, port, callback) {
+    socket = io('http://' + host + ':' + port);
+
+    callback();
+}
 
 app.controller('ClusterCtlr', ['$scope', '$http', function($scope, $http) {
     $scope.getServers = function() {
@@ -157,35 +164,122 @@ app.controller('ServerCtlr', ['$scope', '$http', '$routeParams', '$location', fu
     $scope.terminalResponse = '';
     $scope.serviceStatus = [];
 
-    function getConnectionDetails() {
+    function getConnectionDetails(callback) {
         if (!$scope.global.server) {
             $http.get('/api/server/' + $routeParams.hostname + '/')
                 .success(function(data, status, headers, config) {
                     $scope.$emit('serverConnection', data);
+                    callback();
                 })
                 .error(function(data, status, headers, config) {
                     console.log(data);
                 })
             ;
+        } else {
+            callback();
         }
     }
-    var socket = io('http://' + host + ':' + port);
+
+    $scope.init = function(callback) {
+        getConnectionDetails(function() {
+            createSocket($scope.global.server.host, $scope.global.server.port, function() {
+                socket.on('start service response', function(service, result) {
+                    if (result == 'success') toastr.success(service + ' started successfully');
+                    if (result == 'failure') toarts.error(service + ' could not be started');
+
+                    if (!!$scope.service) $scope.getServiceInfo(service);
+                    if (!!$scope.serviceStatus) $scope.getServiceStatus(service);
+                });
+
+                socket.on('stop service response', function(service, result) {
+                    if (result == 'success') toastr.success(service + ' stopped successfully');
+                    if (result == 'failure') toastr.error(service + ' could not be stopped');
+
+                    if (!!$scope.service) $scope.getServiceInfo(service);
+                    if (!!$scope.serviceStatus) $scope.getServiceStatus(service);
+                });
+
+                socket.on('restart service response', function(service, result) {
+                    if (result == 'success') toastr.success(service + ' restarted successfully');
+                    if (result == 'failure') toastr.error(service + ' could not be restarted');
+
+                    if (!!$scope.service) $scope.getServiceInfo(service);
+                    if (!!$scope.serviceStatus) $scope.getServiceStatus(service);
+                });
+
+                socket.on('password required', function(operation, user) {
+                    toastr.warning('Password required to ' + operation + ' with user ' + user);
+
+                    swal({
+                        title: 'Password required',
+                        text: 'A password is required to complete this operation',
+                        type: 'input',
+                        inputType: 'password',
+                        showCancelButton: true,
+                        closeOnConfirm: true,
+                        animation: 'slide-from-top',
+                        inputPlaceholder: 'Password'
+                    }, function(password){
+                        if (password === false) return false;
+                        else if (password === '') {
+                            swal.showInputError('Password is required');
+                            return false;
+                        }
+                        else {
+                            socket.emit('password supplied', password);
+                        }
+                    });
+                });
+
+                socket.on('stdout', function(data) {
+                    $scope.terminalResponse += data;
+                    console.log('STDOUT:  ' + data);
+                    $scope.$apply();
+                });
+
+                socket.on('stderr', function(data) {
+                    $scope.terminalResponse += data;
+                    console.log('STDERR:  ' + data);
+                    $scope.$apply();
+                });
+
+                socket.on('error', function(data) {
+                    toastr.error('data');
+                });
+
+                socket.on('service status response', function(service, status) {
+                    for (var i = 0; i < $scope.serviceStatus.length; i++) {
+                        if ($scope.serviceStatus[i].service == service) $scope.serviceStatus[i].isRunning = status;
+                    }
+                    $scope.$apply();
+                });
+
+                socket.on('service status all response', function(service, status) {
+                    $scope.serviceStatus.push({
+                        service: service,
+                        isRunning: status
+                    });
+                    $scope.$apply();
+                });
+
+                callback();
+            });
+        });
+    };
 
     $scope.getStats = function() {
-        getConnectionDetails(function() {
-            $http.get('//' + data.host + ':' + data.port + '/api/system/stats?type=all')
-                .success(function(data, status, headers, config) {
-                    $scope.server = data;
+        $http.get('//' + $scope.global.server.host + ':' + $scope.global.server.port + '/api/system/stats?type=all')
+            .success(function(data, status, headers, config) {
+                $scope.server = data;
 
-                    $scope.server.uptime = new Date(data.uptime * 1000);
+                $scope.server.uptime = new Date(data.uptime * 1000);
 
-                    $scope.loadAvg();
-                })
-                .error(function(data, status, headers, config) {
-                    console.log(data);
-                })
-            ;
-        });
+                $scope.loadAvg();
+            })
+            .error(function(data, status, headers, config) {
+                console.log(data);
+            })
+        ;
     };
 
     $scope.getPlatformClass = function(platform) {
@@ -219,14 +313,14 @@ app.controller('ServerCtlr', ['$scope', '$http', '$routeParams', '$location', fu
     };
 
     $scope.getPkgManagers = function() {
-        /*$http.get('//' + $scope.global.server.host + ':' + $scope.global.server.port + '/api/worker/packages/listManagers')
+        $http.get('//' + $scope.global.server.host + ':' + $scope.global.server.port + '/api/worker/packages/listManagers')
             .success(function(data, status, headers, config) {
                 $scope.managers = data;
             })
             .error(function(data, status, headers, config) {
                 $scope.managers = data;
             })
-        ;*/
+        ;
     };
 
     $scope.getPkgInfo = function(pkg) {
@@ -295,85 +389,6 @@ app.controller('ServerCtlr', ['$scope', '$http', '$routeParams', '$location', fu
         socket.emit('input', { input: $scope.terminalInput });
         $scope.terminalInput = '';
     };
-
-    /*socket.on('start service response', function(service, result) {
-        if (result == 'success') toastr.success(service + ' started successfully');
-        if (result == 'failure') toarts.error(service + ' could not be started');
-
-        if (!!$scope.service) $scope.getServiceInfo(service);
-        if (!!$scope.serviceStatus) $scope.getServiceStatus(service);
-    });
-
-    socket.on('stop service response', function(service, result) {
-        if (result == 'success') toastr.success(service + ' stopped successfully');
-        if (result == 'failure') toastr.error(service + ' could not be stopped');
-
-        if (!!$scope.service) $scope.getServiceInfo(service);
-        if (!!$scope.serviceStatus) $scope.getServiceStatus(service);
-    });
-
-    socket.on('restart service response', function(service, result) {
-        if (result == 'success') toastr.success(service + ' restarted successfully');
-        if (result == 'failure') toastr.error(service + ' could not be restarted');
-
-        if (!!$scope.service) $scope.getServiceInfo(service);
-        if (!!$scope.serviceStatus) $scope.getServiceStatus(service);
-    });
-
-    socket.on('password required', function(operation, user) {
-        toastr.warning('Password required to ' + operation + ' with user ' + user);
-
-        swal({
-            title: 'Password required',
-            text: 'A password is required to complete this operation',
-            type: 'input',
-            inputType: 'password',
-            showCancelButton: true,
-            closeOnConfirm: true,
-            animation: 'slide-from-top',
-            inputPlaceholder: 'Password'
-        }, function(password){
-            if (password === false) return false;
-            else if (password === '') {
-                swal.showInputError('Password is required');
-                return false;
-            }
-            else {
-                socket.emit('password supplied', password);
-            }
-        });
-    });
-
-    socket.on('stdout', function(data) {
-        $scope.terminalResponse += data;
-        console.log('STDOUT:  ' + data);
-        $scope.$apply();
-    });
-
-    socket.on('stderr', function(data) {
-        $scope.terminalResponse += data;
-        console.log('STDERR:  ' + data);
-        $scope.$apply();
-    });
-
-    socket.on('error', function(data) {
-        toastr.error('data');
-    });
-
-    socket.on('service status response', function(service, status) {
-        for (var i = 0; i < $scope.serviceStatus.length; i++) {
-            if ($scope.serviceStatus[i].service == service) $scope.serviceStatus[i].isRunning = status;
-        }
-        $scope.$apply();
-    });
-
-    socket.on('service status all response', function(service, status) {
-        $scope.serviceStatus.push({
-            service: service,
-            isRunning: status
-        });
-        $scope.$apply();
-    });*/
 }]);
 
 app.filter('bytes', function() {
@@ -390,7 +405,7 @@ app.filter('bytes', function() {
 
 app.filter('offsetBy', function() {
     return function(input, start) {
-        start = +start;
+        start =+ start;
         return input.slice(start);
     };
 });
