@@ -1,20 +1,22 @@
+<img src='utility/readme.gif'>
+
 # coyot.io
 
 The scalable, cluster-ready server management panel.
 
-# The "What"
+### The "What"
 
-What is coyot.io you ask?  Every sysadmin's dream:  a control panel for multiple systems with the ability to control every aspect of the system, from process control to one-click app installs, all within a clean, simple interface built on top of a MEAN stack and Google's Material Design rules.
+What is coyot.io you ask?  Every system admin's dream:  a control panel built for flexibility and scaling, leveraging the power of a MEAN stack and the elegance of Material Design.
 
-# The "Why"
+### The "Why"
 
-When I started working with servers, I found that the easiest way to manage a system at a glance without having to break out my laptop and ssh in was to use a control panel.  Much to my disappointment though, the existing control panels at the time were all based off legacy concepts and technologies and were often not only hard to configure, but also hard to use for certain operations.
+When I first started servers, I found that the best way to manage the system was to SSH in and do everything by hand.  Few control panels offered the flexibility and automation to make a difference for system admins and IT teams.
 
-A couple years later, we still haven't evolved much in the way of control panels.  Services such as AWS OpWorks and Bitnami offer easy management, but at a cost, and with limits.  Panels like Ajenti get closer to what we need, but not quite.
+A couple years later, we still haven't evolved much in the way of control panels.  Services such as AWS OpWorks and Bitnami offer quick, flexible management, but at a cost and with limits.  Panels like Ajenti get closer to achieving what we need, but still fall short.
 
-# The "Who"
+### The "Who"
 
-Currently the project is maintained solely by Keyton Stanier, a simple 17 y/o who likes to mash keys and play with pretty lights and flying things as a hobby.  Hopely there will be more people listed here in the future.  Hopefully...
+If you really care to know who is crazy enough to start this, the name is Keyton Stanier, a 17 y/o with a passion for the evolving digital world.
 
 ## Installation
 
@@ -26,6 +28,10 @@ TODO: Write usage instructions
 
 ## Contributing
 
+Want to contribute?  Great!  Open an issue for a bug or feature you wish to work on or start working on anything on the roadmap.
+
+I appreciate any and all valid contributions, both in the form of code and feedback.
+
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
 3. Commit your changes: `git commit -am 'Add some feature'`
@@ -34,4 +40,4 @@ TODO: Write usage instructions
 
 ## License
 
-Licensed under MIT License.  Please see [LICENSE](LICENSE).  Subject to change in future versions.
+Licensed under MIT License.  Please see [LICENSE](LICENSE)
