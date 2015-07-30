@@ -1,6 +1,7 @@
 var pkg = require('./package.json');
 
-var gulp = require('gulp'),
+var fs = require('fs'),
+    gulp = require('gulp'),
     map = require('gulp-sourcemaps'),
     autoprefixer = require('gulp-autoprefixer'),
     minifycss = require('gulp-minify-css'),
@@ -108,4 +109,31 @@ gulp.task('watch', function() {
     });
 });
 
+gulp.task('clean', function() {
+    fs.exists('static', function(exists) {
+        if (exists) {
+            console.log('Directory "static" found.  Deleting...');
+            rmdir('static', function(err) {
+                console.log('Directory "static" deleted');
+            });
+        }
+    });
+});
+
 gulp.task('launch', ['server', 'watch']);
+
+function rmdir(path, callback) {
+    if(fs.existsSync(path)) {
+        fs.readdirSync(path).forEach(function(file,index){
+            var activePath = path + '/' + file;
+
+            if(fs.lstatSync(activePath).isDirectory()) {
+                rmdir(activePath);
+            } else {
+                fs.unlinkSync(activePath);
+            }
+        });
+        fs.rmdirSync(path);
+        callback();
+    } else callback();
+}
