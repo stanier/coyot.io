@@ -26,15 +26,16 @@ var banner = ['/**',
     ' * @link <%= pkg.homepage %>',
     ' * @license <%= pkg.license %>',
     ' */',
-    ''].join('\n');
+    ''
+].join('\n');
 
-var browser = os.platform() === 'linux' ? 'google-chrome' : (
-    os.platform() === 'darwin' ? 'google chrome' : (
-    os.platform() === 'win32' ? 'chrome' : 'firefox'));
-
-function announceFileEvent(event) {
-    console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
-}
+var browser =
+    os.platform() === 'linux' ? 'google-chrome' : (
+        os.platform() === 'darwin' ? 'google chrome' : (
+            os.platform() === 'win32' ? 'chrome' : 'firefox'
+        )
+    )
+;
 
 gulp.task('styles', function() {
     return gulp.src('src/styles/**/*.styl')
@@ -47,7 +48,8 @@ gulp.task('styles', function() {
         .pipe(rename({ suffix: '.min' }))
         .pipe(minify())
         .pipe(livereload())
-        .pipe(gulp.dest('static/css'));
+        .pipe(gulp.dest('static/css'))
+    ;
 });
 
 gulp.task('scripts', function() {
@@ -60,24 +62,28 @@ gulp.task('scripts', function() {
         .pipe(rename({ suffix: '.min' }))
         .pipe(uglify())
         .pipe(livereload())
-        .pipe(gulp.dest('static/js'));
+        .pipe(gulp.dest('static/js'))
+    ;
 });
 
 gulp.task('images', function() {
     return gulp.src('src/images/**/*')
         .pipe(cache(imgmin({ optimizationLevel: 3, progressive: true, interlaced: true })))
         .pipe(livereload())
-        .pipe(gulp.dest('static/img'));
+        .pipe(gulp.dest('static/img'))
+    ;
 });
 
 gulp.task('views', function() {
     return gulp.src('views/**/*.jade')
-        .pipe(livereload());
+        .pipe(livereload())
+    ;
 });
 
 gulp.task('clean', function() {
     return gulp.src(['static/css', 'static/js', 'static/img'], { read: false })
-        .pipe(clean());
+        .pipe(clean())
+    ;
 });
 
 gulp.task('default', function() {
@@ -86,12 +92,16 @@ gulp.task('default', function() {
 
 gulp.task('server', function() {
     return checkCompiled(function() {
-        return nodemon({
+        nodemon({
             script: 'index.js',
             env: { 'NODE_ENV': 'development'},
             ignore: ['src/*', 'static/*', 'views/*', 'node_modules/*'],
             ext: 'js json'
-        });
+        })
+            .once('start', function() {
+                return true;
+            })
+        ;
     });
 });
 
@@ -146,4 +156,8 @@ function checkCompiled(callback) {
             return checkCompiled(callback);
         });
     }
+}
+
+function announceFileEvent(event) {
+    console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
 }
