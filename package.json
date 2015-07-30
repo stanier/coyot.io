@@ -21,8 +21,8 @@
   "license": "MIT",
   "main": "app.js",
   "scripts": {
-    "start": "node index.js",
-    "devel": "gulp launch"
+    "start": "gulp launch",
+    "devel": "gulp develop"
   },
   "devDependencies": {
     "connect-livereload": "^0.5.3",

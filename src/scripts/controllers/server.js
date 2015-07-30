@@ -4,7 +4,8 @@ app.controller('ServerCtlr', [
         '$http',
         '$routeParams',
         '$location',
-        function($scope, $rootScope, $http, $routeParams, $location) {
+        'socket',
+        function($scope, $rootScope, $http, $routeParams, $location, socket) {
     $scope.pageSize    = 20;
     $scope.currentPage = 0;
     $scope.terminalResponse = '';
@@ -28,11 +29,14 @@ app.controller('ServerCtlr', [
 
     $scope.init = function(callback) {
         getConnectionDetails(function() {
-            createSocket($rootScope.server.host, $rootScope.server.port, function(socket) {
-                // $scope.socket is stored in scope for garbage collection purposes
-                $scope.socket = socket;
+            callback();
+        });
+    };
 
-                $scope.socket.on('start service response', function(service, result) {
+    $scope.initSocket = function(callback) {
+        $scope.init(function() {
+            socket.init($rootScope.server.host, $rootScope.server.port, function() {
+                socket.on('start service response', function(service, result) {
                     if (result == 'success') toastr.success(service + ' started successfully');
                     if (result == 'failure') toarts.error(service + ' could not be started');
 
@@ -40,7 +44,7 @@ app.controller('ServerCtlr', [
                     if (!!$scope.serviceStatus) $scope.getServiceStatus(service);
                 });
 
-                $scope.socket.on('stop service response', function(service, result) {
+                socket.on('stop service response', function(service, result) {
                     if (result == 'success') toastr.success(service + ' stopped successfully');
                     if (result == 'failure') toastr.error(service + ' could not be stopped');
 
@@ -48,7 +52,7 @@ app.controller('ServerCtlr', [
                     if (!!$scope.serviceStatus) $scope.getServiceStatus(service);
                 });
 
-                $scope.socket.on('restart service response', function(service, result) {
+                socket.on('restart service response', function(service, result) {
                     if (result == 'success') toastr.success(service + ' restarted successfully');
                     if (result == 'failure') toastr.error(service + ' could not be restarted');
 
@@ -56,7 +60,7 @@ app.controller('ServerCtlr', [
                     if (!!$scope.serviceStatus) $scope.getServiceStatus(service);
                 });
 
-                $scope.socket.on('password required', function(operation, user) {
+                socket.on('password required', function(operation, user) {
                     toastr.warning('Password required to ' + operation + ' with user ' + user);
 
                     swal({
@@ -75,28 +79,28 @@ app.controller('ServerCtlr', [
                             return false;
                         }
                         else {
-                            $scope.socket.emit('password supplied', password);
+                            socket.emit('password supplied', password);
                         }
                     });
                 });
 
-                $scope.socket.on('stdout', function(data) {
+                socket.on('stdout', function(data) {
                     $scope.terminalResponse += data;
                     console.log('STDOUT:  ' + data);
                     $scope.$apply();
                 });
 
-                $scope.socket.on('stderr', function(data) {
+                socket.on('stderr', function(data) {
                     $scope.terminalResponse += data;
                     console.log('STDERR:  ' + data);
                     $scope.$apply();
                 });
 
-                $scope.socket.on('error', function(data) {
+                socket.on('error', function(data) {
                     toastr.error('data');
                 });
 
-                $scope.socket.on('service status response', function(service, status) {
+                socket.on('service status response', function(service, status) {
                     toastr.error('data');
                 });
 
@@ -107,7 +111,7 @@ app.controller('ServerCtlr', [
                     $scope.$apply();
                 });
 
-                $scope.socket.on('service status all response', function(service, status) {
+                socket.on('service status all response', function(service, status) {
                     $scope.serviceStatus.push({
                         service: service,
                         isRunning: status
@@ -189,27 +193,27 @@ app.controller('ServerCtlr', [
     };
 
     $scope.installPkg = function() {
-        $scope.socket.emit('install package', {
+        socket.emit('install package', {
             manager: $scope.pkgMngr,
             pkg: $scope.pkgInstallQuery
         });
     };
 
     $scope.updatePkg = function() {
-        $scope.socket.emit('update package', {
+        socket.emit('update package', {
             manager: $scope.pkgMngr,
             pkg: $scope.pkgUpdateQuery
         });
     };
 
     $scope.getServiceStatus = function(service) {
-        $scope.socket.emit('get service status', service);
+        socket.emit('get service status', service);
     };
 
     $scope.getServiceInfo = function(service) {
         $http.get('//' + $rootScope.server.host + ':' + $rootScope.server.port + '/api/worker/services/getInfo/' + service)
         .success(function() {
-            $scope.socket.emit('get service status', service);
+            socket.emit('get service status', service);
         });
     };
 
@@ -227,27 +231,30 @@ app.controller('ServerCtlr', [
     };
 
     $scope.getRunningServices = function() {
-        $scope.socket.emit('get status all');
         socket.emit('get status all');
     };
 
     $scope.startService = function(target) {
         toastr.info('Starting service ' + target + '...');
-        $scope.socket.emit('start service', target);
+        socket.emit('start service', target);
     };
 
     $scope.stopService = function(target) {
         toastr.info('Stopping service ' + target + '...');
-        $scope.socket.emit('stop service', target);
+        socket.emit('stop service', target);
     };
 
     $scope.restartService = function(target) {
         toastr.info('Restarting service ' + target + '...');
-        $scope.socket.emit('restart service', target);
+        socket.emit('restart service', target);
     };
 
     $scope.sendInput = function() {
         $scope.terminalResponse += '\n';
-        $scope.socket.emit('input', { input: $scope.terminalInput });
+        socket.emit('input', { input: $scope.terminalInput });
     };
+
+    $scope.$on('$destroy', function() {
+        socket.removeAllListeners();
+    });
 }]);
