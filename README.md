@@ -4,6 +4,8 @@
 
 The scalable, cluster-ready server management panel.
 
+## Please note that this project is under heavy development and is not production ready
+
 ### The "What"
 
 What is coyot.io you ask?  Every system admin's dream:  a control panel built for flexibility and scaling, leveraging the power of a MEAN stack and the elegance of Material Design.
