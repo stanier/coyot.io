@@ -1,4 +1,4 @@
-app.controller('ManagementCtlr', ['$scope', '$http', function($scope, $http) {
+app.controller('DashboardCtlr', ['$scope', '$http', function($scope, $http) {
     $scope.pageSize    = 20;
     $scope.currentPage = 0;
 
