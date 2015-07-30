@@ -2,10 +2,6 @@
   "name": "coyot.io",
   "version": "0.0.1",
   "author": "Keyton Stanier",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/stanier/coyot.io.git"
-  },
   "repository": "https://github.com/stanier/coyot.io",
   "description": "An open-source cluster-ready server management solution driven by node.js and MongoDB",
   "keywords": [
@@ -41,6 +37,7 @@
     "gulp-livereload": "^3.8.0",
     "gulp-minify-css": "^1.1.0",
     "gulp-nodemon": "^2.0.3",
+    "gulp-open": "^1.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-stylus": "^2.0.1",
     "gulp-uglify": "^1.2.0",
@@ -55,8 +52,6 @@
     "bcrypt": "^0.8.2",
     "body-parser": "^1.12.3",
     "bootstrap": "^3.3.4",
-    "bootstrap-material-design": "git+https://github.com/fezvrasta/bootstrap-material-design.git",
-    "bootstrap-material-design": "git+https://github.com/fezvrasta/bootstrap-material-design.git",
     "bootstrap-material-design": "https://github.com/fezvrasta/bootstrap-material-design",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^0.8.1",
@@ -81,9 +76,6 @@
     "sweetalert": "^1.0.1",
     "through2": "^0.6.5",
     "toastr": "^2.1.0"
-  },
-  "bugs": {
-    "url": "https://github.com/stanier/coyot.io/issues"
   },
   "bugs": {
     "url": "https://github.com/stanier/coyot.io/issues"

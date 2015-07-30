@@ -7,3 +7,14 @@
             
             button.btn(type='button' ng-click='currentPage = currentPage*1 + 1'
                 ng-disabled="currentPage*1 >= (pkgs.length / pageSize) - 1 ? 'disabled' : ''") Next
+            
+            input.form-control(ng-model='currentPage')
+            
+        table.table
+            thead
+                td: h5 Package
+            tbody
+                tr(ng-repeat='pkg in pkgs | ' +
+                        'offsetBy: pageSize * currentPage | ' +
+                        'limitTo: pageSize')
+                    td: a(href='../package/{{ pkg }}') {{ pkg }}

@@ -1,21 +1,22 @@
 var pkg = require('./package.json');
 
 var fs = require('fs'),
+    os = require('os'),
     gulp = require('gulp'),
-    map = require('gulp-sourcemaps'),
-    autoprefixer = require('gulp-autoprefixer'),
-    minifycss = require('gulp-minify-css'),
+    open = require('gulp-open'),
+    prefixer = require('gulp-autoprefixer'),
+    minify = require('gulp-minify-css'),
     stylus = require('gulp-stylus'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
-    imagemin = require('gulp-imagemin'),
+    imgmin = require('gulp-imagemin'),
     rename = require('gulp-rename'),
     clean = require('gulp-clean'),
     concat = require('gulp-concat'),
     cache = require('gulp-cache'),
     livereload = require('gulp-livereload'),
     header = require('gulp-header'),
-    runsequence = require('run-sequence'),
+    sequence = require('run-sequence'),
     nodemon = require('gulp-nodemon'),
     exec = require('child_process').exec;
 
@@ -27,6 +28,10 @@ var banner = ['/**',
     ' */',
     ''].join('\n');
 
+var browser = os.platform() === 'linux' ? 'google-chrome' : (
+    os.platform() === 'darwin' ? 'google chrome' : (
+    os.platform() === 'win32' ? 'chrome' : 'firefox'));
+
 function announceFileEvent(event) {
     console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
 }
@@ -36,11 +41,11 @@ gulp.task('styles', function() {
         .pipe(concat( pkg.name + '.styl' ))
         .pipe(stylus())
         .pipe(rename({ extname: '.css'}))
-        .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+        .pipe(prefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
         .pipe(header(banner, { pkg: pkg}))
         .pipe(gulp.dest('static/css'))
         .pipe(rename({ suffix: '.min' }))
-        .pipe(minifycss())
+        .pipe(minify())
         .pipe(livereload())
         .pipe(gulp.dest('static/css'));
 });
@@ -60,7 +65,7 @@ gulp.task('scripts', function() {
 
 gulp.task('images', function() {
     return gulp.src('src/images/**/*')
-        .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
+        .pipe(cache(imgmin({ optimizationLevel: 3, progressive: true, interlaced: true })))
         .pipe(livereload())
         .pipe(gulp.dest('static/img'));
 });
@@ -76,15 +81,17 @@ gulp.task('clean', function() {
 });
 
 gulp.task('default', function() {
-    runsequence('clean', 'styles', 'scripts', 'images');
+    sequence('clean', 'styles', 'scripts', 'images');
 });
 
 gulp.task('server', function() {
-    nodemon({
-        script: 'index.js',
-        env: { 'NODE_ENV': 'development'},
-        ignore: ['src/*', 'static/*', 'views/*', 'node_modules/*'],
-        ext: 'js json'
+    return checkCompiled(function() {
+        return nodemon({
+            script: 'index.js',
+            env: { 'NODE_ENV': 'development'},
+            ignore: ['src/*', 'static/*', 'views/*', 'node_modules/*'],
+            ext: 'js json'
+        });
     });
 });
 
@@ -104,36 +111,39 @@ gulp.task('watch', function() {
     gulp.watch('src/images/**/*', ['images'], function(event) {
         announceFileEvent(event);
     });
+
     gulp.watch('views/**/*', ['views'], function(event) {
         announceFileEvent(event);
     });
 });
 
-gulp.task('clean', function() {
-    fs.exists('static', function(exists) {
-        if (exists) {
-            console.log('Directory "static" found.  Deleting...');
-            rmdir('static', function(err) {
-                console.log('Directory "static" deleted');
-            });
-        }
-    });
+gulp.task('launchBrowser', function() {
+    return gulp.src('views/**/*')
+        .pipe(open({
+            app: browser,
+            uri: 'http://localhost:9000'
+        }))
+    ;
 });
 
-gulp.task('launch', ['server', 'watch']);
+gulp.task('launch', ['server']);
 
-function rmdir(path, callback) {
-    if(fs.existsSync(path)) {
-        fs.readdirSync(path).forEach(function(file,index){
-            var activePath = path + '/' + file;
+gulp.task('develop', function() {
+    sequence(['server', 'watch'], 'launchBrowser');
+});
 
-            if(fs.lstatSync(activePath).isDirectory()) {
-                rmdir(activePath);
-            } else {
-                fs.unlinkSync(activePath);
-            }
+function checkCompiled(callback) {
+    if (fs.existsSync('static/js/coyot.io.js') &&
+        fs.existsSync('static/js/coyot.io.min.js') &&
+        fs.existsSync('static/css/coyot.io.css') &&
+        fs.existsSync('static/css/coyot.io.min.css'))
+    {
+        console.log('Static files are compiled!');
+        return callback();
+    } else {
+        console.log('Static files not compiled!  Compiling...');
+        sequence('clean', 'styles', 'scripts', 'images', function() {
+            return checkCompiled(callback);
         });
-        fs.rmdirSync(path);
-        callback();
-    } else callback();
+    }
 }

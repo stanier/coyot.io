@@ -1,8 +1,5 @@
 mixin navbar
     
     nav.navbar.navbar-default.navbar-fixed-top: .container
-        .navbar-header
-            a.navbar-brand(href='/') Coyot.io
-            
         if (user && user.role >= 1)
             a.navbar-brand(href='#') Coyot.io
