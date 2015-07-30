@@ -11,9 +11,7 @@ app.factory('socket', ['$rootScope', function($rootScope) {
             function wrapper() {
                 var args = arguments;
 
-                $rootScope.$apply(function() {
-                    callback.apply(socket, args);
-                });
+                callback.apply(socket, args);
             }
             socket.on(eventName, wrapper);
 
@@ -25,13 +23,11 @@ app.factory('socket', ['$rootScope', function($rootScope) {
             socket.emit(eventName, data, function() {
                 var args = arguments;
 
-                $rootScope.$apply(function() {
-                    if (!!callback) callback.apply(socket, args);
-                });
+                if (!!callback) callback.apply(socket, args);
             });
         },
         removeAllListeners: function() {
-            socket.removeAllListeners();
+            if (!!socket) socket.removeAllListeners();
         }
     };
 }]);

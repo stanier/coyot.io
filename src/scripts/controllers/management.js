@@ -6,11 +6,9 @@ app.controller('ManagementCtlr', ['$scope', '$http', function($scope, $http) {
         $http.get('/api/management/users')
             .success(function(data, status, headers, config) {
                 $scope.users = data;
-                $scope.$apply();
             })
             .error(function(data, status, headers, config) {
                 $scope.users = data;
-                $scope.$apply();
             })
         ;
     };
