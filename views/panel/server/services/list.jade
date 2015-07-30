@@ -25,6 +25,18 @@
                         .fa.fa-minus.text-danger(ng-if='!entry.isRunning')
                     td.col-sm-4.col-md-3
                         .btn-group
-                            button.btn.btn-primary.btn-sm(ng-class='{ disabled: entry.isRunning }' ng-click='startService(entry.service)'): .fa.fa-play
-                            button.btn.btn-primary.btn-sm(ng-class='{ disabled: !entry.isRunning }' ng-click='stopService(entry.service)'): .fa.fa-stop
-                            button.btn.btn-primary.btn-sm(ng-class='{ disabled: !entry.isRunning }' ng-click='restartService(entry.service)'): .fa.fa-refresh
+                            button.btn.btn-primary.btn-sm(
+                                ng-class='{ disabled: entry.isRunning }'
+                                ng-click='startService(entry.service)'
+                                title='Start service'
+                            ): .fa.fa-play
+                            button.btn.btn-primary.btn-sm(
+                                ng-class='{ disabled: !entry.isRunning }'
+                                ng-click='stopService(entry.service)'
+                                title='Stop service'
+                            ): .fa.fa-stop
+                            button.btn.btn-primary.btn-sm(
+                                ng-class='{ disabled: !entry.isRunning }'
+                                ng-click='restartService(entry.service)'
+                                title='Restart service'
+                            ): .fa.fa-refresh

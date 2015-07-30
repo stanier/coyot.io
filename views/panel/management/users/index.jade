@@ -24,6 +24,15 @@
                     td: {{ user.email }}
                     td: {{ user.role }}
                     td.col-sm-4.col-md-3: .btn-group
-                        button.btn.btn-primary.btn-sm(ng-click='modifyUser(user._id)'): span.fa.fa-wrench
-                        button.btn.btn-primary.btn-sm(ng-click='viewUser(user._id)'): span.fa.fa-info
-                        button.btn.btn-primary.btn-sm(ng-click='removeUser(user._id)'): span.fa.fa-trash-o
+                        button.btn.btn-primary.btn-sm(
+                            ng-click='modifyUser(user._id)'
+                            title='Edit user'
+                        ): span.fa.fa-wrench
+                        button.btn.btn-primary.btn-sm(
+                            ng-click='viewUser(user._id)'
+                            title='View user info'
+                        ): span.fa.fa-info
+                        button.btn.btn-primary.btn-sm(
+                            ng-click='removeUser(user._id)'
+                            title='Remove user'
+                        ): span.fa.fa-trash-o
