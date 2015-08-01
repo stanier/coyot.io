@@ -18,6 +18,7 @@ var fs = require('fs'),
     header = require('gulp-header'),
     sequence = require('run-sequence'),
     nodemon = require('gulp-nodemon'),
+    through = require('through2'),
     exec = require('child_process').exec;
 
 var banner = ['/**',
@@ -28,6 +29,19 @@ var banner = ['/**',
     ' */',
     ''
 ].join('\n');
+
+var customReporter = through(function(file, callback) {
+    if (!file.jshint.success) {
+        console.log('JSHINT fail in '+file.path);
+        file.jshint.results.forEach(function (err) {
+            if (err) {
+                console.log(' '+file.path + ': line ' + err.line + ', col ' + err.character + ', code ' + err.code + ', ' + err.reason);
+                process.kill(1);
+            }
+        });
+    }
+    callback(null, file);
+});
 
 var browser =
     os.platform() === 'linux' ? 'google-chrome' : (
@@ -55,7 +69,7 @@ gulp.task('styles', function() {
 gulp.task('scripts', function() {
     return gulp.src('src/scripts/**/*.js')
         .pipe(jshint())
-        .pipe(jshint.reporter('default'))
+        .pipe(customReporter)
         .pipe(concat( pkg.name + '.js'))
         .pipe(header(banner, { pkg: pkg}))
         .pipe(gulp.dest('static/js'))

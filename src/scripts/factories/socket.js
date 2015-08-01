@@ -1,4 +1,4 @@
-app.factory('socket', ['$rootScope', function($rootScope) {
+app.factory('SocketFactory', ['$rootScope', function($rootScope) {
     var socket;
 
     return {

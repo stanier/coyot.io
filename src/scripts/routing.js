@@ -2,60 +2,53 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
     $routeProvider
         .when('/cluster/manage', {
             templateUrl: 'pages/cluster/manage',
-            controller: 'ClusterCtlr'
+            controller: 'ClusterCtlr',
+            controllerAs: 'local'
         })
         .when('/management/dashboard', {
             templateUrl: 'pages/management/dashboard',
-            controller: 'ManagementCtlr'
+            controller: 'DashboardCtlr',
+            controllerAs: 'local'
         })
         .when('/management/users', {
             templateUrl: 'pages/management/users',
-            controller: 'ManagementCtlr'
+            controller: 'UserListCtlr',
+            controllerAs: 'local'
         })
         .when('/server/:hostname/overview', {
             templateUrl: 'pages/server/overview',
             controller: 'ServerCtlr',
-            reloadOnSearch: false
+            controllerAs: 'local'
         })
         .when('/server/:hostname/packages/install', {
             templateUrl: 'pages/server/packages/install',
-            controller: 'ServerCtlr',
-            reloadOnSearch: false
+            controller: 'PackageInstallCtlr',
+            controllerAs: 'local'
         })
         .when('/server/:hostname/packages/update', {
             templateUrl: 'pages/server/packages/update',
-            controller: 'ServerCtlr',
-            reloadOnSearch: false
+            controller: 'PackageUpdateCtlr',
+            controllerAs: 'local'
         })
         .when('/server/:hostname/packages', {
             templateUrl: 'pages/server/packages',
-            controller: 'ServerCtlr',
-            reloadOnSearch: false
+            controller: 'PackageListCtlr',
+            controllerAs: 'local'
         })
         .when('/server/:hostname/package/:pkg/', {
             templateUrl: 'pages/server/packages/view',
-            controller: 'ServerCtlr',
-            reloadOnSearch: false
+            controller: 'PackageCtlr',
+            controllerAs: 'local'
         })
         .when('/server/:hostname/services', {
             templateUrl: 'pages/server/services',
-            controller: 'ServerCtlr',
-            reloadOnSearch: false
+            controller: 'ServiceListCtlr',
+            controllerAs: 'local'
         })
         .when('/server/:hostname/service/:service/', {
             templateUrl: 'pages/server/services/view',
-            controller: 'ServerCtlr',
-            reloadOnSearch: false
-        })
-        .when('/server/:hostname/processes', {
-            templateUrl: 'pages/server/processes',
-            controller: 'ServerCtlr',
-            reloadOnSearch: false
-        })
-        .when('/server/:hostname/process/:process', {
-            templateUrl: 'pages/server/processes/view',
-            controller: 'ServerCtlr',
-            reloadOnSearch: false
+            controller: 'ServiceCtlr',
+            controllerAs: 'local'
         })
         .otherwise({
             redirectTo: 'management/dashboard'

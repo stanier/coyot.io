@@ -2,10 +2,10 @@ mixin panel_server()
     .animated(ng-show="path.startsWith('/server')")
         p.text-muted server
         
-        +list('/server/{{ $root.server.hostname }}/overview', 'Overview', 'fa-server')
+        +list('/server/{{ server.hostname }}/overview', 'Overview', 'fa-server')
 
         if (type != 'web')
-            +list('/server/{{ $root.server.hostname }}/packages', 'Packages', 'fa-cogs')
-                +list('/server/{{ $root.server.hostname }}/packages/install', 'Install', 'fa-cloud-download')
-                +list('/server/{{ $root.server.hostname }}/packages/update', 'Update', 'fa-wrench')
-            +list('/server/{{ $root.server.hostname }}/services', 'Services', 'fa-tasks')
+            +list('/server/{{ server.hostname }}/packages', 'Packages', 'fa-cogs')
+                +list('/server/{{ server.hostname }}/packages/install', 'Install', 'fa-cloud-download')
+                +list('/server/{{ server.hostname }}/packages/update', 'Update', 'fa-wrench')
+            +list('/server/{{ server.hostname }}/services', 'Services', 'fa-tasks')
