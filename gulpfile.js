@@ -1,25 +1,31 @@
-var pkg = require('./package.json');
+// Core node modules
+var exec = require('child_process').exec,
+    fs   = require('fs'),
+    os   = require('os');
 
-var fs = require('fs'),
-    os = require('os'),
-    gulp = require('gulp'),
-    open = require('gulp-open'),
-    prefixer = require('gulp-autoprefixer'),
-    minify = require('gulp-minify-css'),
-    stylus = require('gulp-stylus'),
-    jshint = require('gulp-jshint'),
-    uglify = require('gulp-uglify'),
-    imgmin = require('gulp-imagemin'),
-    rename = require('gulp-rename'),
-    clean = require('gulp-clean'),
-    concat = require('gulp-concat'),
-    cache = require('gulp-cache'),
+// Gulp modules
+var gulp       = require('gulp'),
+    prefixer   = require('gulp-autoprefixer'),
+    cache      = require('gulp-cache'),
+    clean      = require('gulp-clean'),
+    concat     = require('gulp-concat'),
+    header     = require('gulp-header'),
+    imgmin     = require('gulp-imagemin'),
+    jshint     = require('gulp-jshint'),
     livereload = require('gulp-livereload'),
-    header = require('gulp-header'),
-    sequence = require('run-sequence'),
-    nodemon = require('gulp-nodemon'),
-    through = require('through2'),
-    exec = require('child_process').exec;
+    minify     = require('gulp-minify-css'),
+    nodemon    = require('gulp-nodemon'),
+    open       = require('gulp-open'),
+    plumber    = require('gulp-plumber'),
+    rename     = require('gulp-rename'),
+    stylus     = require('gulp-stylus'),
+    uglify     = require('gulp-uglify');
+
+// All other modules
+var sequence = require('run-sequence'),
+    through  = require('through2');
+
+var pkg = require('./package.json');
 
 var banner = ['/**',
     ' * <%= pkg.name %> - <%= pkg.description %>',
@@ -29,19 +35,6 @@ var banner = ['/**',
     ' */',
     ''
 ].join('\n');
-
-var customReporter = through(function(file, callback) {
-    if (!file.jshint.success) {
-        console.log('JSHINT fail in '+file.path);
-        file.jshint.results.forEach(function (err) {
-            if (err) {
-                console.log(' '+file.path + ': line ' + err.line + ', col ' + err.character + ', code ' + err.code + ', ' + err.reason);
-                process.kill(1);
-            }
-        });
-    }
-    callback(null, file);
-});
 
 var browser =
     os.platform() === 'linux' ? 'google-chrome' : (
@@ -53,6 +46,7 @@ var browser =
 
 gulp.task('styles', function() {
     return gulp.src('src/styles/**/*.styl')
+        .pipe(plumber())
         .pipe(concat( pkg.name + '.styl' ))
         .pipe(stylus())
         .pipe(rename({ extname: '.css'}))
@@ -68,8 +62,8 @@ gulp.task('styles', function() {
 
 gulp.task('scripts', function() {
     return gulp.src('src/scripts/**/*.js')
+        .pipe(plumber())
         .pipe(jshint())
-        .pipe(customReporter)
         .pipe(concat( pkg.name + '.js'))
         .pipe(header(banner, { pkg: pkg}))
         .pipe(gulp.dest('static/js'))
@@ -82,6 +76,7 @@ gulp.task('scripts', function() {
 
 gulp.task('images', function() {
     return gulp.src('src/images/**/*')
+        .pipe(plumber())
         .pipe(cache(imgmin({ optimizationLevel: 3, progressive: true, interlaced: true })))
         .pipe(livereload())
         .pipe(gulp.dest('static/img'))
@@ -90,12 +85,14 @@ gulp.task('images', function() {
 
 gulp.task('views', function() {
     return gulp.src('views/**/*.jade')
+        .pipe(plumber())
         .pipe(livereload())
     ;
 });
 
 gulp.task('clean', function() {
     return gulp.src(['static/css', 'static/js', 'static/img'], { read: false })
+        .pipe(plumber())
         .pipe(clean())
     ;
 });
@@ -106,16 +103,16 @@ gulp.task('default', function() {
 
 gulp.task('server', function() {
     return checkCompiled(function() {
-        nodemon({
-            script: 'index.js',
-            env: { 'NODE_ENV': 'development'},
-            ignore: ['src/*', 'static/*', 'views/*', 'node_modules/*'],
-            ext: 'js json'
-        })
-            .once('start', function() {
-                return true;
-            })
-        ;
+        try {
+            return nodemon({
+                script: 'index.js',
+                env: { 'NODE_ENV': 'development'},
+                ignore: ['src/*', 'static/*', 'views/*', 'node_modules/*'],
+                ext: 'js json'
+            });
+        } catch (err) {
+            console.error(err);
+        }
     });
 });
 
@@ -143,6 +140,7 @@ gulp.task('watch', function() {
 
 gulp.task('launchBrowser', function() {
     return gulp.src('views/**/*')
+        .pipe(plumber())
         .pipe(open({
             app: browser,
             uri: 'http://localhost:9000'
