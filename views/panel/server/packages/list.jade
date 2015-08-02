@@ -1,4 +1,4 @@
-.panel.panel-default(ng-init='getPkgs()')
+.panel.panel-default
     .panel-heading Packages
     .panel-body
         form.form-inline: .form-group
@@ -17,4 +17,4 @@
                 tr(ng-repeat='pkg in pkgs | ' +
                         'offsetBy: pageSize * currentPage | ' +
                         'limitTo: pageSize')
-                    td: a(href='../package/{{ pkg }}') {{ pkg }}
+                    td: a(href='/server/{{ server.hostname }}/package/{{ pkg }}') {{ pkg }}
