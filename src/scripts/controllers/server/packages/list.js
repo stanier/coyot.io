@@ -1,11 +1,14 @@
 app.controller('PackageListCtlr', [
     '$scope',
     '$rootScope',
-    '$routeParams',
     '$http',
-    'ServerFactory',
-    function($scope, $rootScope, $routeParams, $http, ServerFactory) {
-        $scope.$on('serverInfoReady', function() {
+    function($scope, $rootScope, $http) {
+        $scope.currentPage = 0;
+        $scope.pageSize = 20;
+
+        $scope.pkgs = [];
+
+        $scope.getPkgs = function() {
             $http.get('//' + $rootScope.server.host + ':' + $rootScope.server.port + '/api/worker/packages/list')
                 .success(function(data, status, headers, config) {
                     $scope.pkgs = data;
@@ -14,6 +17,14 @@ app.controller('PackageListCtlr', [
                     $scope.pkgs = data;
                 })
             ;
-        });
+        };
+
+        if (!!$rootScope.server) {
+            $scope.getPkgs();
+        } else {
+            $scope.$on('serverInfoReady', function () {
+                $scope.getPkgs();
+            });
+        }
     }
 ]);
