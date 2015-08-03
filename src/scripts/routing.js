@@ -10,6 +10,11 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             controller: 'DashboardCtlr',
             controllerAs: 'local'
         })
+        .when('/management/users/add', {
+            templateUrl: 'pages/management/users/add',
+            controller: 'UserAddCtlr',
+            controllerAs: 'local'
+        })
         .when('/management/users', {
             templateUrl: 'pages/management/users',
             controller: 'UserListCtlr',

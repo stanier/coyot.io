@@ -1,14 +1,17 @@
-.panel.panel-default(ng-init='getUsers()')
+.panel.panel-default
     .panel-heading Users
     .panel-body
-        form.form-inline: .form-group
-            button.btn(type='button' ng-click='currentPage = currentPage*1 - 1'
-                ng-disabled="currentPage*1 <= 0 ? 'disabled' : ''") Previous
-            
-            button.btn(type='button' ng-click='currentPage = currentPage*1 + 1'
-                ng-disabled="currentPage*1 >= (pkgs.length / pageSize) - 1 ? 'disabled' : ''") Next
+        form.form-inline: .col-sm-12.form-group: .row
+            .col-sm-10        
+                button.btn(type='button' ng-click='currentPage = currentPage*1 - 1'
+                    ng-disabled="currentPage*1 <= 0 ? 'disabled' : ''") Previous
+                
+                button.btn(type='button' ng-click='currentPage = currentPage*1 + 1'
+                    ng-disabled="currentPage*1 >= (pkgs.length / pageSize) - 1 ? 'disabled' : ''") Next
         
-            input.form-control(ng-model='currentPage')
+                input.form-control(ng-model='currentPage')
+            .cols-m-2
+                a.btn.btn-primary(type='button' href='/management/users/add'): .fa.fa-plus
             
         table.table.table-striped.table-hover
             thead
