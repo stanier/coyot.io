@@ -1,5 +1,10 @@
 <img src='utility/readme.gif'>
 
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=stanier&url=https://www.github.com/stanier/coyot.io&title=coyot.io&language=javascript&tags=github&category=software)
+[![gratipay](https://img.shields.io/gratipay/stanier.svg)](https://gratipay.com/stanier)
+[![npmjs](https://img.shields.io/npm/v/coyot.io.svg)](https://npmjs.org/coyot.io)
+[![travis](https://img.shields.io/travis/stanier/coyot.io.svg)](https://travis-ci.org/stanier/coyot.io)
+
 # coyot.io
 
 The scalable, cluster-ready server management panel.
