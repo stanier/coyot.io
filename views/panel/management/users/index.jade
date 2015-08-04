@@ -1,4 +1,4 @@
-.panel.panel-default
+.panel.panel-default(ng-init='getUsers()')
     .panel-heading Users
     .panel-body
         form.form-inline: .col-sm-12.form-group: .row
@@ -27,15 +27,17 @@
                     td: {{ user.email }}
                     td: {{ user.role }}
                     td.col-sm-4.col-md-3: .btn-group
-                        button.btn.btn-primary.btn-sm(
-                            ng-click='modifyUser(user._id)'
+                        a.btn.btn-primary.btn-sm(
+                            ng-href='/management/users/{{user.username}}/edit'
                             title='Edit user'
+                            type='button'
                         ): span.fa.fa-wrench
-                        button.btn.btn-primary.btn-sm(
-                            ng-click='viewUser(user._id)'
+                        a.btn.btn-primary.btn-sm(
+                            ng-href='/management/users/{{user.username}}'
                             title='View user info'
+                            type='button'
                         ): span.fa.fa-info
                         button.btn.btn-primary.btn-sm(
-                            ng-click='removeUser(user._id)'
+                            ng-click='delete(user.username)'
                             title='Remove user'
                         ): span.fa.fa-trash-o

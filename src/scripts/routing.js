@@ -15,6 +15,16 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             controller: 'UserAddCtlr',
             controllerAs: 'local'
         })
+        .when('/management/users/:user/edit', {
+            templateUrl: 'pages/management/users/edit',
+            controller: 'UserEditCtlr',
+            controllerAs: 'local'
+        })
+        .when('/management/users/:user/', {
+            templateUrl: 'pages/management/users/view',
+            controller: 'UserViewCtlr',
+            controllerAs: 'local'
+        })
         .when('/management/users', {
             templateUrl: 'pages/management/users',
             controller: 'UserListCtlr',
