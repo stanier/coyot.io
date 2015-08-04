@@ -9,5 +9,5 @@ mixin list(target_path, name, icon)
             else
                 = name
         if block
-            ul
+            ul(ng-show="$root.path.startsWith('#{ng_path}')")
                 block
