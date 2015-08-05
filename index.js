@@ -45,6 +45,32 @@ var conf = require('./lib/config')(app, function(err) {
         if (err) console.log ('ERROR connecting to: ' + uristring + '. ' + err);
     });
 
+    userModel.findOne({}, function(err, user) {
+        if (err) console.error(err);
+        if (!user) {
+            console.warn('No users found in database, creating new user');
+
+            var defaultUser = {
+                username: 'admin',
+                email   : 'admin@example.com',
+                password: 'coyote',
+                role    : 4
+            };
+
+            new userModel(defaultUser).save(function(err) {
+                if(err) {
+                    console.log(err);
+                } else {
+                    console.log(
+                        'User has been saved with the following credentials:' +
+                        '\n    Username:  ' + defaultUser.username +
+                        '\n    Password:  ' + defaultUser.password
+                );
+                }
+            });
+        }
+    });
+
     //  VIEW ENGINE INITIALIZATION
 
     app.set('views', path.join(__dirname, 'views'));
