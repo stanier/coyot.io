@@ -3,7 +3,6 @@ app.controller('UserEditCtlr', [
     '$http',
     '$routeParams',
     function($scope, $http, $routeParams) {
-        console.log($routeParams.user);
         $http.get('/api/management/users/' + $routeParams.user)
             .success(function(data, status, headers, config) {
                 $scope.carbon = data;

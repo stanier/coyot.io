@@ -10,26 +10,6 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             controller: 'DashboardCtlr',
             controllerAs: 'local'
         })
-        .when('/management/users/add', {
-            templateUrl: 'pages/management/users/add',
-            controller: 'UserAddCtlr',
-            controllerAs: 'local'
-        })
-        .when('/management/users/:user/edit', {
-            templateUrl: 'pages/management/users/edit',
-            controller: 'UserEditCtlr',
-            controllerAs: 'local'
-        })
-        .when('/management/users/:user/', {
-            templateUrl: 'pages/management/users/view',
-            controller: 'UserViewCtlr',
-            controllerAs: 'local'
-        })
-        .when('/management/users', {
-            templateUrl: 'pages/management/users',
-            controller: 'UserListCtlr',
-            controllerAs: 'local'
-        })
         .when('/management/groups/add', {
             templateUrl: 'pages/management/groups/add',
             controller: 'GroupAddCtlr',
@@ -48,6 +28,26 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         .when('/management/groups', {
             templateUrl: 'pages/management/groups',
             controller: 'GroupListCtlr',
+            controllerAs: 'local'
+        })
+        .when('/management/users/add', {
+            templateUrl: 'pages/management/users/add',
+            controller: 'UserAddCtlr',
+            controllerAs: 'local'
+        })
+        .when('/management/users/:user/edit', {
+            templateUrl: 'pages/management/users/edit',
+            controller: 'UserEditCtlr',
+            controllerAs: 'local'
+        })
+        .when('/management/users/:user/', {
+            templateUrl: 'pages/management/users/view',
+            controller: 'UserViewCtlr',
+            controllerAs: 'local'
+        })
+        .when('/management/users', {
+            templateUrl: 'pages/management/users',
+            controller: 'UserListCtlr',
             controllerAs: 'local'
         })
         .when('/server/:hostname/overview', {
@@ -89,6 +89,6 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             redirectTo: 'management/dashboard'
         })
     ;
-
+    
     $locationProvider.html5Mode(true);
 }]);

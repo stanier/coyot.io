@@ -47,7 +47,6 @@ app.controller('UserAddCtlr', [
                         toastr.error('Passwords do not match');
                         return true;
                     }
-                    verifyPassword(createUser, options);
                 }
             }
         };
