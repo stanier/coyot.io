@@ -1,7 +1,8 @@
 app.controller('GroupViewCtlr', [
     '$scope',
     '$http',
-    function($scope, $http) {
+    '$routeParams',
+    function($scope, $http, $routeParams) {
         $http.get('/api/management/groups/' + $routeParams.group)
             .success(function(data, status, headers, config) {
                 $scope.name = data.name;
