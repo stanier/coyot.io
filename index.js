@@ -13,7 +13,9 @@ var fs            = require('fs'),
     passport      = require('passport'),
     localStrategy = require('passport-local').Strategy,
     mongoStore    = require('connect-mongo')(session),
-    flash         = require('connect-flash'),
+    flash         = require('connect-flash');
+
+var userModel = require('./lib/dbschema').userModel,
     system;
 
 //  CLI FLAGS

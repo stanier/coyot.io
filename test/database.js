@@ -31,7 +31,7 @@ describe('Database', function() {
         });
 
         describe('findOne', function() {
-            it('should return username, email, role of user', function() {
+            it('should return username, email, role of user', function(done) {
                 userModel
                     .findOne({ username: 'bob' })
                     .select('username email role')
