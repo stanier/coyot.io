@@ -30,6 +30,26 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             controller: 'UserListCtlr',
             controllerAs: 'local'
         })
+        .when('/management/groups/add', {
+            templateUrl: 'pages/management/groups/add',
+            controller: 'GroupAddCtlr',
+            controllerAs: 'local'
+        })
+        .when('/management/groups/:group/edit', {
+            templateUrl: 'pages/management/groups/edit',
+            controller: 'GroupEditCtlr',
+            controllerAs: 'local'
+        })
+        .when('/management/groups/:group/', {
+            templateUrl: 'pages/management/groups/view',
+            controller: 'GroupViewCtlr',
+            controllerAs: 'local'
+        })
+        .when('/management/groups', {
+            templateUrl: 'pages/management/groups',
+            controller: 'GroupListCtlr',
+            controllerAs: 'local'
+        })
         .when('/server/:hostname/overview', {
             templateUrl: 'pages/server/overview',
             controller: 'ServerCtlr',
