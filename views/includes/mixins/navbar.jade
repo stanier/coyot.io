@@ -1,5 +1,14 @@
 mixin navbar
     
     nav.navbar.navbar-default.navbar-fixed-top: .container
+        a.navbar-brand(href='#') Coyot.io
+        
         if (user && user.role >= 1)
-            a.navbar-brand(href='#') Coyot.io
+            ul.nav.navbar-nav.pull-right
+                li.dropdown
+                    a.dropdown-toggle(href='#' data-toggle='dropdown')
+                        img.img-circle(ng-src='//www.gravatar.com/avatar/{{hash}}')
+                        | Keyton Stanier
+                    ul.dropdown-menu
+                        li List item
+                        li Another list item

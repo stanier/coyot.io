@@ -1,7 +1,7 @@
 app.factory('ServerFactory', [
     '$http',
     '$q',
-    '$routeParams',
+    '$stateParams',
     function($http, $q, $routeParams) {
         function serverInfo() {
             var deferred = $q.defer();

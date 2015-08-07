@@ -3,24 +3,24 @@ animationSpeed = 0.5s
 body
     overflow-x hidden
 
-.animated[ng-view]
+.animated[ui-view]
     transition all animationSpeed ease
     width 100%
     height 0px !important
 
-.animated[ng-view].ng-enter
+.animated[ui-view].ng-enter
     animation fadeInRight animationSpeed
 
-.animated[ng-view].ng-leave
+.animated[ui-view].ng-leave
     position absolute
     animation fadeOutLeft animationSpeed
     height 0px !important
 
-.animated[ng-show]
+.animated[ui-show]
     transition all animationSpeed ease
 
-.animated[ng-show].ng-hide-remove
+.animated[ui-show].ng-hide-remove
     animation fadeInLeft animationSpeed
 
-.animated[ng-show].ng-hide-add
+.animated[ui-show].ng-hide-add
     animation fadeOutLeft animationSpeed
