@@ -8,20 +8,8 @@ html(ng-app='coyot.io')
         base(href='/')
     body
         +navbar
-        .container(style='padding-top: 20px'): .row
-            if (user)
-                .col-sm-3.col-md-2.sidebar(style='z-index:1000')
-                    ul.nav.nav-sidebar
-                        +panel_server
-                    
-                        +panel_cluster
-                        
-                        +panel_management
-
-                .col-sm-9.col-sm-offset-3.col-md-offset-2.col-md-10
-                    block container
-            else
-                .col-sm-12.col-md-12
-                    block container
+        
+        div(style='padding-top: 20px')
+            block container
 
         include /includes/scripts

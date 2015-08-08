@@ -1,8 +1,10 @@
 app.run([
     '$rootScope',
+    '$http',
     '$location',
+    '$state',
     'ServerFactory',
-    function($rootScope, $location, server) {
+    function($rootScope, $http, $location, $state, server) {
         $rootScope.path = {
             equals: function(path) {
                 return path == $location.path();
@@ -15,6 +17,14 @@ app.run([
         $rootScope.back = function() {
             window.history.back();
         };
+
+        $rootScope.$on('$stateChangeStart', function(event, nextState, nextParams) {
+            if (nextState.data.loginRequired && typeof $rootScope.user === 'undefined') {
+                event.preventDefault();
+
+                $state.go('login');
+            }
+        });
 
         $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
             if (!!current.params.hostname && (!previous || current.params.hostname != previous.params.hostname)) {

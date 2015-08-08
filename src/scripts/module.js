@@ -1,1 +1,1 @@
-var app = angular.module('coyot.io', ['ngRoute', 'ngAnimate']);
+var app = angular.module('coyot.io', ['ngRoute', 'ngAnimate', 'ui.router']);
