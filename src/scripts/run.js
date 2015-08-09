@@ -3,8 +3,9 @@ app.run([
     '$http',
     '$location',
     '$state',
+    '$cookies',
     'ServerFactory',
-    function($rootScope, $http, $location, $state, server) {
+    function($rootScope, $http, $location, $state, $cookies, server) {
         $rootScope.path = {
             equals: function(path) {
                 return path == $location.path();
@@ -19,7 +20,7 @@ app.run([
         };
 
         $rootScope.$on('$stateChangeStart', function(event, nextState, nextParams) {
-            if (nextState.data.loginRequired && typeof $rootScope.user === 'undefined') {
+            if (nextState.data.loginRequired && typeof $cookies.get('auth-token') === 'undefined') {
                 event.preventDefault();
 
                 $state.go('login');
