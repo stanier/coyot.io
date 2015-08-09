@@ -10,9 +10,6 @@ var fs            = require('fs'),
     bodyParser    = require('body-parser'),
     session       = require('express-session'),
     mongoose      = require('mongoose'),
-    passport      = require('passport'),
-    localStrategy = require('passport-local').Strategy,
-    mongoStore    = require('connect-mongo')(session),
     flash         = require('connect-flash');
 
 var userModel = require('./lib/dbschema').userModel,
@@ -80,26 +77,12 @@ var conf = require('./lib/config')(app, function(err) {
 
     app.locals.basedir = app.get('views');
     app.locals.server = server;
-    app.locals.sessionStore = new mongoStore({
-        db  : app.locals.sessions.name,
-        host: app.locals.sessions.host,
-        port: app.locals.sessions.port
-    });
 
     //  EXPRESS INITIALIZATION
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(cookieParser());
-    app.use(session({
-        secret: app.locals.secret,
-        resave: false,
-        store : app.locals.sessionStore,
-        saveUninitialized: false,
-    }));
-    app.use(flash());
-    app.use(passport.initialize());
-    app.use(passport.session());
 
     system = require('./lib/system')(app);
 

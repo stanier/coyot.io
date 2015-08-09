@@ -3,7 +3,8 @@ app.controller('LoginCtlr', [
     '$rootScope',
     '$http',
     '$state',
-    function($scope, $rootScope, $http, $state) {
+    '$cookies',
+    function($scope, $rootScope, $http, $state, $cookies) {
         $scope.login = function() {
             $http.post('/auth/login', {
                 username: $scope.username,
@@ -11,8 +12,7 @@ app.controller('LoginCtlr', [
                 remember: $scope.remember
             })
                 .success(function(data, status, headers, config) {
-                    $rootScope.user = data;
-                    console.log(data);
+                    $cookies.put('auth-token', data.token);
                     $state.go('app.management.dashboard');
                 })
                 .error(function(data, status, headers, config) {
