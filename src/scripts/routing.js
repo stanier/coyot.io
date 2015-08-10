@@ -94,7 +94,15 @@ app.config([
             .state('app.server', {
                 abstract: true,
                 url: '/server/:hostname',
-                template: '<div class="animated" ui-view></div>'
+                template: '<div class="animated" ui-view></div>',
+                controller: ['$rootScope', 'ServerFactory', function($rootScope, server) {
+                    server.getStats(function(data) {
+                        $rootScope.server = data;
+                        $rootScope.server.uptime = new Date(data.uptime * 1000);
+
+                        $rootScope.$broadcast('serverInfoReady');
+                    });
+                }]
             })
             .state('app.server.view', {
                 url: '/overview',

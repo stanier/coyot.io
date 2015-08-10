@@ -2,12 +2,12 @@ app.controller('PackageCtlr', [
     '$scope',
     '$rootScope',
     '$http',
-    '$routeParams',
-    function($scope, $rootScope, $http, $routeParams) {
+    '$stateParams',
+    function($scope, $rootScope, $http, $stateParams) {
         $scope.$on('serverInfoReady', function() {
             $http.get('//' + $rootScope.server.host + ':' +
                 $rootScope.server.port + '/api/worker/packages/getInfo/' +
-                $routeParams.pkg
+                $stateParams.pkg
             )
                 .success(function(data, status, headers, config) {
                     $scope.pkg = data;

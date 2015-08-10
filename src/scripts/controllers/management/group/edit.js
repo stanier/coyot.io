@@ -1,9 +1,9 @@
 app.controller('GroupEditCtlr', [
     '$scope',
     '$http',
-    '$routeParams',
-    function($scope, $http, $routeParams) {
-        $http.get('/api/management/groups/' + $routeParams.group)
+    '$stateParams',
+    function($scope, $http, $stateParams) {
+        $http.get('/api/management/groups/' + $stateParams.group)
             .success(function(data, status, headers, config) {
                 $scope.carbon = data;
 
@@ -23,7 +23,7 @@ app.controller('GroupEditCtlr', [
             if ($scope.owner !== $scope.carbon.owner) changed.owner = $scope.owner;
             if ($scope.description !== $scope.carbon.description) changed.description = $scope.description;
 
-            $http.put('/api/management/groups/' + $routeParams.group, changed)
+            $http.put('/api/management/groups/' + $stateParams.group, changed)
                 .success(function(data, status, headers, config) {
                     toastr.success('Group updated successfully');
                 })

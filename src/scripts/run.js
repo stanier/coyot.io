@@ -27,7 +27,7 @@ app.run([
             }
         });
 
-        $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
+        $rootScope.$on('$stateChangeSuccess', function(event, current, previous) {
             if (!!current.params.hostname && (!previous || current.params.hostname != previous.params.hostname)) {
                 server.getStats(function(data) {
                     $rootScope.server = data;

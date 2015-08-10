@@ -1,9 +1,9 @@
 app.controller('UserEditCtlr', [
     '$scope',
     '$http',
-    '$routeParams',
-    function($scope, $http, $routeParams) {
-        $http.get('/api/management/users/' + $routeParams.user)
+    '$stateParams',
+    function($scope, $http, $stateParams) {
+        $http.get('/api/management/users/' + $stateParams.user)
             .success(function(data, status, headers, config) {
                 $scope.carbon = data;
 
@@ -23,7 +23,7 @@ app.controller('UserEditCtlr', [
             if ($scope.email !== $scope.carbon.email) changed.email = $scope.email;
             if ($scope.role !== $scope.carbon.role) changed.role = $scope.role;
 
-            $http.put('/api/management/users/' + $routeParams.user, changed)
+            $http.put('/api/management/users/' + $stateParams.user, changed)
                 .success(function(data, status, headers, config) {
                     toastr.success('User updated successfully');
                 })

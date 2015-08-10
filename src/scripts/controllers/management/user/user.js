@@ -1,9 +1,9 @@
 app.controller('UserViewCtlr', [
     '$scope',
     '$http',
-    '$routeParams',
-    function($scope, $http, $routeParams) {
-        $http.get('/api/management/users/' + $routeParams.user)
+    '$stateParams',
+    function($scope, $http, $stateParams) {
+        $http.get('/api/management/users/' + $stateParams.user)
             .success(function(data, status, headers, config) {
                 $scope.username = data.username;
                 $scope.email = data.email;

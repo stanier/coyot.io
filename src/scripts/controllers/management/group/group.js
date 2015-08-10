@@ -1,9 +1,9 @@
 app.controller('GroupViewCtlr', [
     '$scope',
     '$http',
-    '$routeParams',
-    function($scope, $http, $routeParams) {
-        $http.get('/api/management/groups/' + $routeParams.group)
+    '$stateParams',
+    function($scope, $http, $stateParams) {
+        $http.get('/api/management/groups/' + $stateParams.group)
             .success(function(data, status, headers, config) {
                 $scope.name = data.name;
                 $scope.owner = data.owner;
