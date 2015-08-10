@@ -36,8 +36,8 @@ GLOBAL.console.error = error;
 GLOBAL.console.warn = warn;
 
 var conf = require('./lib/config')(app, function(err) {
-    var uristring = 'mongodb://' + app.locals.db.host + ':' +
-        app.locals.db.port + '/' + app.locals.db.name;
+    var uristring = 'mongodb://' + app.get('db.host') + ':' +
+        app.get('db.port') + '/' + app.get('db.name');
 
     var mongoOptions = { db: { safe: true }};
     mongoose.connect(uristring, mongoOptions, function (err, res) {
@@ -57,9 +57,8 @@ var conf = require('./lib/config')(app, function(err) {
             };
 
             new userModel(defaultUser).save(function(err) {
-                if(err) {
-                    console.log(err);
-                } else {
+                if (err) console.log(err);
+                else {
                     console.log(
                         'User has been saved with the following credentials:' +
                         '\n    Username:  ' + defaultUser.username +
@@ -76,7 +75,7 @@ var conf = require('./lib/config')(app, function(err) {
     app.set('view engine', 'jade');
 
     app.locals.basedir = app.get('views');
-    app.locals.server = server;
+    app.set('server', server);
 
     //  EXPRESS INITIALIZATION
 
@@ -86,9 +85,9 @@ var conf = require('./lib/config')(app, function(err) {
 
     system = require('./lib/system')(app);
 
-    server.listen(app.locals.port, app.locals.host, function() {
-        console.log('Server started on address ' + app.locals.host + ' at ' +
-            app.locals.port);
+    server.listen(app.get('port'), app.get('host'), function() {
+        console.log('Server started on address ' + app.get('host') + ' at ' +
+            app.get('port'));
     });
 });
 
