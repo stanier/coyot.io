@@ -19,16 +19,16 @@ app.run([
             window.history.back();
         };
 
-        $rootScope.$on('$stateChangeStart', function(event, nextState, nextParams) {
-            if (nextState.data.loginRequired && typeof $cookies.get('auth-token') === 'undefined') {
+        $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+            if (toState.data.loginRequired && typeof $cookies.get('auth-token') === 'undefined') {
                 event.preventDefault();
 
                 $state.go('login');
             }
         });
 
-        $rootScope.$on('$stateChangeSuccess', function(event, current, previous) {
-            if (!!current.params.hostname && (!previous || current.params.hostname != previous.params.hostname)) {
+        $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+            if (!!toParams.hostname && (!fromState || toParams.hostname != fromParams.hostname)) {
                 server.getStats(function(data) {
                     $rootScope.server = data;
                     $rootScope.server.uptime = new Date(data.uptime * 1000);
