@@ -95,14 +95,31 @@ app.config([
                 abstract: true,
                 url: '/server/:hostname',
                 template: '<div class="animated" ui-view></div>',
-                controller: ['$rootScope', 'ServerFactory', function($rootScope, server) {
-                    server.getStats(function(data) {
-                        $rootScope.server = data;
-                        $rootScope.server.uptime = new Date(data.uptime * 1000);
+                resolve: {
+                    getStats: ['$rootScope', '$http', '$q', '$stateParams', function($rootScope, $http, $q, $stateParams) {
+                        var deferred = $q.defer();
 
-                        $rootScope.$broadcast('serverInfoReady');
-                    });
-                }]
+                        $http.get('/api/server/' + $stateParams.hostname + '/')
+                            .success(function(data, status, headers, config) {
+                                $http.get('//' + data.host + ':' + data.port + '/api/system/stats?type=all')
+                                    .success(function(data, status, headers, config) {
+                                        $rootScope.server = data;
+                                        $rootScope.server.uptime = new Date(data.uptime * 1000);
+                                        deferred.resolve(data);
+                                    })
+                                    .error(function(data, status, headers, config) {
+                                        toastr.error(data);
+                                    })
+                                ;
+                            })
+                            .error(function(data, status, headers, config) {
+                                toastr.error(data);
+                            })
+                        ;
+
+                        return deferred.promise;
+                    }]
+                }
             })
             .state('app.server.view', {
                 url: '/overview',

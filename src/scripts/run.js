@@ -4,8 +4,7 @@ app.run([
     '$location',
     '$state',
     '$cookies',
-    'ServerFactory',
-    function($rootScope, $http, $location, $state, $cookies, server) {
+    function($rootScope, $http, $location, $state, $cookies) {
         $rootScope.path = {
             equals: function(path) {
                 return path == $location.path();
@@ -24,17 +23,6 @@ app.run([
                 event.preventDefault();
 
                 $state.go('login');
-            }
-        });
-
-        $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-            if (!!toParams.hostname && (!fromState || toParams.hostname != fromParams.hostname)) {
-                server.getStats(function(data) {
-                    $rootScope.server = data;
-                    $rootScope.server.uptime = new Date(data.uptime * 1000);
-
-                    $rootScope.$broadcast('serverInfoReady');
-                });
             }
         });
     }

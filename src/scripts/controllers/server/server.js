@@ -4,8 +4,7 @@ app.controller('ServerCtlr', [
     '$http',
     '$location',
     'SocketFactory',
-    'ServerFactory',
-    function($scope, $rootScope, $http, $location, socket, server) {
+    function($scope, $rootScope, $http, $location, socket) {
         $scope.pageSize    = 20;
         $scope.currentPage = 0;
         $scope.terminalResponse = '';
