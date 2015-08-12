@@ -4,6 +4,7 @@
     .panel.panel-default
         .panel-heading User Overview
         .panel-body
-            h3 {{ username }}
-            h5 Email: {{ email }}
-            h5 Role: {{ role }}
+            h3 {{ user.username }}
+            h5 Email: {{ user.email }}
+            h5 Role: {{ user.role }}
+            h5 Groups: {{ user.groups }}

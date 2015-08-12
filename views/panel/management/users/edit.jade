@@ -8,13 +8,13 @@
                 .form-group.row(ng-class="{'has-error': fields.username.error}")
                     .col-sm-2: label(for='username') Username
                     .col-sm-10: input#username.form-control(
-                        ng-model='username'
+                        ng-model='user.username'
                         placeholder='Username'
                     )
                 .form-group.row
                     .col-sm-2: label(for='email') Email
                     .col-sm-10: input#email.form-control(
-                        ng-model='email'
+                        ng-model='user.email'
                         placeholder='Email'
                         type='email'
                     )
@@ -31,6 +31,21 @@
                         ng-model='confirmPassword'
                         placeholder='Confirm Password'
                         type='password'
+                    )
+                .form-group.row
+                    .col-sm-2: label(for='role') Role
+                    .col-sm-10: select#role(ng-model='user.role' convert-to-number)
+                        option(value='1') User
+                        option(value='2') Reseller
+                        option(value='4') Admin
+                .form-group.row
+                    .col-sm-2: label(for='groups') Groups
+                    .col-sm-10: select#groups(
+                        multiple
+                        ng-multiple='true'
+                        ng-model='user.groups'
+                        ng-options='group._id as group.name for group in groups'
+                        ng-click='bleh()'
                     )
                     
                 button.btn.btn-primary(ng-click='update()') Save

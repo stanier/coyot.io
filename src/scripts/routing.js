@@ -56,7 +56,7 @@ app.config([
                 controller: 'GroupEditCtlr as contoller'
             })
             .state('app.management.groups.view', {
-                url: '/:group/',
+                url: '/:group',
                 templateUrl: '/pages/management/groups/view',
                 controller: 'GroupViewCtlr as controller'
             })
@@ -82,7 +82,7 @@ app.config([
                 controller: 'UserEditCtlr as controller'
             })
             .state('app.management.users.view', {
-                url: '/:user/',
+                url: '/:user',
                 templateUrl: '/pages/management/users/view',
                 controller: 'UserViewCtlr as controller'
             })

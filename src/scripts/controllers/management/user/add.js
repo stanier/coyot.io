@@ -25,6 +25,19 @@ app.controller('UserAddCtlr', [
             }
         };
 
+        $scope.groups = function() {
+            $http.get('/api/management/groups')
+                .success(function(data, status, headers, config) {
+                    return data;
+                })
+                .error(function(data, status, headers, config) {
+                    toastr.error(data);
+                })
+            ;
+        }();
+
+        console.log($scope.groups);
+
         $scope.create = function() {
             var options = {};
             var position = 0;
