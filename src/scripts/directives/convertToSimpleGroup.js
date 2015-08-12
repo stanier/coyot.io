@@ -3,7 +3,7 @@ app.directive('convertToSimpleGroup', [
     function($http) {
         return {
             link: function(scope, element, attrs) {
-                $http.get('/api/management/groups/' + scope.group)
+                $http.get('/api/management/groups/' + scope.group + '?identifier=id')
                     .success(function(data, status, headers, config) {
                         scope.group = data;
                         console.log(data);
