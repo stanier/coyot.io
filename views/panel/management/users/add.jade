@@ -32,5 +32,13 @@
                         placeholder='Confirm Password'
                         type='password'
                     )
+                .form-group.row
+                    .col-sm-2: label(for='groups') Groups
+                    .col-sm-10: select#groups(
+                        multiple
+                        ng-multiple='true'
+                        ng-model='groups'
+                        ng-options='group._id as group.name for group in availableGroups'
+                    )
                     
                 button.btn.btn-primary(ng-click='create()') Create

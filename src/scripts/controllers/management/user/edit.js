@@ -42,9 +42,5 @@ app.controller('UserEditCtlr', [
                 })
             ;
         };
-
-        $scope.bleh = function() {
-            console.log($scope.user.groups);
-        };
     }
 ]);

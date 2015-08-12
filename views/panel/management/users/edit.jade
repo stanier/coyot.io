@@ -45,7 +45,6 @@
                         ng-multiple='true'
                         ng-model='user.groups'
                         ng-options='group._id as group.name for group in groups'
-                        ng-click='bleh()'
                     )
                     
                 button.btn.btn-primary(ng-click='update()') Save

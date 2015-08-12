@@ -22,21 +22,22 @@ app.controller('UserAddCtlr', [
                 name: 'Password Confirmation',
                 post: false,
                 required: true
+            },
+            groups: {
+                name: 'Groups',
+                post: true,
+                required: false
             }
         };
 
-        $scope.groups = function() {
-            $http.get('/api/management/groups')
-                .success(function(data, status, headers, config) {
-                    return data;
-                })
-                .error(function(data, status, headers, config) {
-                    toastr.error(data);
-                })
-            ;
-        }();
-
-        console.log($scope.groups);
+        $http.get('/api/management/groups')
+            .success(function(data, status, headers, config) {
+                $scope.availableGroups = data;
+            })
+            .error(function(data, status, headers, config) {
+                toastr.error(data);
+            })
+        ;
 
         $scope.create = function() {
             var options = {};
