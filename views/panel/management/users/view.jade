@@ -16,3 +16,6 @@
                     tr(ng-repeat='group in user.groups' convert-to-simple-group)
                         td {{ group.name }}
                         td {{ group.desciption }}
+                        td: .btn-group
+                            a.btn.btn-primary.btn-sm(ng-href='/manage/groups/{{group.name}}')
+                                span.fa.fa-info
