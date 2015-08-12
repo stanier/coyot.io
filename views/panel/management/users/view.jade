@@ -7,4 +7,12 @@
             h3 {{ user.username }}
             h5 Email: {{ user.email }}
             h5 Role: {{ user.role }}
-            h5 Groups: {{ user.groups }}
+            h5 Groups:
+            table.table.table-striped
+                thead
+                    td Name
+                    td Description
+                tbody
+                    tr(ng-repeat='group in user.groups' convert-to-simple-group)
+                        td {{ group.name }}
+                        td {{ group.desciption }}
