@@ -5,23 +5,31 @@
         .panel-heading Edit Group
         .panel-body
             form.form-group
-                .form-group.row(ng-class="{'has-error': fields.name.error}")
+                .form-group.row
                     .col-sm-2: label(for='name') Name
                     .col-sm-10: input#name.form-control(
                         ng-model='name'
                         placeholder='Name'
                     )
-                .form-group.row(ng-class="{'has-error': fields.name.error}")
+                .form-group.row
                     .col-sm-2: label(for='owner') Owner
                     .col-sm-10: input#owner.form-control(
                         ng-model='owner'
                         placeholder='Owner'
                     )
-                .form-group.row(ng-class="{'has-error': fields.name.error}")
+                .form-group.row
                     .col-sm-2: label(for='desc') Description
                     .col-sm-10: input#desc.form-control(
                         ng-model='desc'
                         placeholder='Description'
                     )
+                .form-group.row
+                    .col-sm-2: label(for='isDefault') Default Group?
+                    .col-sm-10: .togglebutton: label
+                        input(type="checkbox")
+                        span.toggle
+                
+                .col-sm-12
+                    h4 Permissions
 
                 button.btn.btn-primary(ng-click='update()') Save

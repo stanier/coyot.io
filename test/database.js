@@ -2,10 +2,14 @@ var assert = require('chai').assert;
 
 var mongoose = require('mongoose');
 
-var db          = require('../lib/dbschema'),
-    userModel   = db.userModel,
-    serverModel = db.serverModel,
-    groupModel  = db.groupModel;
+var
+    db               = require('../lib/dbschema'),
+    userModel        = db.userModel,
+    serverModel      = db.serverModel,
+    groupModel       = db.groupModel,
+    pluginModel      = db.pluginModel,
+    permissionsModel = db.permissionsModel
+;
 
 describe('Database', function() {
     before('connect to test database', function(done) {
@@ -154,6 +158,26 @@ describe('Database', function() {
     describe('ServerModel', function() {
         after('remove all serverModel documents', function(done) {
             serverModel.remove({}, function(err) {
+                if (err) throw err;
+
+                done();
+            });
+        });
+    });
+
+    describe('PluginModel', function() {
+        after('remove all pluginModel documents', function(done) {
+            pluginModel.remove({}, function(err) {
+                if (err) throw err;
+
+                done();
+            });
+        });
+    });
+
+    describe('PermissionsModel', function() {
+        after('remove all permissionsModel documents', function(done) {
+            permissionsModel.find({}, function(err) {
                 if (err) throw err;
 
                 done();
