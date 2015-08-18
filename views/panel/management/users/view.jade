@@ -13,9 +13,9 @@
                     td Name
                     td Description
                 tbody
-                    tr(ng-repeat='group in user.groups' convert-to-simple-group)
+                    tr(ng-repeat='group in user.groups')
                         td {{ group.name }}
-                        td {{ group.desciption }}
+                        td {{ group.description }}
                         td: .btn-group
                             a.btn.btn-primary.btn-sm(ng-href='/management/groups/{{group.name}}')
                                 span.fa.fa-info
