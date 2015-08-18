@@ -8,7 +8,7 @@ var
     serverModel              = db.serverModel,
     groupModel               = db.groupModel,
     pluginModel              = db.pluginModel,
-    permissionsModel         = db.permissionsModel,
+    permissionModel          = db.permissionModel,
     permissionsCategoryModel = db.permissionsCategoryModel
 ;
 
@@ -63,7 +63,8 @@ describe('Database', function() {
 
                 userModel
                     .findOne({ username: 'bob' })
-                    .update(data, function(err) {
+                    .update(data)
+                    .exec(function(err) {
                         if (err) throw err;
 
                         done();
@@ -97,6 +98,45 @@ describe('Database', function() {
                         else throw 'is a match';
                     });
                 });
+            });
+        });
+
+        describe('permissions', function() {
+            it('should grant permission to user', function(done) {
+                var permission = 1;
+
+                userModel
+                    .findOne({ username: 'bob' })
+                    .exec(function(err, result) {
+                        if (err) throw err;
+                        else {
+                            result
+                                .grantPermission(1, function(err, result) {
+                                    if (err) throw err;
+                                    else done();
+                                })
+                            ;
+                        }
+                    })
+                ;
+            });
+            it('should deny permission to user', function(done) {
+                var permission = 1;
+
+                userModel
+                    .findOne({ username: 'bob' })
+                    .exec(function(err, result) {
+                        if (err) throw err;
+                        else {
+                            result
+                                .denyPermission(1, function(err, result) {
+                                    if (err) throw err;
+                                    else done();
+                                })
+                            ;
+                        }
+                    })
+                ;
             });
         });
 
@@ -150,7 +190,8 @@ describe('Database', function() {
 
                 groupModel
                     .findOne({ name: 'bobs crew' })
-                    .update(data, function(err) {
+                    .update(data)
+                    .exec(function(err) {
                         if (err) throw err;
 
                         done();
