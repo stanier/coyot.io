@@ -1,4 +1,4 @@
-var assert = require('chai').assert;
+var should = require('chai').should();
 
 var mongoose = require('mongoose');
 
@@ -43,6 +43,13 @@ describe('Database', function() {
                     .select('username email role')
                     .exec(function(err, result) {
                         if (err) throw err;
+
+                        result.username.should.be.a('string');
+                        result.username.should.equal('bob');
+                        result.email.should.be.a('string');
+                        result.email.should.equal('bob@example.com');
+                        result.role.should.be.a('number');
+                        result.role.should.equal('1');
 
                         done();
                     })
@@ -125,6 +132,11 @@ describe('Database', function() {
                     .select('name description')
                     .exec(function(err, result) {
                         if (err) throw err;
+
+                        result.name.should.be.a('string');
+                        result.name.should.equal('bobs crew');
+                        result.description.should.be.a('string');
+                        result.description.should.equal('the most awesome crew to ever not exist');
 
                         done();
                     })
