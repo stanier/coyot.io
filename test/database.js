@@ -49,7 +49,7 @@ describe('Database', function() {
                         result.email.should.be.a('string');
                         result.email.should.equal('bob@example.com');
                         result.role.should.be.a('number');
-                        result.role.should.equal('1');
+                        result.role.should.equal(1);
 
                         done();
                     })
