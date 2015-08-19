@@ -81,7 +81,8 @@
     "socket.io-client": "^1.3.5",
     "sweetalert": "^1.0.1",
     "through2": "^0.6.5",
-    "toastr": "^2.1.0"
+    "toastr": "^2.1.0",
+    "underscore": "^1.8.3"
   },
   "bugs": {
     "url": "https://github.com/stanier/coyot.io/issues"

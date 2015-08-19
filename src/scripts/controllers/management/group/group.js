@@ -5,9 +5,7 @@ app.controller('GroupViewCtlr', [
     function($scope, $http, $stateParams) {
         $http.get('/api/management/groups/' + $stateParams.group)
             .success(function(data, status, headers, config) {
-                $scope.name = data.name;
-                $scope.owner = data.owner;
-                $scope.description = data.description;
+                $scope.group = data;
             })
             .error(function(data, status, headers, config) {
                 toastr.error(data);
