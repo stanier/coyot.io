@@ -3,13 +3,12 @@ var should = require('chai').should();
 var mongoose = require('mongoose');
 
 var
-    db                       = require('../lib/dbschema'),
-    userModel                = db.userModel,
-    serverModel              = db.serverModel,
-    groupModel               = db.groupModel,
-    pluginModel              = db.pluginModel,
-    permissionModel          = db.permissionModel,
-    permissionsCategoryModel = db.permissionsCategoryModel
+    userModel                = require('../lib/dbschema/user'),
+    serverModel              = require('../lib/dbschema/server'),
+    groupModel               = require('../lib/dbschema/group'),
+    pluginModel              = require('../lib/dbschema/plugin'),
+    permissionModel          = require('../lib/dbschema/permission'),
+    permissionsCategoryModel = require('../lib/dbschema/permissionCategory')
 ;
 
 describe('Database', function() {
@@ -22,13 +21,11 @@ describe('Database', function() {
     describe('UserModel', function() {
         describe('create', function() {
             it('should create a new user without error', function(done) {
-                var user = {
+                userModel.create({
                     username: 'bob',
                     email: 'bob@example.com',
                     password: 'notagoodpassword'
-                };
-
-                userModel.create(user, function(err) {
+                }, function(err) {
                     if (err) throw err;
 
                     done();
@@ -102,18 +99,34 @@ describe('Database', function() {
         });
 
         describe('permissions', function() {
-            it('should grant permission to user', function(done) {
-                var permission = 1;
+            before('set up permissions for testing', function(done) {
+                permissionModel.create({
+                    handle: 'fabulous',
+                    name: 'to be fabulous'
+                }, function(err) {
+                    if (err) throw err;
 
+                    done();
+                });
+
+                done();
+            });
+
+            it('should grant permission to user', function(done) {
                 userModel
                     .findOne({ username: 'bob' })
                     .exec(function(err, result) {
                         if (err) throw err;
                         else {
-                            result
-                                .grantPermission(1, function(err, result) {
-                                    if (err) throw err;
-                                    else done();
+                            permissionModel
+                                .findOne({})
+                                .exec(function(err, permission) {
+                                    result
+                                        .grantPermission(permission._id, function(err, result) {
+                                            if (err) throw err;
+                                            else done();
+                                        })
+                                    ;
                                 })
                             ;
                         }
@@ -128,10 +141,15 @@ describe('Database', function() {
                     .exec(function(err, result) {
                         if (err) throw err;
                         else {
-                            result
-                                .denyPermission(1, function(err, result) {
-                                    if (err) throw err;
-                                    else done();
+                            permissionModel
+                                .findOne({})
+                                .exec(function(err, permission) {
+                                    result
+                                        .denyPermission(permission._id, function(err, result) {
+                                            if (err) throw err;
+                                            else done();
+                                        })
+                                    ;
                                 })
                             ;
                         }
