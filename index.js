@@ -12,7 +12,7 @@ var fs            = require('fs'),
     mongoose      = require('mongoose'),
     flash         = require('connect-flash');
 
-var userModel = require('./lib/dbschema').userModel,
+var userModel = require('./lib/dbschema/user'),
     system;
 
 //  CLI FLAGS
@@ -49,14 +49,12 @@ var conf = require('./lib/config')(app, function(err) {
         if (!user) {
             console.warn('No users found in database, creating new user');
 
-            var defaultUser = {
+            new userModel({
                 username: 'admin',
                 email   : 'admin@example.com',
                 password: 'coyote',
                 role    : 4
-            };
-
-            new userModel(defaultUser).save(function(err) {
+            }).save(function(err) {
                 if (err) console.log(err);
                 else {
                     console.log(
