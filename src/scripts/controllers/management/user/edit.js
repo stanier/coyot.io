@@ -6,6 +6,8 @@ app.controller('UserEditCtlr', [
     function($scope, $http, $stateParams, _) {
         $http.get('/api/management/users/' + $stateParams.user)
             .success(function(data, status, headers, config) {
+                data.groups = _.pluck(data.groups, '_id');
+
                 $scope.user = _.clone(data);
                 $scope.carbon = _.clone(data);
             })
