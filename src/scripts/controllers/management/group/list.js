@@ -8,10 +8,11 @@ app.controller('GroupListCtlr', [
         $scope.getGroups = function() {
             $http.get('/api/management/groups')
                 .success(function(data, status, headers, config) {
-                    $scope.groups = data;
+                    if (data.success) $scope.groups = data.result;
+                    else toastr.error(data.error);
                 })
                 .error(function(data, status, headers, config) {
-                    $scope.groups = data;
+                    toastr.error(data);
                 })
             ;
         };
@@ -29,8 +30,10 @@ app.controller('GroupListCtlr', [
                 toastr.info('Deleting group \"' + group + '\" ...');
                 $http.delete('/api/management/groups/' + group)
                     .success(function(data, status, headers, config) {
-                        toastr.success('Group \"' + group + '\" deleted successfully!');
-                        $scope.getGroups();
+                        if (data.success) {
+                            toastr.success('Group \"' + group + '\" deleted successfully!');
+                            $scope.getGroups();
+                        } else toastr.error(data.error);
                     })
                     .error(function(data, status, headers, config) {
                         toastr.error(data);

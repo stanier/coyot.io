@@ -50,10 +50,11 @@ app.controller('GroupAddCtlr', [
             toastr.info('Creating group...');
             $http.post('/api/management/groups', options)
                 .success(function(data, status, headers, config) {
-                    toastr.success('Successfully created group');
+                    if (data.success) toastr.success('Successfully created group');
+                    else toastr.error(data.error);
                 })
                 .error(function(data, status, headers, config) {
-                    toastr.error('An error has occurred');
+                    toastr.error(data);
                 })
             ;
         }

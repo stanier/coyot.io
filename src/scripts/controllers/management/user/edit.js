@@ -6,10 +6,12 @@ app.controller('UserEditCtlr', [
     function($scope, $http, $stateParams, _) {
         $http.get('/api/management/users/' + $stateParams.user)
             .success(function(data, status, headers, config) {
-                data.groups = _.pluck(data.groups, '_id');
+                if (data.success) {
+                    data.result.groups = _.pluck(data.groups, '_id');
 
-                $scope.user = _.clone(data);
-                $scope.carbon = _.clone(data);
+                    $scope.user = _.clone(data.result);
+                    $scope.carbon = _.clone(data.result);
+                } else toastr.error(data.error);
             })
             .error(function(data, status, headers, config) {
                 toastr.error(data);
@@ -18,7 +20,8 @@ app.controller('UserEditCtlr', [
 
         $http.get('/api/management/groups')
             .success(function(data, status, headers, config) {
-                $scope.groups = data;
+                if (data.success) $scope.groups = data.result;
+                else toastr.error(data.error);
             })
             .error(function(data, status, headers, config) {
                 toastr.error(data);
@@ -35,7 +38,8 @@ app.controller('UserEditCtlr', [
 
             $http.put('/api/management/users/' + $stateParams.user, changed)
                 .success(function(data, status, headers, config) {
-                    toastr.success('User updated successfully');
+                    if (data.success) toastr.success('User updated successfully');
+                    else toastr.error(data.error);
                 })
                 .error(function(data, status, headers, config) {
                     toastr.error(data);

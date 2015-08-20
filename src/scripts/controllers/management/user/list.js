@@ -8,10 +8,11 @@ app.controller('UserListCtlr', [
         $scope.getUsers = function() {
             $http.get('/api/management/users')
                 .success(function(data, status, headers, config) {
-                    $scope.users = data;
+                    if (data.success) $scope.users = data.result;
+                    else toastr.error(data.error);
                 })
                 .error(function(data, status, headers, config) {
-                    $scope.users = data;
+                    toastr.error(data);
                 })
             ;
         };
@@ -29,8 +30,10 @@ app.controller('UserListCtlr', [
                 toastr.info('Deleting user \"' + user + '\" ...');
                 $http.delete('/api/management/users/' + user)
                     .success(function(data, status, headers, config) {
-                        toastr.success('User \"' + user + '\" deleted successfully!');
-                        $scope.getUsers();
+                        if (data.success) {
+                            toastr.success('User \"' + user + '\" deleted successfully!');
+                            $scope.getUsers();
+                        } else toastr.error(data.error);
                     })
                     .error(function(data, status, headers, config) {
                         toastr.error(data);

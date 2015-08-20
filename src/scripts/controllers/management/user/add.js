@@ -32,7 +32,8 @@ app.controller('UserAddCtlr', [
 
         $http.get('/api/management/groups')
             .success(function(data, status, headers, config) {
-                $scope.availableGroups = data;
+                if (data.success) $scope.availableGroups = data.result;
+                else toastr.error(data.error);
             })
             .error(function(data, status, headers, config) {
                 toastr.error(data);
@@ -69,10 +70,11 @@ app.controller('UserAddCtlr', [
             toastr.info('Creating user...');
             $http.post('/api/management/users', options)
                 .success(function(data, status, headers, config) {
-                    toastr.success('Successfully created user');
+                    if (data.success) toastr.success('Successfully created user');
+                    else toastr.error(data.error);
                 })
                 .error(function(data, status, headers, config) {
-                    toastr.error('An error has occurred');
+                    toastr.error(data);
                 })
             ;
         }
