@@ -12,7 +12,8 @@ var fs            = require('fs'),
     mongoose      = require('mongoose'),
     flash         = require('connect-flash');
 
-var userModel = require('./lib/dbschema/user'),
+var userModel   = require('./lib/dbschema/user'),
+    pluginModel = require('./lib/dbschema/plugin'),
     system;
 
 //  CLI FLAGS
@@ -63,6 +64,19 @@ var conf = require('./lib/config')(app, function(err) {
                         '\n    Password:  ' + defaultUser.password
                 );
                 }
+            });
+        }
+    });
+
+    pluginModel.findOne({ handle: 'core'}, function(err, core) {
+        if (err) console.error(err);
+
+        if (!core) {
+            console.warn('Core plugin not found.  Core plugin will be added to' +
+                ' database');
+
+            pluginModel.create({ handle: 'core' }, function(err) {
+                console.log('Core plugin added to database!');
             });
         }
     });
