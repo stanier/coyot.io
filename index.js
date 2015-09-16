@@ -37,7 +37,8 @@ GLOBAL.console.error = error;
 GLOBAL.console.warn = warn;
 
 var conf = require('./lib/config')(app, function(err) {
-    var uristring = 'mongodb://' + app.get('db.host') + ':' +
+    var uristring = 'mongodb://' + app.get('db.username') + ':' +
+        app.get('db.password') + '@' + app.get('db.host') + ':' +
         app.get('db.port') + '/' + app.get('db.name');
 
     var mongoOptions = { db: { safe: true }};
