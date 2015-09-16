@@ -9,7 +9,9 @@
     "db": {
         "host": "localhost",
         "port": "27017",
-        "name": "coyotioDB"
+        "name": "coyotioDB",
+        "username": "coyotioUser",
+        "password": "3QZtKxBqPIkYTWNdjPLr0wyBk+IeAqLP4PxOxdeYwPk="
     },
     "sessions": {
         "host": "localhost",

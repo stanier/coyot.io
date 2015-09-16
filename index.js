@@ -76,7 +76,9 @@ var conf = require('./lib/config')(app, function(err) {
             console.warn('Core plugin not found.  Core plugin will be added to' +
                 ' database');
 
-            pluginModel.create({ handle: 'core' }, function(err) {
+            pluginModel.create({
+                handle: 'core'
+            }, function(err) {
                 console.log('Core plugin added to database!');
             });
         }
