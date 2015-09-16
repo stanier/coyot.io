@@ -1,8 +1,11 @@
-var express = require('express'),
+var
+    express = require('express'),
     app     = express(),
-    server  = require('http').createServer(app);
+    server  = require('http').createServer(app)
+;
 
-var fs            = require('fs'),
+var
+    fs            = require('fs'),
     favicon       = require('serve-favicon'),
     morgan        = require('morgan'),
     path          = require('path'),
@@ -10,11 +13,16 @@ var fs            = require('fs'),
     bodyParser    = require('body-parser'),
     session       = require('express-session'),
     mongoose      = require('mongoose'),
-    flash         = require('connect-flash');
+    flash         = require('connect-flash')
+;
 
-var userModel   = require('./lib/dbschema/user'),
+var
+    userModel   = require('./lib/dbschema/user'),
     pluginModel = require('./lib/dbschema/plugin'),
-    system;
+    system
+;
+
+var pluginManager = require('./lib/pluginManager');
 
 //  CLI FLAGS
 
@@ -76,8 +84,8 @@ var conf = require('./lib/config')(app, function(err) {
             console.warn('Core plugin not found.  Core plugin will be added to' +
                 ' database');
 
-            pluginModel.create({
-                handle: 'core'
+            pluginManager.install({
+                path: 'core'
             }, function(err) {
                 console.log('Core plugin added to database!');
             });
