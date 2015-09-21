@@ -22,7 +22,10 @@ var
     system
 ;
 
-var pluginManager = require('./lib/pluginManager');
+var
+    pluginManager = require('./lib/pluginManager'),
+    permissions = require('./lib/permissions')
+;
 
 //  CLI FLAGS
 
@@ -77,20 +80,7 @@ var conf = require('./lib/config')(app, function(err) {
         }
     });
 
-    pluginModel.findOne({ handle: 'core'}, function(err, core) {
-        if (err) console.error(err);
-
-        if (!core) {
-            console.warn('Core plugin not found.  Core plugin will be added to' +
-                ' database');
-
-            pluginManager.install({
-                path: 'core'
-            }, function(err) {
-                console.log('Core plugin added to database!');
-            });
-        }
-    });
+    permissions.checkCore();
 
     //  VIEW ENGINE INITIALIZATION
 
