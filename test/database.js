@@ -3,12 +3,12 @@ var should = require('chai').should();
 var mongoose = require('mongoose');
 
 var
-    userModel                = require('../lib/dbschema/user'),
-    serverModel              = require('../lib/dbschema/server'),
-    groupModel               = require('../lib/dbschema/group'),
-    pluginModel              = require('../lib/dbschema/plugin'),
-    permissionModel          = require('../lib/dbschema/permission'),
-    permissionsCategoryModel = require('../lib/dbschema/permissionCategory')
+    userModel       = require('../lib/dbschema/user'),
+    serverModel     = require('../lib/dbschema/server'),
+    groupModel      = require('../lib/dbschema/group'),
+    pluginModel     = require('../lib/dbschema/plugin'),
+    permissionModel = require('../lib/dbschema/permission'),
+    permCatModel    = require('../lib/dbschema/permCat')
 ;
 
 describe('Database', function() {
