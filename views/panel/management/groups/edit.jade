@@ -30,6 +30,21 @@
                         span.toggle
                 
                 .col-sm-12
-                    h4 Permissions
+                    a.btn.btn-primary(ng-href='/management/groups/{{group.name}}/edit/permissions') Permissions
+                    //h3 Permissions
+                    //div(ng-repeat='category in permissionscategories')
+                        h4 {{ category.name }}
+                        table.table.table-striped.table-hover
+                            thead
+                                td Privileged
+                                td Name
+                                td Description
+                            tbody
+                                tr(ng-repeat='permission in category.permissions')
+                                    td: .togglebutton: label
+                                        input(type="checkbox")
+                                        span.toggle
+                                    td {{ permission.name }}
+                                    td {{ permission.description }}
 
                 button.btn.btn-primary(ng-click='update()') Save
