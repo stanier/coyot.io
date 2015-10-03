@@ -1,9 +1,12 @@
 .row
+    button.btn.btn-primary(ng-click='back()'): span.fa.fa-arrow-left
+.row
     .panel.panel-default
         .panel-heading Edit group permissions
         .panel-body
-            h3 Permissions
-            div(ng-repeat='category in permissionscategories')
+            h3 Permissions for "{{ name }}"
+            hr
+            div(ng-repeat='category in categories')
                 h4 {{ category.name }}
                 table.table.table-striped.table-hover
                     thead
@@ -17,3 +20,5 @@
                                 span.toggle
                             td {{ permission.name }}
                             td {{ permission.description }}
+                
+                button.btn.btn-primary(ng-click='update()') Save

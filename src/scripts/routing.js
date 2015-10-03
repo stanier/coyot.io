@@ -65,6 +65,11 @@ app.config([
                 templateUrl: '/pages/management/groups',
                 controller: 'GroupListCtlr as controller'
             })
+            .state('app.management.groups.permissions', {
+                url: '/:group/permissions',
+                templateUrl: '/pages/management/groups/permissions',
+                controller: 'GroupPermsCtlr as controller'
+            })
             .state('app.management.users', {
                 abstract: true,
                 url: '/users',
