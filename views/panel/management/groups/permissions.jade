@@ -4,7 +4,7 @@
     .panel.panel-default
         .panel-heading Edit group permissions
         .panel-body
-            h3 Permissions for "{{ name }}"
+            h3 Permissions for "{{ group.name }}"
             hr
             div(ng-repeat='category in categories')
                 h4 {{ category.name }}
@@ -16,7 +16,11 @@
                     tbody
                         tr(ng-repeat='permission in category.permissions')
                             td: .togglebutton: label
-                                input(type="checkbox")
+                                input(
+                                    type='checkbox'
+                                    ng-checked='group.permissions.indexOf(permission.handle) > -1'
+                                    ng-click='change(permission.handle)'
+                                )
                                 span.toggle
                             td {{ permission.name }}
                             td {{ permission.description }}
