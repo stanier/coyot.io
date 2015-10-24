@@ -18,11 +18,9 @@
                             td: .togglebutton: label
                                 input(
                                     type='checkbox'
-                                    ng-checked='group.permissions.indexOf(permission.handle) > -1'
-                                    ng-click='change(permission.handle)'
+                                    ng-checked='group.permissions.indexOf(permission.full_handle) > -1'
+                                    ng-click='change(permission.full_handle)'
                                 )
                                 span.toggle
                             td {{ permission.name }}
                             td {{ permission.description }}
-                
-                button.btn.btn-primary(ng-click='update()') Save
