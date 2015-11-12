@@ -1,0 +1,26 @@
+.row
+    button.btn.btn-primary(ng-click='back()'): span.fa.fa-arrow-left
+.row
+    .panel.panel-default
+        .panel-heading Edit user permissions
+        .panel-body
+            h3 Permissions for "{{ user.name }}"
+            hr
+            div(ng-repeat='category in categories')
+                h4 {{ category.name }}
+                table.table.table-striped.table-hover
+                    thead
+                        td Privileged
+                        td Name
+                        td Description
+                    tbody
+                        tr(ng-repeat='permission in category.permissions')
+                            td: .togglebutton: label
+                                input(
+                                    type='checkbox'
+                                    ng-checked='user.permissions.indexOf(permission.full_handle) > -1'
+                                    ng-click='change(permission.full_handle)'
+                                )
+                                span.toggle
+                            td {{ permission.name }}
+                            td {{ permission.description }}

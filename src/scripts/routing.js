@@ -96,6 +96,11 @@ app.config([
                 templateUrl: '/pages/management/users',
                 controller: 'UserListCtlr as controller'
             })
+            .state('app.management.users.permissions', {
+                url: '/:user/permissions',
+                templateUrl: '/pages/management/users/permissions',
+                controller: 'UserPermsCtlr as controller'
+            })
             .state('app.server', {
                 abstract: true,
                 url: '/server/:hostname',

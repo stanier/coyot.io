@@ -46,5 +46,7 @@
                         ng-model='user.groups'
                         ng-options='group._id as group.name for group in groups'
                     )
+                .col-sm-12
+                    a.btn.btn-primary(ng-href='/management/users/{{user.username}}/permissions') Permissions
                     
                 button.btn.btn-primary(ng-click='update()') Save

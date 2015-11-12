@@ -1,12 +1,12 @@
-app.controller('GroupPermsCtlr', [
+app.controller('UserPermsCtlr', [
     '$scope',
     '$http',
     '$stateParams',
     function($scope, $http, $stateParams) {
         $scope.selected = {};
 
-        $scope.group = {
-            name: $stateParams.group
+        $scope.user = {
+            name: $stateParams.user
         };
 
         // Get all available permissions
@@ -22,11 +22,12 @@ app.controller('GroupPermsCtlr', [
             })
         ;
 
-        // Get active permissions for group
-        $http.get('/api/management/groups/' + $stateParams.group + '/permissions')
+        // Get active permissions for user
+        $http.get('/api/management/users/' + $stateParams.user + '/permissions')
             .success(function(data, status, headers, config) {
                 if (data.success) {
-                    $scope.group.permissions = data.result;
+                    $scope.user.permissions = data.result;
+                    console.log(data.result);
                 } else toastr.error(data.error);
             })
             .error(function(data, status, headers, config) {
@@ -35,19 +36,17 @@ app.controller('GroupPermsCtlr', [
         ;
 
         $scope.change = function(handle) {
-            if ($scope.group.permissions.indexOf(handle) > -1) {
-                $http.delete('/api/management/groups/' + $stateParams.group + '/permissions/' + handle);
+            if ($scope.user.permissions.indexOf(handle) > -1) {
+                $http.delete('/api/management/users/' + $stateParams.user + '/permissions/' + handle);
                 checkPermission(handle);
             } else {
-                $http.put('/api/management/groups/' + $stateParams.group + '/permissions/' + handle);
+                $http.put('/api/management/users/' + $stateParams.user + '/permissions/' + handle);
                 checkPermission(handle);
             }
-
-            console.log($scope.group.permissions);
         };
 
         $scope.update = function() {
-            $http.post('/api/management/groups/' + $stateParams.group + '/permissions', postData)
+            $http.post('/api/management/users/' + $stateParams.user + '/permissions', postData)
                 .success(function(data, status, headers, config) {
                     toastr.success(data);
                 })
@@ -58,12 +57,12 @@ app.controller('GroupPermsCtlr', [
         };
 
         function checkPermission(handle) {
-            $http.get('/api/management/groups/' + $stateParams.group + '/permissions/' + handle)
+            $http.get('/api/management/users/' + $stateParams.user + '/permissions/' + handle)
                 .success(function(data, status, headers, config) {
-                    if (data.result === true && $scope.group.permissions.indexOf(handle) < 0)
-                        $scope.group.permissions.push(handle);
-                    else if (data.result === false && $scope.group.permissions.indexOf(handle) > -1)
-                        $scope.group.permissions.splice($scope.group.permissions.indexOf(handle));
+                    if (data.result === true && $scope.user.permissions.indexOf(handle) < 0)
+                        $scope.user.permissions.push(handle);
+                    else if (data.result === false && $scope.user.permissions.indexOf(handle) > -1)
+                        $scope.user.permissions.splice($scope.user.permissions.indexOf(handle));
                 })
                 .error(function(data, status, headers, config) {
                     console.log(data);
