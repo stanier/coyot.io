@@ -1,13 +1,9 @@
 mixin list(target_path, name, icon)
     - var ng_path = target_path.replace(/(.+){{ +(.+) +}}(.+)/g, "$1' + $2 + '$3")
     
-    li(ng-class="{ active: $root.path.equals('#{ng_path}') }")
+    md-item
         a(ng-href=target_path)
-            if (icon)
-                span.fa(class=icon) 
-                    = name
-            else
-                = name
-        if block
-            ul(ng-show="$root.path.startsWith('#{ng_path}')")
-                block
+            md-item-content(md-ink-ripple layout="row" layout-align="start center")
+                div(class="inset")
+                    ng-md-icon(icon=icon)
+                div(class="inset")= name

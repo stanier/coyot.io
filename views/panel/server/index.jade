@@ -1,4 +1,35 @@
-.panel.panel-default(ng-init='getStats()')
+md-content(md-padding ng-init='getStats()')
+    md-card
+        md-card-content
+            .row
+                div(ng-attr-platform-icon='{{server.platform}}')
+                h3 {{ server.hostname }}
+                p {{ server.platform }} {{ server.release }} {{ server.arch }}
+            .row
+                p Status:  
+                    i.fa.fa-circle.text-success(ng-if='server.online')
+                    i.fa.fa-circle.text-danger(ng-if='!server.online')
+                    
+                p Host:  {{ server.host }}
+                p Port:  {{ server.port }}
+                p Type:  {{ server.type }}
+                p Uptime:  {{ server.uptime | date : "h 'hours' m 'minutes and' s 'seconds'" }}
+            .row(ng-show='server.platform == "linux"')
+                .column(flex)
+                    md-progress-circular(md-mode="determinate" value="server.loadavg[0]")
+                    | 1 minute
+                .column(flex)
+                    md-progress-circular(md-mode="determinate" value="server.loadavg[1]")
+                    | 5 minutes
+                .column(flex)
+                    md-progress-circular(md-mode="determinate" value="server.loadavg[2]")
+                    | 15 minutes
+            .row
+                p Available RAM:  {{ server.freemem | bytes }} / {{ server.totalmem | bytes }}
+                p CPU Count:  {{ server.cpu.length }}
+                p(ng-if='server.distro') Distro:  {{ server.distro }}
+
+//.panel.panel-default(ng-init='getStats()')
     .panel-heading Overview
     .panel-body
         .col-sm-12

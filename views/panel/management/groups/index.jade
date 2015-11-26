@@ -1,41 +1,44 @@
-.panel.panel-default(ng-init='getGroups()')
-    .panel-heading Groups
-    .panel-body
-        form.form-inline: .col-sm-12.form-group: .row
-            .col-sm-10        
-                button.btn(type='button' ng-click='currentPage = currentPage*1 - 1'
-                    ng-disabled="currentPage*1 <= 0 ? 'disabled' : ''") Previous
-                
-                button.btn(type='button' ng-click='currentPage = currentPage*1 + 1'
-                    ng-disabled="currentPage*1 >= (pkgs.length / pageSize) - 1 ? 'disabled' : ''") Next
-        
-                input.form-control(ng-model='currentPage')
-            .cols-m-2
-                a.btn.btn-primary(type='button' href='/management/groups/add'): .fa.fa-plus
-            
-        table.table.table-striped.table-hover
-            thead
-                td: h5 Group
-                td: h5 Owner
-                td: h5 Controls
-            tbody
-                tr(ng-repeat='group in groups | ' +
-                        'offsetBy: pageSize * currentPage | ' +
-                        'limitTo: pageSize')
-                    td: {{ group.name }}
-                    td: {{ group.owner }}
-                    td.col-sm-4.col-md-3: .btn-group
-                        a.btn.btn-primary.btn-sm(
-                            ng-href='/management/groups/{{group.name}}/edit'
-                            title='Edit group'
-                            type='button'
-                        ): span.fa.fa-wrench
-                        a.btn.btn-primary.btn-sm(
-                            ng-href='/management/groups/{{group.name}}'
-                            title='View group info'
-                            type='button'
-                        ): span.fa.fa-info
-                        button.btn.btn-primary.btn-sm(
-                            ng-click='delete(group.name)'
-                            title='Remove group'
-                        ): span.fa.fa-trash-o
+md-content(md-padding)
+    md-card
+        md-card-content
+            .panel.panel-default(ng-init='getGroups()')
+                .panel-heading Groups
+                .panel-body
+                    form.form-inline: .col-sm-12.form-group: .row
+                        .col-sm-10        
+                            button.btn(type='button' ng-click='currentPage = currentPage*1 - 1'
+                                ng-disabled="currentPage*1 <= 0 ? 'disabled' : ''") Previous
+                            
+                            button.btn(type='button' ng-click='currentPage = currentPage*1 + 1'
+                                ng-disabled="currentPage*1 >= (pkgs.length / pageSize) - 1 ? 'disabled' : ''") Next
+                    
+                            input.form-control(ng-model='currentPage')
+                        .cols-m-2
+                            a.btn.btn-primary(type='button' href='/management/groups/add'): .fa.fa-plus
+                        
+                    table.table.table-striped.table-hover
+                        thead
+                            td: h5 Group
+                            td: h5 Owner
+                            td: h5 Controls
+                        tbody
+                            tr(ng-repeat='group in groups | ' +
+                                    'offsetBy: pageSize * currentPage | ' +
+                                    'limitTo: pageSize')
+                                td: {{ group.name }}
+                                td: {{ group.owner }}
+                                td.col-sm-4.col-md-3: .btn-group
+                                    a.btn.btn-primary.btn-sm(
+                                        ng-href='/management/groups/{{group.name}}/edit'
+                                        title='Edit group'
+                                        type='button'
+                                    ): span.fa.fa-wrench
+                                    a.btn.btn-primary.btn-sm(
+                                        ng-href='/management/groups/{{group.name}}'
+                                        title='View group info'
+                                        type='button'
+                                    ): span.fa.fa-info
+                                    button.btn.btn-primary.btn-sm(
+                                        ng-click='delete(group.name)'
+                                        title='Remove group'
+                                    ): span.fa.fa-trash-o

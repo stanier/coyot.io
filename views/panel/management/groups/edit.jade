@@ -1,35 +1,38 @@
-.row
-    button.btn.btn-primary(ng-click='back()'): span.fa.fa-arrow-left
-.row
-    .panel.panel-default
-        .panel-heading Edit Group
-        .panel-body
-            form.form-group
-                .form-group.row
-                    .col-sm-2: label(for='name') Name
-                    .col-sm-10: input#name.form-control(
-                        ng-model='group.name'
-                        placeholder='Name'
-                    )
-                .form-group.row
-                    .col-sm-2: label(for='owner') Owner
-                    .col-sm-10: input#owner.form-control(
-                        ng-model='group.owner'
-                        placeholder='Owner'
-                    )
-                .form-group.row
-                    .col-sm-2: label(for='description') Description
-                    .col-sm-10: input#description.form-control(
-                        ng-model='group.description'
-                        placeholder='Description'
-                    )
-                .form-group.row
-                    .col-sm-2: label(for='isDefault') Default Group?
-                    .col-sm-10: .togglebutton: label
-                        input(type="checkbox")
-                        span.toggle
-                
-                .col-sm-12
-                    a.btn.btn-primary(ng-href='/management/groups/{{group.name}}/permissions') Permissions
+md-content(md-padding)
+    md-card
+        md-card-content
+            .row
+                button.btn.btn-primary(ng-click='back()'): span.fa.fa-arrow-left
+            .row
+                .panel.panel-default
+                    .panel-heading Edit Group
+                    .panel-body
+                        form.form-group
+                            .form-group.row
+                                .col-sm-2: label(for='name') Name
+                                .col-sm-10: input#name.form-control(
+                                    ng-model='group.name'
+                                    placeholder='Name'
+                                )
+                            .form-group.row
+                                .col-sm-2: label(for='owner') Owner
+                                .col-sm-10: input#owner.form-control(
+                                    ng-model='group.owner'
+                                    placeholder='Owner'
+                                )
+                            .form-group.row
+                                .col-sm-2: label(for='description') Description
+                                .col-sm-10: input#description.form-control(
+                                    ng-model='group.description'
+                                    placeholder='Description'
+                                )
+                            .form-group.row
+                                .col-sm-2: label(for='isDefault') Default Group?
+                                .col-sm-10: .togglebutton: label
+                                    input(type="checkbox")
+                                    span.toggle
+                            
+                            .col-sm-12
+                                a.btn.btn-primary(ng-href='/management/groups/{{group.name}}/permissions') Permissions
 
-                button.btn.btn-primary(ng-click='update()') Save
+                            button.btn.btn-primary(ng-click='update()') Save

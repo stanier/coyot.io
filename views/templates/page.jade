@@ -1,15 +1,14 @@
 include /includes/mixins
 
 doctype html
-html(ng-app='coyot.io')
+html(ng-app='coyot.io' ng-strict-di)
     head
         include /includes/links
         
         base(href='/')
-    body
+    body(layout-fill layout='column')
         +navbar
         
-        div(style='padding-top: 20px')
-            block container
+        block container
 
         include /includes/scripts

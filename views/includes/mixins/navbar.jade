@@ -1,6 +1,6 @@
 mixin navbar
     
-    nav.navbar.navbar-default.navbar-fixed-top(style='margin-bottom:0px')
+    //nav.navbar.navbar-default.navbar-fixed-top(style='margin-bottom:0px')
         a.navbar-brand(href='#') Coyot.io
             //ul.navbar.navbar-nav.pull-right
                 li.dropdown
@@ -13,3 +13,7 @@ mixin navbar
                     ul.dropdown-menu
                         li List item
                         li Another list item
+
+    md-toolbar(layout='row').md-toolbar-tools
+        .fill-height.layout-row.flex
+            a.md-toolbar-item Coyot.io

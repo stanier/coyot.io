@@ -1,26 +1,13 @@
-.col-sm-4.col-sm-offset-4
-    if (message != '')
-        .alert.alert-info {{message}}
-    if (error != '')
-        .alert.alert-danger {{error}}
-        
-    h2 Login
-    
-    .well
-        form
-            div
-                h3 Username:
-                input.form-control(type='text' name='username' ng-model='username')
+md-content(layout='row' layout-fill layout-align='center center')
+    md-card.md-inline-form(layout='column' flex='50')
+        md-card-content(layout-padding)
+            form(name='loginForm')
+                md-input-container(flex)
+                    label Username
+                    input(ng-model='username')
+                md-input-container(flex)
+                    label Password
+                    input(ng-model='password' type='password')
                 
-            div
-                h3 Password:
-                input.form-control(type='password' name='password' ng-model='password')
-            
-            div
-                .checkbox
-                    label
-                        input#rememberme(type='checkbox' name='rememberme' ng-model='remember')
-                        p Remember me
-            
-            div
-                button.form-control(ng-click='login()') Submit
+                md-checkbox(ng-model='remember') Remember Me
+                md-button.md-primary(ng-click='login()') Login

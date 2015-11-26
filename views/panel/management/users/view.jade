@@ -1,21 +1,24 @@
-.row
-    button.btn.btn-primary(ng-click='back()'): span.fa.fa-arrow-left
-.row
-    .panel.panel-default
-        .panel-heading User Overview
-        .panel-body
-            h3 {{ user.username }}
-            h5 Email: {{ user.email }}
-            h5 Role: {{ user.role }}
-            h5 Groups:
-            table.table.table-striped
-                thead
-                    td Name
-                    td Description
-                tbody
-                    tr(ng-repeat='group in user.groups')
-                        td {{ group.name }}
-                        td {{ group.description }}
-                        td: .btn-group
-                            a.btn.btn-primary.btn-sm(ng-href='/management/groups/{{group.name}}')
-                                span.fa.fa-info
+md-content(md-padding)
+    md-card
+        md-card-content
+            .row
+                button.btn.btn-primary(ng-click='back()'): span.fa.fa-arrow-left
+            .row
+                .panel.panel-default
+                    .panel-heading User Overview
+                    .panel-body
+                        h3 {{ user.username }}
+                        h5 Email: {{ user.email }}
+                        h5 Role: {{ user.role }}
+                        h5 Groups:
+                        table.table.table-striped
+                            thead
+                                td Name
+                                td Description
+                            tbody
+                                tr(ng-repeat='group in user.groups')
+                                    td {{ group.name }}
+                                    td {{ group.description }}
+                                    td: .btn-group
+                                        a.btn.btn-primary.btn-sm(ng-href='/management/groups/{{group.name}}')
+                                            span.fa.fa-info

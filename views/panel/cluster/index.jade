@@ -1,22 +1,28 @@
-.panel.panel-default
-    .panel-body
-        table.table
-            thead
-                td: h5 Hostname
-                td: h5 Web
-                td: h5 Worker
-                td: h5 Online
-                td: h5 Free memory
-            tbody
-                tr(ng-repeat='server in servers')
-                    td: a(href='/server/{{server.hostname}}/overview'){{ server.hostname }}
-                    td
-                        .fa.fa-check-circle.text-success(ng-if='server.isWeb')
-                        .fa.fa-times-circle.text-muted(ng-if='!server.isWeb')
-                    td
-                        .fa.fa-check-circle.text-success(ng-if='server.isWorker')
-                        .fa.fa-times-circle.text-muted(ng-if='!server.isWorker')
-                    td
-                        .fa.fa-check-circle.text-success(ng-if='server.online')
-                        .fa.fa-times-circle.text-danger(ng-if='!server.online')
-                    td {{ server.freemem | bytes }}
+md-content(md-padding)
+    md-card
+        md-data-table-container
+            table.md-primary(md-data-table md-progress="deferred")
+                thead
+                    tr
+                        th(name="Hostname")
+                        th(name="Web")
+                        th(name="Worker")
+                        th(name="Online")
+                        th(name="Free memory")
+                tbody
+                    tr(
+                        md-auto-select
+                        ng-repeat="server in servers"
+                    )
+                        td: a(ng-href='/server/{{server.hostname}}/overview')
+                            | {{ server.hostname }}
+                        td
+                            .fa.fa-check-circle.text-success(ng-if='server.isWeb')
+                            .fa.fa-times-circle.text-muted(ng-if='!server.isWeb')
+                        td
+                            .fa.fa-check-circle.text-success(ng-if='server.isWorker')
+                            .fa.fa-times-circle.text-muted(ng-if='!server.isWorker')
+                        td
+                            .fa.fa-check-circle.text-success(ng-if='server.online')
+                            .fa.fa-times-circle.text-danger(ng-if='!server.online')
+                        td {{ server.freemem | bytes }}

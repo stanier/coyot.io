@@ -1,43 +1,43 @@
-.panel.panel-default(ng-init='getUsers()')
-    .panel-heading Users
-    .panel-body
-        form.form-inline: .col-sm-12.form-group: .row
-            .col-sm-10        
-                button.btn(type='button' ng-click='currentPage = currentPage*1 - 1'
-                    ng-disabled="currentPage*1 <= 0 ? 'disabled' : ''") Previous
-                
-                button.btn(type='button' ng-click='currentPage = currentPage*1 + 1'
-                    ng-disabled="currentPage*1 >= (pkgs.length / pageSize) - 1 ? 'disabled' : ''") Next
-        
-                input.form-control(ng-model='currentPage')
-            .cols-m-2
-                a.btn.btn-primary(type='button' href='/management/users/add'): .fa.fa-plus
+md-content(md-padding ng-init='getUsers()')
+    md-card
+        md-card-content
+            form.form-inline(layout='row'): .form-group: .row
+                .row(flex='83')
+                    button.btn(type='button' ng-click='currentPage = currentPage*1 - 1'
+                        ng-disabled="currentPage*1 <= 0 ? 'disabled' : ''") Previous
+                    
+                    button.btn(type='button' ng-click='currentPage = currentPage*1 + 1'
+                        ng-disabled="currentPage*1 >= (pkgs.length / pageSize) - 1 ? 'disabled' : ''") Next
             
-        table.table.table-striped.table-hover
-            thead
-                td: h5 Username
-                td: h5 Email
-                td: h5 Role
-                td: h5 Controls
-            tbody
-                tr(ng-repeat='user in users | ' +
-                        'offsetBy: pageSize * currentPage | ' +
-                        'limitTo: pageSize')
-                    td: {{ user.username }}
-                    td: {{ user.email }}
-                    td: {{ user.role }}
-                    td.col-sm-4.col-md-3: .btn-group
-                        a.btn.btn-primary.btn-sm(
-                            ng-href='/management/users/{{user.username}}/edit'
-                            title='Edit user'
-                            type='button'
-                        ): span.fa.fa-wrench
-                        a.btn.btn-primary.btn-sm(
-                            ng-href='/management/users/{{user.username}}'
-                            title='View user info'
-                            type='button'
-                        ): span.fa.fa-info
-                        button.btn.btn-primary.btn-sm(
-                            ng-click='delete(user.username)'
-                            title='Remove user'
-                        ): span.fa.fa-trash-o
+                    input.form-control(ng-model='currentPage')
+                .row(flex='17')
+                    a.btn.btn-primary(type='button' href='/management/users/add'): .fa.fa-plus
+                
+            table.table.table-striped.table-hover(layout='column')
+                thead(layout='row'): tr(layout-fill)
+                    td: h5 Username
+                    td: h5 Email
+                    td: h5 Role
+                    td: h5 Controls
+                tbody(layout='row')
+                    tr(ng-repeat='user in users | ' +
+                            'offsetBy: pageSize * currentPage | ' +
+                            'limitTo: pageSize')
+                        td: {{ user.username }}
+                        td: {{ user.email }}
+                        td: {{ user.role }}
+                        td.row: .btn-group
+                            a.btn.btn-primary.btn-sm(
+                                ng-href='/management/users/{{user.username}}/edit'
+                                title='Edit user'
+                                type='button'
+                            ): span.fa.fa-wrench
+                            a.btn.btn-primary.btn-sm(
+                                ng-href='/management/users/{{user.username}}'
+                                title='View user info'
+                                type='button'
+                            ): span.fa.fa-info
+                            button.btn.btn-primary.btn-sm(
+                                ng-click='delete(user.username)'
+                                title='Remove user'
+                            ): span.fa.fa-trash-o

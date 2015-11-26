@@ -61,7 +61,7 @@ gulp.task('styles', function() {
 });
 
 gulp.task('scripts', function() {
-    return gulp.src('src/scripts/**/*.js')
+    return gulp.src(['src/scripts/module.js', 'src/scripts/**/!(module).js'])
         .pipe(plumber())
         .pipe(jshint())
         .pipe(concat( pkg.name + '.js'))

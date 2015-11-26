@@ -1,42 +1,45 @@
-.panel.panel-default
-    .panel-heading Running services
-    .panel-body
-        form.form-inline: .form-group
-            button.btn(type='button' ng-click='currentPage = currentPage*1 - 1'
-                ng-disabled="currentPage*1 <= 0 ? 'disabled' : ''") Previous
-            
-            button.btn(type='button' ng-click='currentPage = currentPage*1 + 1'
-                ng-disabled="currentPage*1 >= (pkgs.length / pageSize) - 1 ? 'disabled' : ''") Next
-        
-            input.form-control(ng-model='currentPage')
-            
-        table.table.table-hover
-            thead
-                td: h5 Service
-                td: h5 Status
-                td: h5 Controls
-            tbody
-                tr(ng-repeat='entry in serviceStatus | ' +
-                        'offsetBy: pageSize * currentPage | ' +
-                        'limitTo: pageSize')
-                    td: a(href='/server/{{ server.hostname }}/service/{{ entry.service }}/') {{ entry.service }}
-                    td
-                        .fa.fa-check.text-success(ng-if='entry.isRunning')
-                        .fa.fa-minus.text-danger(ng-if='!entry.isRunning')
-                    td.col-sm-4.col-md-3
-                        .btn-group
-                            button.btn.btn-primary.btn-sm(
-                                ng-class='{ disabled: entry.isRunning }'
-                                ng-click='startService(entry.service)'
-                                title='Start service'
-                            ): .fa.fa-play
-                            button.btn.btn-primary.btn-sm(
-                                ng-class='{ disabled: !entry.isRunning }'
-                                ng-click='stopService(entry.service)'
-                                title='Stop service'
-                            ): .fa.fa-stop
-                            button.btn.btn-primary.btn-sm(
-                                ng-class='{ disabled: !entry.isRunning }'
-                                ng-click='restartService(entry.service)'
-                                title='Restart service'
-                            ): .fa.fa-refresh
+md-content(md-padding)
+    md-card
+        md-card-content
+            .panel.panel-default
+                .panel-heading Running services
+                .panel-body
+                    form.form-inline: .form-group
+                        button.btn(type='button' ng-click='currentPage = currentPage*1 - 1'
+                            ng-disabled="currentPage*1 <= 0 ? 'disabled' : ''") Previous
+                        
+                        button.btn(type='button' ng-click='currentPage = currentPage*1 + 1'
+                            ng-disabled="currentPage*1 >= (pkgs.length / pageSize) - 1 ? 'disabled' : ''") Next
+                    
+                        input.form-control(ng-model='currentPage')
+                        
+                    table.table.table-hover
+                        thead
+                            td: h5 Service
+                            td: h5 Status
+                            td: h5 Controls
+                        tbody
+                            tr(ng-repeat='entry in serviceStatus | ' +
+                                    'offsetBy: pageSize * currentPage | ' +
+                                    'limitTo: pageSize')
+                                td: a(href='/server/{{ server.hostname }}/service/{{ entry.service }}/') {{ entry.service }}
+                                td
+                                    .fa.fa-check.text-success(ng-if='entry.isRunning')
+                                    .fa.fa-minus.text-danger(ng-if='!entry.isRunning')
+                                td.col-sm-4.col-md-3
+                                    .btn-group
+                                        button.btn.btn-primary.btn-sm(
+                                            ng-class='{ disabled: entry.isRunning }'
+                                            ng-click='startService(entry.service)'
+                                            title='Start service'
+                                        ): .fa.fa-play
+                                        button.btn.btn-primary.btn-sm(
+                                            ng-class='{ disabled: !entry.isRunning }'
+                                            ng-click='stopService(entry.service)'
+                                            title='Stop service'
+                                        ): .fa.fa-stop
+                                        button.btn.btn-primary.btn-sm(
+                                            ng-class='{ disabled: !entry.isRunning }'
+                                            ng-click='restartService(entry.service)'
+                                            title='Restart service'
+                                        ): .fa.fa-refresh

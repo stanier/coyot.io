@@ -1,44 +1,47 @@
-.row
-    button.btn.btn-primary(ng-click='back()'): span.fa.fa-arrow-left
-.row
-    .panel.panel-default
-        .panel-heading Create User
-        .panel-body
-            form.form-group
-                .form-group.row(ng-class="{'has-error': fields.username.error}")
-                    .col-sm-2: label(for='username') Username
-                    .col-sm-10: input#username.form-control(
-                        ng-model='username'
-                        placeholder='Username'
-                    )
-                .form-group.row
-                    .col-sm-2: label(for='email') Email
-                    .col-sm-10: input#email.form-control(
-                        ng-model='email'
-                        placeholder='Email'
-                        type='email'
-                    )
-                .form-group.row
-                    .col-sm-2: label(for='password') Password
-                    .col-sm-10: input#password.form-control(
-                        ng-model='password'
-                        placeholder='Password'
-                        type='password'
-                    )
-                .form-group.row
-                    .col-sm-2: label(for='confirmPassword') Confirm Password
-                    .col-sm-10: input#confirmPassword.form-control(
-                        ng-model='confirmPassword'
-                        placeholder='Confirm Password'
-                        type='password'
-                    )
-                .form-group.row
-                    .col-sm-2: label(for='groups') Groups
-                    .col-sm-10: select#groups(
-                        multiple
-                        ng-multiple='true'
-                        ng-model='groups'
-                        ng-options='group._id as group.name for group in availableGroups'
-                    )
-                    
-                button.btn.btn-primary(ng-click='create()') Create
+md-content(md-padding)
+    md-card
+        md-card-content
+            .row
+                button.btn.btn-primary(ng-click='back()'): span.fa.fa-arrow-left
+            .row
+                .panel.panel-default
+                    .panel-heading Create User
+                    .panel-body
+                        form.form-group
+                            .form-group.row(ng-class="{'has-error': fields.username.error}")
+                                .col-sm-2: label(for='username') Username
+                                .col-sm-10: input#username.form-control(
+                                    ng-model='username'
+                                    placeholder='Username'
+                                )
+                            .form-group.row
+                                .col-sm-2: label(for='email') Email
+                                .col-sm-10: input#email.form-control(
+                                    ng-model='email'
+                                    placeholder='Email'
+                                    type='email'
+                                )
+                            .form-group.row
+                                .col-sm-2: label(for='password') Password
+                                .col-sm-10: input#password.form-control(
+                                    ng-model='password'
+                                    placeholder='Password'
+                                    type='password'
+                                )
+                            .form-group.row
+                                .col-sm-2: label(for='confirmPassword') Confirm Password
+                                .col-sm-10: input#confirmPassword.form-control(
+                                    ng-model='confirmPassword'
+                                    placeholder='Confirm Password'
+                                    type='password'
+                                )
+                            .form-group.row
+                                .col-sm-2: label(for='groups') Groups
+                                .col-sm-10: select#groups(
+                                    multiple
+                                    ng-multiple='true'
+                                    ng-model='groups'
+                                    ng-options='group._id as group.name for group in availableGroups'
+                                )
+                                
+                            button.btn.btn-primary(ng-click='create()') Create

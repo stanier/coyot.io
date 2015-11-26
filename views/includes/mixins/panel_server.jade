@@ -1,6 +1,6 @@
 mixin panel_server()
     .animated(ng-show="path.startsWith('/server')")
-        p.text-muted server
+        md-subheader Server
         
         +list('/server/{{ server.hostname }}/overview', 'Overview', 'fa-server')
 
@@ -9,3 +9,5 @@ mixin panel_server()
                 +list('/server/{{ server.hostname }}/packages/install', 'Install', 'fa-cloud-download')
                 +list('/server/{{ server.hostname }}/packages/update', 'Update', 'fa-wrench')
             +list('/server/{{ server.hostname }}/services', 'Services', 'fa-tasks')
+
+        md-divider

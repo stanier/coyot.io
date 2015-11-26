@@ -1,13 +1,20 @@
 include /includes/mixins
 
-.row
-    .col-sm-3.col-md-2.sidebar(style='z-index:1000')
-        ul.nav.nav-sidebar
+.content-wrapper(layout='row' flex)
+    md-sidenav(
+        layout="column"
+        class="md-sidenav-left md-whiteframe-z2"
+        md-component-id="left"
+        md-is-locked-open="$mdMedia('gt-md')"
+    )
+        md-list
             +panel_server
-        
+            
             +panel_cluster
             
+            md-divider
             +panel_management
-
-    .col-sm-9.col-sm-offset-3.col-md-offset-2.col-md-10
-        ui-view.animated
+            
+    #primary-col.content-wrapper(layout='column' flex)
+        md-content.md-padding(layout='column' flex)
+            ui-view.animated(layout='column' layout-padding flex style='overflow-x:hidden')

@@ -1,13 +1,13 @@
-.panel.panel-default
-    .panel-heading Update package
-    .panel-body
-        .col-sm-2: select(ng-model='pkgMngr').form-control
-            option(ng-repeat='manager in managers') {{ manager }}
-        .col-sm-10: .input-group
-            span.input-group-btn: button.btn.btn-default(ng-click='updatePkg()') Install
-            input.form-control(placeholder='Package(s)' ng-model='pkgUpdateQuery')
-        .col-sm-12
-            pre {{ terminalResponse }}
-        .col-sm-12: .input-group
-            span.input-group-btn: button.btn.btn-default(ng-click='sendInput()') Send
-            input.form-control(type='password' placeholder='Command-line input' ng-model='terminalInput')
+md-content(md-padding)
+    md-card
+        md-card-content
+            .row: select(ng-model='pkgMngr').form-control
+                option(ng-repeat='manager in managers') {{ manager }}
+            .row: .input-group
+                span.input-group-btn: button.btn.btn-default(ng-click='updatePkg()') Install
+                input.form-control(placeholder='Package(s)' ng-model='pkgUpdateQuery')
+            .row
+                pre {{ terminalResponse }}
+            .row: .input-group
+                span.input-group-btn: button.btn.btn-default(ng-click='sendInput()') Send
+                input.form-control(type='password' placeholder='Command-line input' ng-model='terminalInput')

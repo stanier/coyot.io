@@ -1,13 +1,13 @@
-.panel.panel-default
-    .panel-heading Install package
-    .panel-body
-        .col-sm-2: select(ng-model='pkgMngr').form-control
+md-content(md-padding)
+    md-card
+        md-card-content
+        .row: select(ng-model='pkgMngr').form-control
             option(ng-repeat='manager in managers') {{ manager }}
-        .col-sm-10: .input-group
+        .row: .input-group
             span.input-group-btn: button.btn.btn-default(ng-click='installPkg()') Install
             input.form-control(placeholder='Package(s)' ng-model='pkgInstallQuery')
-        .col-sm-12
+        .row
             pre {{ terminalResponse }}
-        .col-sm-12: .input-group
+        .row: .input-group
             span.input-group-btn: button.btn.btn-default(ng-click='sendInput()') Send
             input.form-control(type='password' placeholder='Command-line input' ng-model='terminalInput')

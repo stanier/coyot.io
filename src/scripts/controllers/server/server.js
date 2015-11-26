@@ -11,9 +11,7 @@ app.controller('ServerCtlr', [
         $scope.serviceStatus = [];
 
         $scope.getStats = function() {
-            $scope.$on('serverInfoReady', function() {
-                $scope.loadAvg();
-            });
+            $scope.loadAvg();
         };
 
         $scope.getPlatformClass = function(platform) {
@@ -28,14 +26,17 @@ app.controller('ServerCtlr', [
                 '-ms-transform'
             ];
 
+            console.log('hello world');
+            console.log($rootScope.server.loadavg[0]);
+
             for (var i in $rootScope.server.loadavg) {
                 var rotation = Math.floor($rootScope.server.loadavg[i] / $rootScope.server.cpu.length * 180);
                 var fix_rotation = rotation * 2;
 
-                for (var j in transform_styles) {
+                /*for (var j in transform_styles) {
                     $('#circle-'+i+' .fill, #circle-'+i+' .mask.full').css(transform_styles[j], 'rotate(' + rotation + 'deg)');
                     $('#circle-'+i+' .fill.fix').css(transform_styles[j], 'rotate(' + fix_rotation + 'deg)');
-                }
+                }*/
             }
         };
 
