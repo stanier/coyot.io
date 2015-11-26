@@ -1,55 +1,39 @@
 md-content(md-padding)
+    md-button.md-fab(ng-click='back()')
+        md-icon.material-icons arrow_back
     md-card
         md-card-content
-            .row
-                button.btn.btn-primary(ng-click='back()'): span.fa.fa-arrow-left
-            .row
-                .panel.panel-default
-                    .panel-heading Edit User
-                    .panel-body
-                        form.form-group
-                            .form-group.row(ng-class="{'has-error': fields.username.error}")
-                                .col-sm-2: label(for='username') Username
-                                .col-sm-10: input#username.form-control(
-                                    ng-model='user.username'
-                                    placeholder='Username'
-                                )
-                            .form-group.row
-                                .col-sm-2: label(for='email') Email
-                                .col-sm-10: input#email.form-control(
-                                    ng-model='user.email'
-                                    placeholder='Email'
-                                    type='email'
-                                )
-                            .form-group.row
-                                .col-sm-2: label(for='password') Password
-                                .col-sm-10: input#password.form-control(
-                                    ng-model='password'
-                                    placeholder='Password'
-                                    type='password'
-                                )
-                            .form-group.row
-                                .col-sm-2: label(for='confirmPassword') Confirm Password
-                                .col-sm-10: input#confirmPassword.form-control(
-                                    ng-model='confirmPassword'
-                                    placeholder='Confirm Password'
-                                    type='password'
-                                )
-                            .form-group.row
-                                .col-sm-2: label(for='role') Role
-                                .col-sm-10: select#role(ng-model='user.role' convert-to-number)
-                                    option(value='1') User
-                                    option(value='2') Reseller
-                                    option(value='4') Admin
-                            .form-group.row
-                                .col-sm-2: label(for='groups') Groups
-                                .col-sm-10: select#groups(
-                                    multiple
-                                    ng-multiple='true'
-                                    ng-model='user.groups'
-                                    ng-options='group._id as group.name for group in groups'
-                                )
-                            .col-sm-12
-                                a.btn.btn-primary(ng-href='/management/users/{{user.username}}/permissions') Permissions
-                                
-                            button.btn.btn-primary(ng-click='update()') Save
+            form
+                div(layout)
+                    md-input-container(flex)
+                        label Username
+                        input(ng-model='user.username')
+                    md-input-container(flex)
+                        label Email
+                        input(ng-model='user.email')
+                div(layout)
+                    md-input-container(flex)
+                        label Password
+                        input(
+                            ng-model='password'
+                            type='password'
+                        )
+                    md-input-container(flex)
+                        label Confirm Password
+                        input(
+                            ng-model='confirmPassword'
+                            type='password'
+                        )
+                div(layout)
+                    md-input-container(flex)
+                        md-select(ng-model='user.role')
+                            md-option(value='1') User
+                            md-option(value='2') Reseller
+                            md-option(value='4') Admin
+                    md-input-container(flex)
+                        md-select#groups(multiple ng-multiple='true' ng-model='user.groups')
+                            md-option(ng-value='group._id' ng-repeat='group in groups') {{ group.name }}
+                div(layout)
+                    md-button.md-raised.md-primary(ng-href='/management/users/{{user.username}}/permissions') Permissions
+                div(layout)
+                    md-button(ng-click='update()') Save

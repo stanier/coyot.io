@@ -26,3 +26,9 @@ md-content(md-padding)
                             .fa.fa-check-circle.text-success(ng-if='server.online')
                             .fa.fa-times-circle.text-danger(ng-if='!server.online')
                         td {{ server.freemem | bytes }}
+        md-data-table-pagination(
+            md-limit="query.limit"
+            md-page="query.page"
+            md-total="{{desserts.count}}"
+            md-trigger="onpagechange"
+        )
