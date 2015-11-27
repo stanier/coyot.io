@@ -13,7 +13,7 @@ app.controller('UserPermsCtlr', [
         $http.get('/api/management/permissions')
             .success(function(data, status, headers, config) {
                 if (data.success) {
-                    $scope.categories = data.result;
+                    $scope.permissions = data.result;
                 }
                 else toastr.error(data.error);
             })

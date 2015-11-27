@@ -17,14 +17,14 @@ md-content(md-padding)
                         td: a(ng-href='/server/{{server.hostname}}/overview')
                             | {{ server.hostname }}
                         td
-                            .fa.fa-check-circle.text-success(ng-if='server.isWeb')
-                            .fa.fa-times-circle.text-muted(ng-if='!server.isWeb')
+                            md-icon.material-icons(ng-if='server.isWeb') check_circle
+                            md-icon.material-icons(ng-if='!server.isWeb') highlight_off
                         td
-                            .fa.fa-check-circle.text-success(ng-if='server.isWorker')
-                            .fa.fa-times-circle.text-muted(ng-if='!server.isWorker')
+                            md-icon.material-icons(ng-if='server.isWorker') check_circle
+                            md-icon.material-icons(ng-if='!server.isWorker') highlight_off
                         td
-                            .fa.fa-check-circle.text-success(ng-if='server.online')
-                            .fa.fa-times-circle.text-danger(ng-if='!server.online')
+                            md-icon.material-icons(ng-if='server.online') check_circle
+                            md-icon.material-icons(ng-if='!server.online') highlight_off
                         td {{ server.freemem | bytes }}
         md-data-table-pagination(
             md-limit="query.limit"

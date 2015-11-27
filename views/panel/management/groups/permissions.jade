@@ -1,6 +1,31 @@
 md-content(md-padding)
+    md-button.md-fab(ng-click='back()')
+        md-icon.material-icons arrow_back
     md-card
-        md-card-content
+        md-data-table-container
+            table.md-primary(md-data-table md-progress="deferred")
+                thead
+                    tr
+                        th(name='Privileged')
+                        th(name='Handle')
+                        th(name='Name')
+                        th(name='Description')
+                tbody
+                    tr(
+                        md-auto-select
+                        ng-repeat='permission in permissions | ' +
+                            'offsetBy: pageSize * currentPage | ' +
+                            'limitTo: pageSize'
+                        )
+                        td
+                            md-switch(
+                                ng-checked='group.permissions.indexOf(permission.full_handle) > -1'
+                                ng-click='change(permission.full_handle)'
+                            )
+                        td {{ permission.full_handle }}
+                        td {{ permission.name }}
+                        td {{ permission.description }}
+        //md-card-content
             .row
                 button.btn.btn-primary(ng-click='back()'): span.fa.fa-arrow-left
             .row

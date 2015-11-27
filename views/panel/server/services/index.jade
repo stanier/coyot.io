@@ -1,30 +1,41 @@
 md-content(md-padding)
     md-card
         md-card-content
-            .panel.panel-default
-                .panel-heading Service Overview
-                .panel-body
-                    .col-sm-12
-                        .pull-right
-                            .btn-group
-                                button.btn.btn-primary(ng-class='{ disabled: service.isOnline }' ng-click='startService(service.name)'): .fa.fa-play
-                                button.btn.btn-primary(ng-class='{ disabled: !service.isOnline }' ng-click='stopService(service.name)'): .fa.fa-stop
-                                button.btn.btn-primary(ng-class='{ disabled: !service.isOnline }' ng-click='restartService(service.name)'): .fa.fa-refresh
-                        
-                        h3 {{ service.name }}
-                        h5 {{ service.description }}
-                        h5 {{ service.loaded }}
-                        h5 {{ service.active }}
-                        
-                        table.table.table-striped(style='font-family: "Courier New"' ng-if='service.log')
-                            thead
-                                td: b Timestamp
-                                td: b FQDN
-                                td: b Process
-                                td: b Content
-                            tbody
-                                tr(ng-repeat='entry in service.log')
-                                    td {{ entry.timestamp }}
-                                    td {{ entry.FQDN }}
-                                    td {{ entry.process }}
-                                    td {{ entry.content }}
+            div(layout)
+                div(layout='row' flex)
+                    h1 {{ service.name }}
+                div(layout-align='end' layout='row' flex)
+                    md-button.md-icon-button(
+                        layout='column'
+                        ng-class='{ disabled: service.isOnline }'
+                        ng-click='startService(service.name)'
+                    ): md-icon.material-icons play_arrow
+                    md-button.md-icon-button(
+                        layout='column'
+                        ng-class='{ disabled: !service.isOnline }'
+                        ng-click='stopService(service.name)'
+                    ): md-icon.material-icons stop
+                    md-button.md-icon-button(
+                        layout='column'
+                        ng-class='{ disabled: !service.isOnline }'
+                        ng-click='restartService(service.name)'
+                    ): md-icon.material-icons replay
+                
+            
+            p {{ service.description }}
+            p {{ service.loaded }}
+            p {{ service.active }}
+            
+        md-data-table-container
+            table(style='font-family: "Courier New"' ng-if='service.log')
+                thead
+                    th(name='Timestamp')
+                    th(name='FQDN')
+                    th(name='Process')
+                    th(name='Content')
+                tbody
+                    tr(ng-repeat='entry in service.log')
+                        td {{ entry.timestamp }}
+                        td {{ entry.FQDN }}
+                        td {{ entry.process }}
+                        td {{ entry.content }}

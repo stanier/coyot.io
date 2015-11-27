@@ -1,11 +1,11 @@
 md-content(md-padding ng-init='getStats()')
     md-card
         md-card-content
-            .row
+            div(layout='column')
                 div(ng-attr-platform-icon='{{server.platform}}')
                 h3 {{ server.hostname }}
                 p {{ server.platform }} {{ server.release }} {{ server.arch }}
-            .row
+            div(layout='column')
                 p Status:  
                     i.fa.fa-circle.text-success(ng-if='server.online')
                     i.fa.fa-circle.text-danger(ng-if='!server.online')
@@ -14,16 +14,19 @@ md-content(md-padding ng-init='getStats()')
                 p Port:  {{ server.port }}
                 p Type:  {{ server.type }}
                 p Uptime:  {{ server.uptime | date : "h 'hours' m 'minutes and' s 'seconds'" }}
-            .row(ng-show='server.platform == "linux"')
-                .column(flex)
-                    md-progress-circular(md-mode="determinate" value="server.loadavg[0]")
-                    | 1 minute
-                .column(flex)
-                    md-progress-circular(md-mode="determinate" value="server.loadavg[1]")
-                    | 5 minutes
-                .column(flex)
-                    md-progress-circular(md-mode="determinate" value="server.loadavg[2]")
-                    | 15 minutes
+            div(layout='row' ng-show='server.platform == "linux"')
+                div(flex='33' layout='column')
+                    div(layout-align='center center' layout='column')
+                        md-progress-circular(md-mode="determinate" value="server.loadavg[0]")
+                        p 1 minute
+                div(flex='33' layout='column')
+                    div(layout-align='center center' layout='column')
+                        md-progress-circular(md-mode="determinate" value="server.loadavg[1]")
+                        p 5 minutes
+                div(flex='33' layout='column')
+                    div(layout-align='center center' layout='column')
+                        md-progress-circular(md-mode="determinate" value="server.loadavg[2]")
+                        p 15 minutes
             .row
                 p Available RAM:  {{ server.freemem | bytes }} / {{ server.totalmem | bytes }}
                 p CPU Count:  {{ server.cpu.length }}

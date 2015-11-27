@@ -1,6 +1,49 @@
 md-content(md-padding)
     md-card
-        md-card-content
+        md-data-table-container
+            table.md-primary(md-data-table md-progress="deferred")
+                thead
+                    tr
+                        th(name='Services')
+                        th(name='Status')
+                tbody
+                    tr(
+                        md-auto-select
+                        ng-repeat='entry in serviceStatus | ' +
+                            'offsetBy: pageSize * currentPage | ' +
+                            'limitTo: pageSize'
+                        )
+                        td
+                            a(ng-href='/server/{{ server.hostname }}/services/{{ entry.service }}/')
+                                | {{ entry.service }}
+                        td
+                            md-icon.material-icons(ng-if='entry.isRunning') check_circle
+                            md-icon.material-icons(ng-if='!entry.isRunning') highlight_off
+                        td
+                            span(flex)
+                        td
+                            md-button.md-icon-button(
+                                ng-class='{ disabled: entry.isRunning }'
+                                ng-click='startService(entry.service)'
+                                title='Start service'
+                            ): md-icon.material-icons play_arrow
+                            md-button.md-icon-button(
+                                ng-class='{ disabled: !entry.isRunning }'
+                                ng-click='stopService(entry.service)'
+                                title='Stop service'
+                            ): md-icon.material-icons stop
+                            md-button.md-icon-button(
+                                ng-class='{ disabled: !entry.isRunning }'
+                                ng-click='restartService(entry.service)'
+                                title='Restart service'
+                            ): md-icon.material-icons replay
+        md-data-table-pagination(
+            md-limit="query.limit"
+            md-page="query.page"
+            md-total="{{desserts.count}}"
+            md-trigger="onpagechange"
+        )
+        //md-card-content
             .panel.panel-default
                 .panel-heading Running services
                 .panel-body

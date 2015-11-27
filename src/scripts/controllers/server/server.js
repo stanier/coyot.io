@@ -26,9 +26,6 @@ app.controller('ServerCtlr', [
                 '-ms-transform'
             ];
 
-            console.log('hello world');
-            console.log($rootScope.server.loadavg[0]);
-
             for (var i in $rootScope.server.loadavg) {
                 var rotation = Math.floor($rootScope.server.loadavg[i] / $rootScope.server.cpu.length * 180);
                 var fix_rotation = rotation * 2;

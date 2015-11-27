@@ -2,8 +2,10 @@ app.controller('ServiceCtlr', [
     '$scope',
     '$rootScope',
     '$http',
-    function($scope, $rootScope, $http) {
-        $http.get('//' + $rootScrope.server.host + ':' + $rootScope.server.port + '/api/worker/services/getInfo/' + service)
+    '$stateParams',
+    function($scope, $rootScope, $http, $stateParams) {
+        $http.get('//' + $rootScope.server.host + ':' + $rootScope.server.port +
+            '/api/worker/services/getInfo/' + $stateParams.service)
             .success(function(data, status, headers, config) {
                 $scope.service = data;
                 $scope.$apply();
