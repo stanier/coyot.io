@@ -2,36 +2,37 @@ app.controller('ServiceListCtlr', [
     '$scope',
     '$rootScope',
     'SocketFactory',
-    function($scope, $rootScope, socket) {
+    'ToastFactory',
+    function($scope, $rootScope, socket, toast) {
         $scope.serviceStatus = [];
 
         socket.init($rootScope.server.host, $rootScope.server.port, function() {
             socket.on('start service response', function(service, result) {
-                if (result == 'success') toastr.success(service + ' started successfully');
-                if (result == 'failure') toarts.error(service + ' could not be started');
+                if (result == 'success') toast.success(service + ' started successfully');
+                if (result == 'failure') toast.error(service + ' could not be started');
 
                 if (!!$scope.service) $scope.getServiceInfo(service);
                 if (!!$scope.serviceStatus) $scope.getServiceStatus(service);
             });
 
             socket.on('stop service response', function(service, result) {
-                if (result == 'success') toastr.success(service + ' stopped successfully');
-                if (result == 'failure') toastr.error(service + ' could not be stopped');
+                if (result == 'success') toast.success(service + ' stopped successfully');
+                if (result == 'failure') toast.error(service + ' could not be stopped');
 
                 if (!!$scope.service) $scope.getServiceInfo(service);
                 if (!!$scope.serviceStatus) $scope.getServiceStatus(service);
             });
 
             socket.on('restart service response', function(service, result) {
-                if (result == 'success') toastr.success(service + ' restarted successfully');
-                if (result == 'failure') toastr.error(service + ' could not be restarted');
+                if (result == 'success') toast.success(service + ' restarted successfully');
+                if (result == 'failure') toast.error(service + ' could not be restarted');
 
                 if (!!$scope.service) $scope.getServiceInfo(service);
                 if (!!$scope.serviceStatus) $scope.getServiceStatus(service);
             });
 
             socket.on('password required', function(operation, user) {
-                toastr.warning('Password required to ' + operation + ' with user ' + user);
+                toast.show('Password required to ' + operation + ' with user ' + user);
 
                 swal({
                     title: 'Password required',
@@ -67,11 +68,11 @@ app.controller('ServiceListCtlr', [
             });
 
             socket.on('error', function(data) {
-                toastr.error('data');
+                toast.error('data');
             });
 
             socket.on('service status response', function(service, status) {
-                toastr.error('data');
+                toast.error('data');
             });
 
             socket.on('service status response', function(service, status) {

@@ -1,7 +1,8 @@
 app.controller('UserAddCtlr', [
     '$scope',
     '$http',
-    function($scope, $http) {
+    'ToastFactory',
+    function($scope, $http, toast) {
         $scope.fields = {
             username: {
                 name: 'Username',
@@ -33,10 +34,10 @@ app.controller('UserAddCtlr', [
         $http.get('/api/management/groups')
             .success(function(data, status, headers, config) {
                 if (data.success) $scope.availableGroups = data.result;
-                else toastr.error(data.error);
+                else toast.error(data.error);
             })
             .error(function(data, status, headers, config) {
-                toastr.error(data);
+                toast.error(data);
             })
         ;
 
@@ -46,7 +47,7 @@ app.controller('UserAddCtlr', [
 
             for (var i in $scope.fields) {
                 if ($scope.fields[i].required && !$scope[i]) {
-                    toastr.error($scope.fields[i].name + ' is required');
+                    toast.error($scope.fields[i].name + ' is required');
                     $scope.fields[i].error = true;
                     return true;
                 } else if ($scope.fields[i].post) {
@@ -59,7 +60,7 @@ app.controller('UserAddCtlr', [
                     if ($scope.password == $scope.confirmPassword) {
                         createUser(options);
                     } else {
-                        toastr.error('Passwords do not match');
+                        toast.error('Passwords do not match');
                         return true;
                     }
                 }
@@ -67,14 +68,14 @@ app.controller('UserAddCtlr', [
         };
 
         function createUser(options) {
-            toastr.info('Creating user...');
+            toast.show('Creating user...');
             $http.post('/api/management/users', options)
                 .success(function(data, status, headers, config) {
-                    if (data.success) toastr.success('Successfully created user');
-                    else toastr.error(data.error);
+                    if (data.success) toast.success('Successfully created user');
+                    else toast.show(data.error);
                 })
                 .error(function(data, status, headers, config) {
-                    toastr.error(data);
+                    toast.error(data);
                 })
             ;
         }

@@ -1,7 +1,8 @@
 app.controller('GroupListCtlr', [
     '$scope',
     '$http',
-    function($scope, $http) {
+    'ToastFactory',
+    function($scope, $http, toast) {
         $scope.pageSize    = 20;
         $scope.currentPage = 0;
 
@@ -9,10 +10,10 @@ app.controller('GroupListCtlr', [
             $http.get('/api/management/groups')
                 .success(function(data, status, headers, config) {
                     if (data.success) $scope.groups = data.result;
-                    else toastr.error(data.error);
+                    else toast.error(data.error);
                 })
                 .error(function(data, status, headers, config) {
-                    toastr.error(data);
+                    toast.error(data);
                 })
             ;
         };
@@ -27,16 +28,16 @@ app.controller('GroupListCtlr', [
                 confirmButtonText: 'Confirm',
                 closeOnConfirm: true
             }, function(){
-                toastr.info('Deleting group \"' + group + '\" ...');
+                toast.show('Deleting group \"' + group + '\" ...');
                 $http.delete('/api/management/groups/' + group)
                     .success(function(data, status, headers, config) {
                         if (data.success) {
-                            toastr.success('Group \"' + group + '\" deleted successfully!');
+                            toast.success('Group \"' + group + '\" deleted successfully!');
                             $scope.getGroups();
-                        } else toastr.error(data.error);
+                        } else toast.error(data.error);
                     })
                     .error(function(data, status, headers, config) {
-                        toastr.error(data);
+                        toast.error(data);
                     })
                 ;
             });

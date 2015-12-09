@@ -2,7 +2,8 @@ app.controller('GroupPermsCtlr', [
     '$scope',
     '$http',
     '$stateParams',
-    function($scope, $http, $stateParams) {
+    'ToastFactory',
+    function($scope, $http, $stateParams, toast) {
         $scope.selected = {};
 
         $scope.group = {
@@ -15,10 +16,10 @@ app.controller('GroupPermsCtlr', [
                 if (data.success) {
                     $scope.permissions = data.result;
                 }
-                else toastr.error(data.error);
+                else toast.error(data.error);
             })
             .error(function(data, status, headers, config) {
-                toastr.error(data);
+                toast.error(data);
             })
         ;
 
@@ -27,10 +28,10 @@ app.controller('GroupPermsCtlr', [
             .success(function(data, status, headers, config) {
                 if (data.success) {
                     $scope.group.permissions = data.result;
-                } else toastr.error(data.error);
+                } else toast.error(data.error);
             })
             .error(function(data, status, headers, config) {
-                toastr.error(data);
+                toast.error(data);
             })
         ;
 
@@ -49,10 +50,10 @@ app.controller('GroupPermsCtlr', [
         $scope.update = function() {
             $http.post('/api/management/groups/' + $stateParams.group + '/permissions', postData)
                 .success(function(data, status, headers, config) {
-                    toastr.success(data);
+                    toast.success(data);
                 })
                 .error(function(data, status, headers, config) {
-                    toastr.error(data);
+                    toast.error(data);
                 })
             ;
         };

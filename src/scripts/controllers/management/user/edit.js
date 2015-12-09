@@ -2,8 +2,9 @@ app.controller('UserEditCtlr', [
     '$scope',
     '$http',
     '$stateParams',
+    'ToastFactory',
     '_',
-    function($scope, $http, $stateParams, _) {
+    function($scope, $http, $stateParams, toast, _) {
         $http.get('/api/management/users/' + $stateParams.user)
             .success(function(data, status, headers, config) {
                 if (data.success) {
@@ -11,20 +12,20 @@ app.controller('UserEditCtlr', [
 
                     $scope.user = _.clone(data.result);
                     $scope.carbon = _.clone(data.result);
-                } else toastr.error(data.error);
+                } else toast.error(data.error);
             })
             .error(function(data, status, headers, config) {
-                toastr.error(data);
+                toast.error(data);
             })
         ;
 
         $http.get('/api/management/groups')
             .success(function(data, status, headers, config) {
                 if (data.success) $scope.groups = data.result;
-                else toastr.error(data.error);
+                else toast.error(data.error);
             })
             .error(function(data, status, headers, config) {
-                toastr.error(data);
+                toast.error(data);
             })
         ;
 
@@ -38,11 +39,11 @@ app.controller('UserEditCtlr', [
 
             $http.put('/api/management/users/' + $stateParams.user, changed)
                 .success(function(data, status, headers, config) {
-                    if (data.success) toastr.success('User updated successfully');
-                    else toastr.error(data.error);
+                    if (data.success) toast.success('User updated successfully');
+                    else toast.error(data.error);
                 })
                 .error(function(data, status, headers, config) {
-                    toastr.error(data);
+                    toast.error(data);
                 })
             ;
         };

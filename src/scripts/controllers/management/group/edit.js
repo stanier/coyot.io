@@ -2,8 +2,9 @@ app.controller('GroupEditCtlr', [
     '$scope',
     '$http',
     '$stateParams',
+    'ToastFactory',
     '_',
-    function($scope, $http, $stateParams, _) {
+    function($scope, $http, $stateParams, toast, _) {
         $http.get('/api/management/groups/' + $stateParams.group)
             .success(function(data, status, headers, config) {
                 if (data.success) {
@@ -12,10 +13,10 @@ app.controller('GroupEditCtlr', [
                     $scope.group = _.clone(data.result);
 
                     getPermissions();
-                } else toastr.error(data.error);
+                } else toast.error(data.error);
             })
             .error(function(data, status, headers, config) {
-                toastr.error(data);
+                toast.error(data);
             })
         ;
 
@@ -29,10 +30,10 @@ app.controller('GroupEditCtlr', [
             $http.put('/api/management/groups/' + $stateParams.group, changed)
                 .success(function(data, status, headers, config) {
                     if (data.success) toastr.success('Group updated successfully');
-                    else toastr.error(data.error);
+                    else toast.error(data.error);
                 })
                 .error(function(data, status, headers, config) {
-                    toastr.error(data);
+                    toast.error(data);
                 })
             ;
         };
@@ -42,10 +43,10 @@ app.controller('GroupEditCtlr', [
             $http.get('/api/management/permissions')
                 .success(function(data, status, headers, config) {
                     if (data.success) $scope.permissionscategories = data.result;
-                    else toastr.error(data.error);
+                    else toast.error(data.error);
                 })
                 .error(function(data, status, headers, config) {
-                    toastr.error(data);
+                    toast.error(data);
                 })
             ;
 
@@ -54,10 +55,10 @@ app.controller('GroupEditCtlr', [
                 .success(function(data, status, headers, config) {
                     if (data.success) {
                         $scope.group.permissions = data.result;
-                    } else toastr.error(data.error);
+                    } else toast.error(data.error);
                 })
                 .error(function(data, status, headers, config) {
-                    toastr.error(data);
+                    toast.error(data);
                 })
             ;
         }

@@ -1,7 +1,8 @@
 app.controller('UserListCtlr', [
     '$scope',
     '$http',
-    function($scope, $http) {
+    'ToastFactory',
+    function($scope, $http, toast) {
         $scope.pageSize    = 20;
         $scope.currentPage = 0;
 
@@ -9,10 +10,10 @@ app.controller('UserListCtlr', [
             $http.get('/api/management/users')
                 .success(function(data, status, headers, config) {
                     if (data.success) $scope.users = data.result;
-                    else toastr.error(data.error);
+                    else toast.error(data.error);
                 })
                 .error(function(data, status, headers, config) {
-                    toastr.error(data);
+                    toast.error(data);
                 })
             ;
         };
@@ -27,16 +28,16 @@ app.controller('UserListCtlr', [
                 confirmButtonText: 'Confirm',
                 closeOnConfirm: true
             }, function(){
-                toastr.info('Deleting user \"' + user + '\" ...');
+                toast.show('Deleting user \"' + user + '\" ...');
                 $http.delete('/api/management/users/' + user)
                     .success(function(data, status, headers, config) {
                         if (data.success) {
                             toastr.success('User \"' + user + '\" deleted successfully!');
                             $scope.getUsers();
-                        } else toastr.error(data.error);
+                        } else toast.error(data.error);
                     })
                     .error(function(data, status, headers, config) {
-                        toastr.error(data);
+                        toast.error(data);
                     })
                 ;
             });

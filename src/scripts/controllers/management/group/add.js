@@ -1,7 +1,8 @@
 app.controller('GroupAddCtlr', [
     '$scope',
     '$http',
-    function($scope, $http) {
+    'ToastFactory',
+    function($scope, $http, toast) {
         $scope.fields = {
             name: {
                 name: 'Name',
@@ -47,14 +48,14 @@ app.controller('GroupAddCtlr', [
         };
 
         function createGroup(options) {
-            toastr.info('Creating group...');
+            toast.show('Creating group...');
             $http.post('/api/management/groups', options)
                 .success(function(data, status, headers, config) {
-                    if (data.success) toastr.success('Successfully created group');
-                    else toastr.error(data.error);
+                    if (data.success) toast.success('Successfully created group');
+                    else toast.error(data.error);
                 })
                 .error(function(data, status, headers, config) {
-                    toastr.error(data);
+                    toast.error(data);
                 })
             ;
         }
