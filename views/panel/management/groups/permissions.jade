@@ -25,30 +25,3 @@ md-content(md-padding)
                         td {{ permission.full_handle }}
                         td {{ permission.name }}
                         td {{ permission.description }}
-        //md-card-content
-            .row
-                button.btn.btn-primary(ng-click='back()'): span.fa.fa-arrow-left
-            .row
-                .panel.panel-default
-                    .panel-heading Edit group permissions
-                    .panel-body
-                        h3 Permissions for "{{ group.name }}"
-                        hr
-                        div(ng-repeat='category in categories')
-                            h4 {{ category.name }}
-                            table.table.table-striped.table-hover
-                                thead
-                                    td Privileged
-                                    td Name
-                                    td Description
-                                tbody
-                                    tr(ng-repeat='permission in category.permissions')
-                                        td: .togglebutton: label
-                                            input(
-                                                type='checkbox'
-                                                ng-checked='group.permissions.indexOf(permission.full_handle) > -1'
-                                                ng-click='change(permission.full_handle)'
-                                            )
-                                            span.toggle
-                                        td {{ permission.name }}
-                                        td {{ permission.description }}
