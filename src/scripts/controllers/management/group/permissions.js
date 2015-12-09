@@ -43,8 +43,6 @@ app.controller('GroupPermsCtlr', [
                 $http.put('/api/management/groups/' + $stateParams.group + '/permissions/' + handle);
                 checkPermission(handle);
             }
-
-            console.log($scope.group.permissions);
         };
 
         $scope.update = function() {
@@ -67,7 +65,7 @@ app.controller('GroupPermsCtlr', [
                         $scope.group.permissions.splice($scope.group.permissions.indexOf(handle));
                 })
                 .error(function(data, status, headers, config) {
-                    console.log(data);
+                    toast.error(data);
                 })
             ;
         }
