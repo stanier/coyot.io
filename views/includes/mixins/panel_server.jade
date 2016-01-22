@@ -2,12 +2,12 @@ mixin panel_server()
     .animated(ng-show="path.startsWith('/server')")
         md-subheader Server
         
-        +list('/server/{{ server.hostname }}/overview', 'Overview', 'fa-server')
+        +list('/server/{{ server.hostname }}/overview', 'Overview', 'computer')
 
         if (type != 'web')
-            +list('/server/{{ server.hostname }}/packages', 'Packages', 'fa-cogs')
-                +list('/server/{{ server.hostname }}/packages/install', 'Install', 'fa-cloud-download')
+            +list('/server/{{ server.hostname }}/packages', 'Packages', 'folder')
+                +list('/server/{{ server.hostname }}/packages/install', 'Install', 'page_add')
                 +list('/server/{{ server.hostname }}/packages/update', 'Update', 'fa-wrench')
-            +list('/server/{{ server.hostname }}/services', 'Services', 'fa-tasks')
+            +list('/server/{{ server.hostname }}/services', 'Services', 'apps')
 
         md-divider
