@@ -1,19 +1,5 @@
 mixin navbar
-    
-    //nav.navbar.navbar-default.navbar-fixed-top(style='margin-bottom:0px')
-        a.navbar-brand(href='#') Coyot.io
-            //ul.navbar.navbar-nav.pull-right
-                li.dropdown
-                    a.dropdown-toggle(href='#' data-toggle='dropdown' style='max-height: 60px !important')
-                        img.img-circle(
-                            ng-src='//www.gravatar.com/avatar/646041096acb2d95cf0205728f3011ec'
-                            style='object-fit: contain; height: 100%; max-height: 100%'
-                        )
-                        | Keyton Stanier
-                    ul.dropdown-menu
-                        li List item
-                        li Another list item
 
-    md-toolbar(layout='row').md-toolbar-tools
+    md-toolbar(layout='row'): .md-toolbar-tools
         .fill-height.layout-row.flex
-            a.md-toolbar-item Coyot.io
+            h3 Coyot.io
