@@ -3,8 +3,11 @@ app.controller('PackageListCtlr', [
     '$rootScope',
     '$http',
     function($scope, $rootScope, $http) {
-        $scope.currentPage = 0;
-        $scope.pageSize = 20;
+        $scope.query = {
+            order: 'name',
+            limit: 15,
+            page: 0
+        };
 
         $scope.pkgs = [];
 
@@ -17,6 +20,10 @@ app.controller('PackageListCtlr', [
                     $scope.pkgs = data;
                 })
             ;
+        };
+
+        $scope.onPaginate = function() {
+
         };
 
         if (!!$rootScope.server) {

@@ -1,23 +1,23 @@
 md-content(md-padding)
     md-card
         md-data-table-container
-            table.md-primary(md-data-table md-progress="deferred")
+            table.md-primary(md-data-table md-progress='deferred')
                 thead
                     tr
-                        th(name="Package name")
+                        th(name='Package name')
                 tbody
                     tr(
                         md-auto-select
                         ng-repeat='pkg in pkgs | ' +
-                            'offsetBy: pageSize * currentPage | ' +
-                            'limitTo: pageSize'
+                            'offsetBy: query.limit * query.page | ' +
+                            'limitTo: query.limit'
                         )
                         td
                             a(ng-href='/server/{{ server.hostname }}/packages/{{ pkg }}')
                                 | {{ pkg }}
         md-data-table-pagination(
-            md-limit="query.limit"
-            md-page="query.page"
-            md-total="{{desserts.count}}"
-            md-trigger="onpagechange"
+            md-limit='query.limit'
+            md-page='query.page'
+            md-total='{{desserts.count}}'
+            md-on-paginate='onPaginate'
         )
