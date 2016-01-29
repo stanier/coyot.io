@@ -8,16 +8,14 @@ md-content(md-padding)
                 tbody
                     tr(
                         md-auto-select
-                        ng-repeat='pkg in pkgs | ' +
-                            'offsetBy: query.limit * query.page | ' +
-                            'limitTo: query.limit'
-                        )
+                        ng-repeat='pkg in pkgs')
                         td
                             a(ng-href='/server/{{ server.hostname }}/packages/{{ pkg }}')
                                 | {{ pkg }}
         md-data-table-pagination(
             md-limit='query.limit'
             md-page='query.page'
-            md-total='{{desserts.count}}'
+            md-total='{{pkgCount}}'
             md-on-paginate='onPaginate'
+            md-page-select
         )
