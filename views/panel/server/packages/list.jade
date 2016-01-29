@@ -1,18 +1,19 @@
 md-content(md-padding)
     md-card
-        md-data-table-container
-            table.md-primary(md-data-table md-progress='deferred')
-                thead
-                    tr
-                        th(name='Package name')
-                tbody
+        md-table-container
+            table(md-table md-progress='deferred')
+                thead(md-head)
+                    tr(md-row)
+                        th(md-column) Package name
+                tbody(md-body)
                     tr(
+                        md-row
                         md-auto-select
                         ng-repeat='pkg in pkgs')
-                        td
+                        td(md-cell)
                             a(ng-href='/server/{{ server.hostname }}/packages/{{ pkg }}')
                                 | {{ pkg }}
-        md-data-table-pagination(
+        md-table-pagination(
             md-limit='query.limit'
             md-page='query.page'
             md-total='{{pkgCount}}'

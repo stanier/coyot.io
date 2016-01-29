@@ -1,32 +1,33 @@
 md-content(md-padding)
     md-card
-        md-data-table-container
-            table.md-primary(md-data-table md-progress="deferred")
-                thead
-                    tr
-                        th(name="Hostname")
-                        th(name="Web")
-                        th(name="Worker")
-                        th(name="Online")
-                        th(name="Free memory")
-                tbody
+        md-table-container
+            table(md-data-table md-progress="deferred")
+                thead(md-head)
+                    tr(md-row)
+                        th(md-column) Hostname
+                        th(md-column) Web
+                        th(md-column) Worker
+                        th(md-column) Online
+                        th(md-column) Free memory
+                tbody(md-body)
                     tr(
+                        md-row
                         md-auto-select
                         ng-repeat="server in servers"
                     )
-                        td: a(ng-href='/server/{{server.hostname}}/overview')
+                        td(md-cell): a(ng-href='/server/{{server.hostname}}/overview')
                             | {{ server.hostname }}
-                        td
+                        td(md-cell)
                             md-icon.material-icons(ng-if='server.isWeb') check_circle
                             md-icon.material-icons(ng-if='!server.isWeb') highlight_off
-                        td
+                        td(md-cell)
                             md-icon.material-icons(ng-if='server.isWorker') check_circle
                             md-icon.material-icons(ng-if='!server.isWorker') highlight_off
-                        td
+                        td(md-cell)
                             md-icon.material-icons(ng-if='server.online') check_circle
                             md-icon.material-icons(ng-if='!server.online') highlight_off
-                        td {{ server.freemem | bytes }}
-        md-data-table-pagination(
+                        td(md-cell) {{ server.freemem | bytes }}
+        md-table-pagination(
             md-limit="query.limit"
             md-page="query.page"
             md-total="{{desserts.count}}"
