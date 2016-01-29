@@ -2,6 +2,12 @@ app.controller('ClusterCtlr', [
     '$scope',
     '$http',
     function($scope, $http) {
+        $scope.query = {
+            order: 'name',
+            limit: 15,
+            page: 1
+        };
+
         $http.get('/api/cluster/servers')
             .success(function(data, status, headers, config) {
                 $scope.servers = [];

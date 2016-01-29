@@ -1,7 +1,7 @@
 md-content(md-padding)
     md-card
         md-table-container
-            table(md-data-table md-progress="deferred")
+            table(md-table md-progress="deferred")
                 thead(md-head)
                     tr(md-row)
                         th(md-column) Hostname
@@ -30,6 +30,6 @@ md-content(md-padding)
         md-table-pagination(
             md-limit="query.limit"
             md-page="query.page"
-            md-total="{{desserts.count}}"
-            md-trigger="onpagechange"
+            md-total="{{serverCount}}"
+            md-on-paginate="onPaginate"
         )

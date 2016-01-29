@@ -1,27 +1,28 @@
 md-content(md-padding)
     md-card
-        md-data-table-container
-            table.md-primary(md-data-table md-progress="deferred")
-                thead
-                    tr
-                        th(name='Services')
-                        th(name='Status')
-                tbody
+        md-table-container
+            table(md-table md-progress="deferred")
+                thead(md-head)
+                    tr(md-row)
+                        th(md-column) Services
+                        th(md-column) Status
+                tbody(md-body)
                     tr(
+                        md-row
                         md-auto-select
                         ng-repeat='entry in serviceStatus | ' +
                             'offsetBy: pageSize * currentPage | ' +
                             'limitTo: pageSize'
                         )
-                        td
+                        td(md-cell)
                             a(ng-href='/server/{{ server.hostname }}/services/{{ entry.service }}/')
                                 | {{ entry.service }}
-                        td
+                        td(md-cell)
                             md-icon.material-icons(ng-if='entry.isRunning') check_circle
                             md-icon.material-icons(ng-if='!entry.isRunning') highlight_off
-                        td
+                        td(md-cell)
                             span(flex)
-                        td
+                        td(md-cell)
                             md-button.md-icon-button(
                                 ng-class='{ disabled: entry.isRunning }'
                                 ng-click='startService(entry.service)'
@@ -37,9 +38,9 @@ md-content(md-padding)
                                 ng-click='restartService(entry.service)'
                                 title='Restart service'
                             ): md-icon.material-icons replay
-        md-data-table-pagination(
+        md-table-pagination(
             md-limit="query.limit"
             md-page="query.page"
-            md-total="{{desserts.count}}"
-            md-trigger="onpagechange"
+            md-total="serviceCount"
+            md-on-paginate="onPaginate"
         )
