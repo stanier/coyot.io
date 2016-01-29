@@ -27,12 +27,9 @@ app.controller('PackageListCtlr', [
             ;
         };
 
-        $scope.flip = function() {
-            console.log('fuck');
-            //$scope.query.limit = limit;
-            //$scope.query.page = page;
-
-            console.log('bitch');
+        $scope.onPaginate = function(page, limit) {
+            $scope.query.limit = limit;
+            $scope.query.page = page;
 
             $scope.getPkgs();
         };
