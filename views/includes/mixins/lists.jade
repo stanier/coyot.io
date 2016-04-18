@@ -1,9 +1,9 @@
 mixin list(target_path, name, icon)
     - var ng_path = target_path.replace(/(.+){{ +(.+) +}}(.+)/g, "$1' + $2 + '$3")
-    
+
     md-item
         a(ng-href=target_path)
             md-item-content(md-ink-ripple layout="row" layout-align="start center")
                 div(class="inset")
-                    ng-md-icon(icon=icon)
+                    md-icon= icon
                 div(class="inset")= name

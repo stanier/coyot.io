@@ -34,6 +34,8 @@ var clOptions = {
     '--prod': function(value) { process.env.NODE_ENV = 'production'; }
 };
 
+var i = 0;
+
 //  CLI PARSER
 
 process.argv.forEach(function(value, index, array) {
@@ -41,18 +43,23 @@ process.argv.forEach(function(value, index, array) {
 });
 
 if (process.env.NODE_ENV == 'development') {
-    app.use(require('connect-livereload')({port: 9501}));
+    app.use(require('connect-livereload')({ port: 9501 }));
 }
 
 GLOBAL.console.error = error;
 GLOBAL.console.warn = warn;
 
 var conf = require('./lib/config')(app, function(err) {
+    i = i + 1;
+
+    console.log(i);
+
     var uristring = 'mongodb://' + app.get('db.username') + ':' +
         app.get('db.password') + '@' + app.get('db.host') + ':' +
         app.get('db.port') + '/' + app.get('db.name');
 
     var mongoOptions = { db: { safe: true }};
+
     mongoose.connect(uristring, mongoOptions, function (err, res) {
         if (err) console.log ('ERROR connecting to: ' + uristring + '. ' + err);
     });
@@ -62,12 +69,14 @@ var conf = require('./lib/config')(app, function(err) {
         if (!user) {
             console.warn('No users found in database, creating new user');
 
-            new userModel({
+            var defaultUser = new userModel({
                 username: 'admin',
                 email   : 'admin@example.com',
                 password: 'coyote',
                 role    : 4
-            }).save(function(err) {
+            });
+
+            defaultUser.save(function(err) {
                 if (err) console.log(err);
                 else {
                     console.log(
