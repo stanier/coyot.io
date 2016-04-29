@@ -114,7 +114,7 @@ gulp.task('app.scripts', ['coyotio.scripts'], function(callback) {
     ;
 });
 
-gulp.task('app.fonts', function(callback) {
+gulp.task('app.fonts', ['clean'], function(callback) {
     return gulp.src(sources.fonts)
         .pipe(plumber())
         .pipe(gulp.dest('static/css/fonts'))
